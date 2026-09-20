@@ -44,6 +44,8 @@
 
 ---
 
+
+
 # 1. The Big Picture
 
 A design system is a **shared product-design infrastructure**.
@@ -113,11 +115,17 @@ flowchart TD
     L --> K
 ```
 
+
+
 The design system sits **between product intent and product implementation**.
 
 ---
 
+
+
 # 2. Design System Basics
+
+
 
 ## 2.1 What is a design system?
 
@@ -143,6 +151,8 @@ Without a system, every product team repeatedly makes the same decisions.
 With a system, many of those decisions are made once and reused.
 
 ---
+
+
 
 ## 2.2 Why design systems exist
 
@@ -186,6 +196,8 @@ Shared vocabulary is extremely valuable.
 
 ---
 
+
+
 ## 2.3 Design system vs component library
 
 A **component library** is one implementation layer of a design system.
@@ -218,13 +230,19 @@ flowchart LR
     DS --> QA[Testing & Quality]
 ```
 
+
+
 You can have a component library without a true design system.
 
 A healthy design system almost always includes one or more component libraries.
 
 ---
 
+
+
 # 3. Terminology
+
+
 
 ## Component
 
@@ -241,6 +259,8 @@ Examples:
 
 ---
 
+
+
 ## Component Library
 
 A packaged set of reusable components.
@@ -252,6 +272,8 @@ Examples of tooling used to browse components:
 - design system websites
 
 ---
+
+
 
 ## Design Language
 
@@ -270,6 +292,8 @@ It includes:
 - interaction principles
 
 ---
+
+
 
 ## Token
 
@@ -304,6 +328,8 @@ color.background.danger -> destructive background -> #D92D20
 
 ---
 
+
+
 ## UI Kit
 
 A design-tool representation of reusable system components.
@@ -316,6 +342,8 @@ For example:
 A UI Kit usually represents the **design-side interface** of a design system.
 
 ---
+
+
 
 ## Pattern
 
@@ -334,6 +362,8 @@ Patterns usually combine multiple components.
 
 ---
 
+
+
 ## Governance
 
 The decision-making framework for maintaining the system.
@@ -349,6 +379,8 @@ Governance answers:
 
 ---
 
+
+
 ## Pilot
 
 A real product or feature used to validate the design system before wider adoption.
@@ -356,6 +388,8 @@ A real product or feature used to validate the design system before wider adopti
 A pilot is extremely useful because isolated components often look perfect until used in an actual workflow.
 
 ---
+
+
 
 # 4. Atomic Design
 
@@ -371,6 +405,8 @@ flowchart LR
     D --> E[Pages]
 ```
 
+
+
 Examples:
 
 ### Atoms
@@ -380,11 +416,15 @@ Examples:
 - Text
 - Input
 
+
+
 ### Molecules
 
 - SearchField
 - FormField
 - AvatarLabel
+
+
 
 ### Organisms
 
@@ -392,17 +432,23 @@ Examples:
 - CheckoutSummary
 - DataTable
 
+
+
 ### Templates
 
 - Dashboard layout
 - Checkout layout
 - Settings layout
 
+
+
 ### Pages
 
 Real data rendered into templates.
 
 ---
+
+
 
 ## Important caveat
 
@@ -416,28 +462,36 @@ The useful question is:
 
 ---
 
+
+
 # 5. Stakeholders and Team Models
 
 Design systems are multidisciplinary.
 
 Typical stakeholders include:
 
-| Role | Contribution |
-|---|---|
-| Product Designer | visual and interaction design |
-| Frontend Engineer | reusable implementation |
-| Accessibility Specialist | WCAG, keyboard, screen reader behavior |
-| Content Designer | tone, terminology, microcopy |
-| UX Researcher | user evidence |
-| Product Manager | prioritization and adoption |
-| Brand Designer | brand expression |
-| QA Engineer | validation |
-| Developer Experience Engineer | tooling and documentation |
-| Leadership | funding and organizational alignment |
+
+| Role                          | Contribution                           |
+| ----------------------------- | -------------------------------------- |
+| Product Designer              | visual and interaction design          |
+| Frontend Engineer             | reusable implementation                |
+| Accessibility Specialist      | WCAG, keyboard, screen reader behavior |
+| Content Designer              | tone, terminology, microcopy           |
+| UX Researcher                 | user evidence                          |
+| Product Manager               | prioritization and adoption            |
+| Brand Designer                | brand expression                       |
+| QA Engineer                   | validation                             |
+| Developer Experience Engineer | tooling and documentation              |
+| Leadership                    | funding and organizational alignment   |
+
 
 ---
 
+
+
 ## Team models
+
+
 
 ### Centralized
 
@@ -457,6 +511,8 @@ Risk: system team becomes a bottleneck.
 
 ---
 
+
+
 ### Federated
 
 Product teams contribute to the system.
@@ -473,6 +529,8 @@ Risk: inconsistent quality without strong governance.
 
 ---
 
+
+
 ### Hybrid
 
 A core team owns architecture and quality while product teams contribute.
@@ -480,6 +538,8 @@ A core team owns architecture and quality while product teams contribute.
 This is often the most practical model.
 
 ---
+
+
 
 # 6. When You Need a Design System
 
@@ -505,6 +565,8 @@ Premature abstraction is still abstraction debt.
 
 ---
 
+
+
 ## Design system maturity curve
 
 ```mermaid
@@ -516,9 +578,15 @@ flowchart LR
     E --> F[Multi-product Platform]
 ```
 
+
+
 ---
 
+
+
 # 7. Building From Scratch vs Existing Product
+
+
 
 ## From scratch
 
@@ -538,9 +606,13 @@ flowchart TD
     A --> B --> C --> D --> E --> F --> G --> H
 ```
 
+
+
 You can skip the large-scale visual audit because no legacy UI exists.
 
 ---
+
+
 
 ## From existing product
 
@@ -560,9 +632,13 @@ flowchart TD
     A --> B --> C --> D --> E --> F --> G --> H
 ```
 
+
+
 This path is often harder because you are replacing many undocumented decisions.
 
 ---
+
+
 
 # 8. Existing Design Analysis
 
@@ -579,6 +655,8 @@ The original roadmap highlights:
 - documentation
 
 ---
+
+
 
 ## 8.1 Understand the existing design process
 
@@ -598,6 +676,8 @@ Also measure the organization's **design maturity**.
 A technically perfect design system will fail if its workflow does not fit the company.
 
 ---
+
+
 
 # 8.2 Visual audit
 
@@ -640,6 +720,8 @@ The first objective is to expose accidental inconsistency.
 
 ---
 
+
+
 # 8.3 Identify design elements
 
 Create an inventory of foundational values:
@@ -662,6 +744,8 @@ Create an inventory of foundational values:
 Later, these become token candidates.
 
 ---
+
+
 
 # 8.4 Identify components
 
@@ -705,6 +789,8 @@ Button
 
 ---
 
+
+
 # 8.5 Experiments and A/B testing
 
 A rigid design system can accidentally make experimentation difficult.
@@ -723,6 +809,8 @@ But experimentation should not become an excuse for permanent inconsistency.
 
 ---
 
+
+
 # 8.6 Regional requirements
 
 Consider:
@@ -739,6 +827,8 @@ Never assume English UI dimensions represent all locales.
 
 ---
 
+
+
 # 8.7 Audit output
 
 Your audit should result in a document containing:
@@ -753,6 +843,8 @@ Your audit should result in a document containing:
 - high-value consolidation opportunities
 
 ---
+
+
 
 # 9. Creating the Design Language
 
@@ -785,7 +877,11 @@ mindmap
       Consistency
 ```
 
+
+
 ---
+
+
 
 ## 9.1 Brand
 
@@ -803,6 +899,8 @@ The design system translates the brand into repeatable product decisions.
 
 ---
 
+
+
 ## 9.2 Vision
 
 Define why the system exists.
@@ -814,6 +912,8 @@ Example:
 A good vision guides prioritization.
 
 ---
+
+
 
 ## 9.3 Design principles
 
@@ -838,6 +938,8 @@ Simple use cases should be simple; advanced behavior should still be possible.
 Use platform conventions unless breaking them creates substantial value.
 
 ---
+
+
 
 ## 9.4 Terminology
 
@@ -865,6 +967,8 @@ Terminology belongs in:
 
 ---
 
+
+
 ## 9.5 Tone of voice
 
 Tone should define how the product speaks.
@@ -878,6 +982,8 @@ Questions:
 - How are destructive actions phrased?
 
 ---
+
+
 
 ## 9.6 Writing guidelines
 
@@ -894,6 +1000,8 @@ Document:
 - confirmation messages
 
 ---
+
+
 
 ## 9.7 Microcopy
 
@@ -915,6 +1023,8 @@ instead of:
 Invalid input.
 ```
 
+
+
 ### Destructive confirmation
 
 Explain consequence:
@@ -926,6 +1036,8 @@ Applications using this key will immediately stop authenticating.
 ```
 
 ---
+
+
 
 # 10. Accessibility Foundations
 
@@ -948,6 +1060,8 @@ Key areas:
 
 ---
 
+
+
 ## Accessibility hierarchy
 
 ```mermaid
@@ -967,6 +1081,8 @@ flowchart TD
     G --> H
 ```
 
+
+
 Important:
 
 > ARIA does not replace semantic HTML.
@@ -975,6 +1091,8 @@ A native `<button>` is almost always better than a clickable `<div>` with manual
 
 ---
 
+
+
 # 11. Design Tokens
 
 Tokens are one of the most important architectural layers.
@@ -982,6 +1100,8 @@ Tokens are one of the most important architectural layers.
 They convert design decisions into data.
 
 ---
+
+
 
 ## 11.1 Why tokens?
 
@@ -1016,6 +1136,8 @@ The important difference is **semantic meaning**.
 
 ---
 
+
+
 ## 11.2 Token layers
 
 A robust model:
@@ -1030,6 +1152,10 @@ flowchart TD
     A --> B --> C --> D
 ```
 
+
+
+
+
 ### Primitive tokens
 
 Raw scales.
@@ -1040,6 +1166,8 @@ gray.100
 space.4
 radius.2
 ```
+
+
 
 ### Semantic tokens
 
@@ -1052,6 +1180,8 @@ color.background.surface
 color.border.muted
 ```
 
+
+
 ### Component tokens
 
 Optional layer for component-specific decisions.
@@ -1063,6 +1193,8 @@ button.primary.backgroundHover
 ```
 
 ---
+
+
 
 ## 11.3 Avoid value-oriented naming
 
@@ -1088,6 +1220,8 @@ Semantic naming enables themes.
 
 ---
 
+
+
 ## 11.4 Aliasing
 
 ```text
@@ -1101,6 +1235,8 @@ button.primary.background
 Change the primitive mapping and the component updates without changing component code.
 
 ---
+
+
 
 ## 11.5 DTCG token format
 
@@ -1144,6 +1280,8 @@ Conceptually:
 
 ---
 
+
+
 ## 11.6 Token categories
 
 Common categories:
@@ -1164,6 +1302,8 @@ z-index
 
 ---
 
+
+
 ## 11.7 Multi-theme architecture
 
 ```mermaid
@@ -1178,6 +1318,8 @@ flowchart LR
     B --> D
     C --> D
 ```
+
+
 
 Components should prefer semantic tokens:
 
@@ -1195,6 +1337,8 @@ color: var(--gray-900);
 
 ---
 
+
+
 # 12. Layout System
 
 A coherent layout system makes interfaces predictable.
@@ -1209,6 +1353,8 @@ Main concepts:
 - responsive rules
 
 ---
+
+
 
 ## 12.1 Spacing
 
@@ -1237,6 +1383,8 @@ Constraints reduce random decisions.
 
 ---
 
+
+
 ## 12.2 Base unit
 
 Many systems are built around a 4px rhythm.
@@ -1258,6 +1406,8 @@ Use a scale appropriate to your product.
 
 ---
 
+
+
 ## 12.3 Breakpoints
 
 Breakpoints should respond to layout needs, not specific device brands.
@@ -1272,6 +1422,8 @@ Example:
 ```
 
 ---
+
+
 
 ## 12.4 Grid
 
@@ -1291,6 +1443,8 @@ Desktop: 12 columns
 ```
 
 ---
+
+
 
 # 13. Color System
 
@@ -1314,7 +1468,11 @@ flowchart TD
     D --> E
 ```
 
+
+
 ---
+
+
 
 ## 13.1 Functional colors
 
@@ -1341,6 +1499,8 @@ Pair color with:
 
 ---
 
+
+
 ## 13.2 Dark mode
 
 Dark mode is not:
@@ -1366,6 +1526,8 @@ text.primary    -> gray.50
 
 ---
 
+
+
 ## 13.3 Contrast
 
 Text/background combinations should be tested.
@@ -1384,6 +1546,8 @@ This prevents developers from accidentally pairing incompatible tokens.
 
 ---
 
+
+
 # 14. Iconography
 
 Icons should behave like a coherent family.
@@ -1400,6 +1564,8 @@ Define:
 - reserved system meanings
 
 ---
+
+
 
 ## 14.1 Naming
 
@@ -1427,6 +1593,8 @@ Behavior-specific aliases can be created later.
 
 ---
 
+
+
 ## 14.2 Size
 
 Typical scale:
@@ -1442,6 +1610,8 @@ Typical scale:
 Icons should align well with typography.
 
 ---
+
+
 
 ## 14.3 Accessibility
 
@@ -1463,6 +1633,8 @@ Do not assume screen readers understand an SVG's visual meaning.
 
 ---
 
+
+
 # 15. Typography
 
 Typography controls:
@@ -1483,6 +1655,8 @@ Define:
 - max line length
 
 ---
+
+
 
 ## Example scale
 
@@ -1513,6 +1687,8 @@ const typography = {
 
 ---
 
+
+
 ## Responsive typography
 
 Fluid typography may use `clamp()`:
@@ -1526,6 +1702,8 @@ But use it intentionally.
 Not every UI label needs fluid scaling.
 
 ---
+
+
 
 ## Performance
 
@@ -1544,6 +1722,8 @@ Consider:
 - system fallbacks
 
 ---
+
+
 
 # 16. Motion and Interaction
 
@@ -1571,6 +1751,8 @@ Example:
 
 ---
 
+
+
 ## Motion principles
 
 Use motion to communicate:
@@ -1584,6 +1766,8 @@ Avoid motion that exists only as decoration when it slows interaction.
 
 ---
 
+
+
 ## Reduced motion
 
 Respect:
@@ -1596,6 +1780,8 @@ Respect:
 
 ---
 
+
+
 # 17. Core Components
 
 The roadmap includes a practical set of foundational components.
@@ -1603,6 +1789,8 @@ The roadmap includes a practical set of foundational components.
 This section explains what each must account for.
 
 ---
+
+
 
 ## 17.1 Avatar
 
@@ -1630,6 +1818,8 @@ Possible API:
 
 ---
 
+
+
 # 17.2 Banner / Alert
 
 Purpose: prominent contextual communication.
@@ -1655,6 +1845,8 @@ Consider:
 
 ---
 
+
+
 # 17.3 Badge
 
 Purpose: compact status or metadata.
@@ -1673,6 +1865,8 @@ Avoid making non-interactive badges look like buttons.
 If removable, it may actually be closer to a chip/tag pattern.
 
 ---
+
+
 
 # 17.4 Button
 
@@ -1730,6 +1924,8 @@ Example API:
 
 ---
 
+
+
 # 17.5 Card
 
 Cards group related information.
@@ -1750,6 +1946,8 @@ If a whole card is clickable, avoid nesting conflicting interactive elements.
 
 ---
 
+
+
 # 17.6 Carousel
 
 Requirements:
@@ -1765,6 +1963,8 @@ Use native scrolling where possible.
 Carousels are often overused.
 
 ---
+
+
 
 # 17.7 Dropdown / Popover / Menu
 
@@ -1795,6 +1995,8 @@ Libraries such as Radix UI / React Aria / Floating UI can help solve these primi
 
 ---
 
+
+
 # 17.8 Icon
 
 Centralize:
@@ -1811,6 +2013,8 @@ Example:
 ```
 
 ---
+
+
 
 # 17.9 Checkbox
 
@@ -1829,6 +2033,8 @@ Native checkbox semantics are extremely valuable.
 
 ---
 
+
+
 # 17.10 Radio
 
 Radio buttons represent **one selection from a set**.
@@ -1838,6 +2044,8 @@ Use a `RadioGroup`.
 Keyboard behavior should follow platform expectations.
 
 ---
+
+
 
 # 17.11 Text Input
 
@@ -1869,6 +2077,8 @@ This is often more scalable than putting every concern directly on `Input`.
 
 ---
 
+
+
 # 17.12 Switch
 
 A Switch represents an immediate boolean setting.
@@ -1882,6 +2092,8 @@ Enable notifications  [on/off]
 Checkboxes are often better for form values that are submitted later.
 
 ---
+
+
 
 # 17.13 Select
 
@@ -1902,6 +2114,8 @@ If building a custom one, define:
 
 ---
 
+
+
 # 17.14 Textarea
 
 Requirements largely mirror text input plus:
@@ -1911,6 +2125,8 @@ Requirements largely mirror text input plus:
 - character count if needed
 
 ---
+
+
 
 # 17.15 List
 
@@ -1924,6 +2140,8 @@ List abstractions may manage:
 Do not replace semantic `<ul>` / `<ol>` semantics when actual lists are present.
 
 ---
+
+
 
 # 17.16 Loading Indicator
 
@@ -1939,6 +2157,8 @@ skeleton
 progress loop
 ```
 
+
+
 ### Determinate
 
 You know progress.
@@ -1950,6 +2170,8 @@ You know progress.
 Support reduced motion.
 
 ---
+
+
 
 # 17.17 Modal / Dialog
 
@@ -1982,6 +2204,8 @@ Example structure:
 
 ---
 
+
+
 # 17.18 Tabs
 
 Tabs should implement:
@@ -1996,6 +2220,8 @@ Tabs should implement:
 Do not use tabs for unrelated navigation just because the design looks tab-like.
 
 ---
+
+
 
 # 17.19 Toast
 
@@ -2013,6 +2239,8 @@ Do not use a toast for errors that require immediate correction in a form.
 
 ---
 
+
+
 # 17.20 Tooltip
 
 Tooltips provide supplementary information.
@@ -2029,6 +2257,8 @@ Do not make essential actions available only through hover.
 
 ---
 
+
+
 # 18. Component API Design
 
 A design system component is an API.
@@ -2036,6 +2266,8 @@ A design system component is an API.
 Treat it like one.
 
 ---
+
+
 
 ## 18.1 Prefer semantic props
 
@@ -2054,6 +2286,8 @@ Better:
 The second describes intent rather than visual implementation.
 
 ---
+
+
 
 ## 18.2 Avoid boolean explosion
 
@@ -2083,6 +2317,8 @@ Prefer enums:
 ```
 
 ---
+
+
 
 ## 18.3 Composition over mega-components
 
@@ -2118,6 +2354,8 @@ Composition scales better.
 
 ---
 
+
+
 ## 18.4 Controlled vs uncontrolled APIs
 
 Example:
@@ -2139,6 +2377,8 @@ Support both only when complexity is justified.
 
 ---
 
+
+
 ## 18.5 Escape hatches
 
 Sometimes consumers need:
@@ -2154,6 +2394,8 @@ Escape hatches are useful.
 But if every consumer must override the component, the design system abstraction is probably wrong.
 
 ---
+
+
 
 # 19. Patterns, Templates, and Product-Specific Components
 
@@ -2171,6 +2413,8 @@ flowchart TD
 
     A --> B --> C --> D --> E
 ```
+
+
 
 Example:
 
@@ -2194,6 +2438,8 @@ Product:
 This prevents the design system from becoming a giant product-specific dependency.
 
 ---
+
+
 
 # 20. Documentation
 
@@ -2222,6 +2468,8 @@ Migration notes
 
 ---
 
+
+
 ## Documentation information architecture
 
 ```mermaid
@@ -2242,7 +2490,11 @@ flowchart LR
     G --> B
 ```
 
+
+
 ---
+
+
 
 ## Storybook
 
@@ -2273,6 +2525,8 @@ Button
 
 ---
 
+
+
 # 21. Tooling
 
 Tooling makes the system easier to consume and harder to misuse.
@@ -2280,6 +2534,8 @@ Tooling makes the system easier to consume and harder to misuse.
 The roadmap separates development tooling and design tooling.
 
 ---
+
+
 
 ## 21.1 Development tooling
 
@@ -2298,6 +2554,8 @@ Important areas:
 
 ---
 
+
+
 ## 21.2 Design tooling
 
 Typical design-side stack:
@@ -2312,6 +2570,8 @@ Typical design-side stack:
 Design and code should share the same conceptual model.
 
 ---
+
+
 
 ## 21.3 Code quality automation
 
@@ -2345,13 +2605,19 @@ flowchart LR
     A --> B --> C --> D --> E --> F --> G --> H --> I
 ```
 
+
+
 ---
+
+
 
 # 22. Testing Strategy
 
 Design systems need unusually strong testing because one regression can affect many applications.
 
 ---
+
+
 
 ## Testing pyramid
 
@@ -2367,7 +2633,11 @@ flowchart TD
     A --> B --> C --> D --> E --> F
 ```
 
+
+
 ---
+
+
 
 ## 22.1 Static analysis
 
@@ -2379,6 +2649,8 @@ Use:
 - dependency checks
 
 ---
+
+
 
 ## 22.2 Unit and component tests
 
@@ -2396,6 +2668,8 @@ Button:
 
 ---
 
+
+
 ## 22.3 Accessibility tests
 
 Automate with tools such as axe where possible.
@@ -2411,6 +2685,8 @@ Manual testing still matters for:
 
 ---
 
+
+
 ## 22.4 Visual regression
 
 Very valuable for:
@@ -2423,6 +2699,8 @@ Very valuable for:
 Storybook-based screenshot testing is common.
 
 ---
+
+
 
 ## 22.5 Contract testing
 
@@ -2446,6 +2724,8 @@ A change should resolve consistently across all platforms.
 
 ---
 
+
+
 # 23. Versioning and Releases
 
 Use semantic versioning where applicable.
@@ -2453,6 +2733,8 @@ Use semantic versioning where applicable.
 ```text
 MAJOR.MINOR.PATCH
 ```
+
+
 
 ### Patch
 
@@ -2462,6 +2744,8 @@ Bug fix without intended API break.
 2.4.1 -> 2.4.2
 ```
 
+
+
 ### Minor
 
 Backward-compatible feature.
@@ -2469,6 +2753,8 @@ Backward-compatible feature.
 ```text
 2.4.2 -> 2.5.0
 ```
+
+
 
 ### Major
 
@@ -2479,6 +2765,8 @@ Breaking change.
 ```
 
 ---
+
+
 
 ## Release flow
 
@@ -2499,9 +2787,13 @@ flowchart LR
     G --> I
 ```
 
+
+
 Tools such as Changesets can automate package versioning in monorepos.
 
 ---
+
+
 
 ## Deprecation strategy
 
@@ -2523,11 +2815,15 @@ Removed in major release
 
 ---
 
+
+
 # 24. Contribution and Governance
 
 A design system must be easy to contribute to without becoming chaotic.
 
 ---
+
+
 
 ## Contribution proposal
 
@@ -2548,6 +2844,8 @@ Alternatives considered
 
 ---
 
+
+
 ## Governance workflow
 
 ```mermaid
@@ -2567,7 +2865,11 @@ flowchart TD
     J -. feedback .-> B
 ```
 
+
+
 ---
+
+
 
 ## Component admission criteria
 
@@ -2582,6 +2884,8 @@ Before adding a new core component, ask:
 - Can the API remain stable?
 
 ---
+
+
 
 # 25. Project Management
 
@@ -2599,6 +2903,8 @@ You need:
 - FAQs
 
 ---
+
+
 
 ## Design system roadmap
 
@@ -2630,6 +2936,8 @@ Prioritize by product impact.
 
 ---
 
+
+
 ## Community
 
 Adoption improves when consumers can influence the system.
@@ -2644,6 +2952,8 @@ Useful channels:
 
 ---
 
+
+
 # 26. Analytics and Health Metrics
 
 A design system should measure whether it is actually useful.
@@ -2656,6 +2966,8 @@ The roadmap highlights:
 - service and health metrics
 
 ---
+
+
 
 ## 26.1 Component adoption
 
@@ -2671,6 +2983,8 @@ duplicate implementations
 
 ---
 
+
+
 ## 26.2 Migration health
 
 Measure:
@@ -2684,6 +2998,8 @@ hardcoded spacing usage
 ```
 
 ---
+
+
 
 ## 26.3 Quality metrics
 
@@ -2700,6 +3016,8 @@ build failures
 
 ---
 
+
+
 ## 26.4 Consumer satisfaction
 
 Quantitative data is not enough.
@@ -2712,6 +3030,8 @@ Ask developers/designers:
 - What prevents adoption?
 
 ---
+
+
 
 # 27. Reference Architecture for a Modern Web Design System
 
@@ -2739,6 +3059,8 @@ design-system/
 
 ---
 
+
+
 ## Package relationships
 
 ```mermaid
@@ -2760,7 +3082,11 @@ flowchart TD
     REACT --> APP
 ```
 
+
+
 ---
+
+
 
 ## Token package
 
@@ -2773,6 +3099,8 @@ dist/tokens.ts
 ```
 
 ---
+
+
 
 ## React package
 
@@ -2792,6 +3120,8 @@ src/
 ```
 
 ---
+
+
 
 ## CSS strategy
 
@@ -2816,6 +3146,8 @@ Important requirements:
 - consumer ergonomics
 
 ---
+
+
 
 # 28. End-to-End Workflow
 
@@ -2842,7 +3174,11 @@ sequenceDiagram
     DEV->>APP: Upgrade dependency
 ```
 
+
+
 ---
+
+
 
 ## Component lifecycle
 
@@ -2857,13 +3193,19 @@ stateDiagram-v2
     Removed --> [*]
 ```
 
+
+
 ---
+
+
 
 # 29. Practical Learning Path
 
 Instead of memorizing the entire roadmap, build one small system.
 
 ---
+
+
 
 ## Phase 1 — Foundations
 
@@ -2885,6 +3227,8 @@ typography tokens
 ```
 
 ---
+
+
 
 ## Phase 2 — Core UI
 
@@ -2912,6 +3256,8 @@ For every component implement:
 
 ---
 
+
+
 ## Phase 3 — Overlay primitives
 
 Build:
@@ -2934,6 +3280,8 @@ This phase teaches:
 
 ---
 
+
+
 ## Phase 4 — Documentation and release engineering
 
 Add:
@@ -2947,6 +3295,8 @@ package publishing
 ```
 
 ---
+
+
 
 ## Phase 5 — Product pilot
 
@@ -2967,7 +3317,11 @@ Those escape hatches expose missing abstractions.
 
 ---
 
+
+
 # 30. Design System Review Checklist
+
+
 
 ## Foundations
 
@@ -2976,6 +3330,8 @@ Those escape hatches expose missing abstractions.
 - [ ] Brand rules documented
 - [ ] Accessibility baseline defined
 - [ ] Responsive strategy defined
+
+
 
 ## Tokens
 
@@ -2986,6 +3342,8 @@ Those escape hatches expose missing abstractions.
 - [ ] Token naming is stable
 - [ ] Token output can be consumed programmatically
 
+
+
 ## Typography
 
 - [ ] Type scale
@@ -2993,6 +3351,8 @@ Those escape hatches expose missing abstractions.
 - [ ] Weights
 - [ ] Responsive rules
 - [ ] Font-loading strategy
+
+
 
 ## Color
 
@@ -3002,6 +3362,8 @@ Those escape hatches expose missing abstractions.
 - [ ] Accessible combinations
 - [ ] Dark mode
 
+
+
 ## Layout
 
 - [ ] Spacing scale
@@ -3009,6 +3371,8 @@ Those escape hatches expose missing abstractions.
 - [ ] Grid
 - [ ] Containers
 - [ ] Responsive rules
+
+
 
 ## Components
 
@@ -3023,6 +3387,8 @@ Those escape hatches expose missing abstractions.
 - [ ] visual regression tests
 - [ ] Storybook examples
 
+
+
 ## Engineering
 
 - [ ] TypeScript
@@ -3034,6 +3400,8 @@ Those escape hatches expose missing abstractions.
 - [ ] release automation
 - [ ] contribution guide
 
+
+
 ## Governance
 
 - [ ] ownership defined
@@ -3042,6 +3410,8 @@ Those escape hatches expose missing abstractions.
 - [ ] deprecation policy
 - [ ] migration policy
 - [ ] communication channel
+
+
 
 ## Analytics
 
@@ -3053,22 +3423,32 @@ Those escape hatches expose missing abstractions.
 
 ---
 
+
+
 # 31. Recommended References
+
+
 
 ## Original roadmap
 
 - [roadmap.sh — Design System](https://roadmap.sh/design-system)
 - [roadmap.sh GitHub — developer-roadmap](https://github.com/kamranahmedse/developer-roadmap)
 
+
+
 ## Design system fundamentals
 
 - [Nielsen Norman Group — Design Systems 101](https://www.nngroup.com/articles/design-systems-101/)
 - [Atomic Design — Brad Frost](https://atomicdesign.bradfrost.com/)
 
+
+
 ## Tokens
 
 - [Design Tokens Community Group](https://www.designtokens.org/)
 - [DTCG GitHub](https://github.com/design-tokens/community-group)
+
+
 
 ## Accessibility
 
@@ -3077,12 +3457,16 @@ Those escape hatches expose missing abstractions.
 - [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
 - [WebAIM](https://webaim.org/)
 
+
+
 ## Component architecture
 
 - [Storybook](https://storybook.js.org/)
 - [React Aria](https://react-spectrum.adobe.com/react-aria/)
 - [Radix Primitives](https://www.radix-ui.com/primitives)
 - [Floating UI](https://floating-ui.com/)
+
+
 
 ## Public design systems worth studying
 
@@ -3095,6 +3479,8 @@ Those escape hatches expose missing abstractions.
 - [Microsoft Fluent](https://fluent2.microsoft.design/)
 
 ---
+
+
 
 # Final Mental Model
 
@@ -3126,11 +3512,15 @@ flowchart TD
     K -. informs .-> J
 ```
 
+
+
 A design system is not a folder full of UI components.
 
 It is a **feedback-driven system for turning product decisions into reusable, documented, accessible, testable, and governable building blocks**.
 
 ---
+
+
 
 ## Suggested build exercise
 
