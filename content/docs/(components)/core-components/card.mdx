@@ -1,0 +1,20 @@
+---
+title: "17.5 Card"
+description: "Core Components · Section 17.5"
+---
+
+Cards group related information.
+
+Be careful not to make `Card` a meaningless generic rectangle.
+
+Good Card API separates structural slots:
+
+```tsx
+<Card>
+  <CardHeader />
+  <CardContent />
+  <CardFooter />
+</Card>
+```
+
+If a whole card is clickable, avoid nesting conflicting interactive elements.

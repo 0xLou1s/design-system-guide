@@ -1,0 +1,42 @@
+---
+title: "11.5 DTCG token format"
+description: "Design Tokens · Section 11.5"
+---
+
+The Design Tokens Community Group published a stable token specification in 2025.
+
+Example style:
+
+```json
+{
+  "color": {
+    "brand": {
+      "primary": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1, 0.3, 0.8],
+          "alpha": 1
+        }
+      }
+    }
+  }
+}
+```
+
+References can map semantic tokens to primitives.
+
+Conceptually:
+
+```json
+{
+  "color": {
+    "action": {
+      "primary": {
+        "$type": "color",
+        "$value": "{color.brand.primary}"
+      }
+    }
+  }
+}
+```

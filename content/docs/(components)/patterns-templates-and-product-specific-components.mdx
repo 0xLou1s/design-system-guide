@@ -1,0 +1,40 @@
+---
+title: "19. Patterns, Templates, and Product-Specific Components"
+description: "Connect primitives to patterns, templates, and product-specific experiences."
+---
+
+Do not put every repeated UI into the "core" package.
+
+Use layers.
+
+```mermaid
+flowchart TD
+    A[Primitives]
+    B[Core Components]
+    C[Patterns]
+    D[Domain Components]
+    E[Product Screens]
+
+    A --> B --> C --> D --> E
+```
+
+Example:
+
+```text
+Primitive:
+  Popover
+
+Core:
+  Select
+
+Pattern:
+  SearchFilterBar
+
+Domain:
+  TransactionFilter
+
+Product:
+  TransactionsPage
+```
+
+This prevents the design system from becoming a giant product-specific dependency.

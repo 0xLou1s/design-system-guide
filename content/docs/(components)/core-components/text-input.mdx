@@ -1,0 +1,30 @@
+---
+title: "17.11 Text Input"
+description: "Core Components · Section 17.11"
+---
+
+Requirements:
+
+- label
+- optional description
+- error message
+- disabled
+- readonly
+- focus-visible
+- prefix/suffix
+- icons where appropriate
+- autocomplete
+- correct input type
+
+Component composition:
+
+```tsx
+<Field>
+  <FieldLabel>Email</FieldLabel>
+  <Input type="email" />
+  <FieldDescription />
+  <FieldError />
+</Field>
+```
+
+This is often more scalable than putting every concern directly on `Input`.

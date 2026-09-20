@@ -1,0 +1,77 @@
+---
+title: "23. Versioning and Releases"
+description: "Manage semantic versions, releases, and deprecation."
+---
+
+Use semantic versioning where applicable.
+
+```text
+MAJOR.MINOR.PATCH
+```
+
+### Patch
+
+Bug fix without intended API break.
+
+```text
+2.4.1 -> 2.4.2
+```
+
+### Minor
+
+Backward-compatible feature.
+
+```text
+2.4.2 -> 2.5.0
+```
+
+### Major
+
+Breaking change.
+
+```text
+2.5.0 -> 3.0.0
+```
+
+---
+
+## Release flow
+
+```mermaid
+flowchart LR
+    A[Change]
+    B[Changeset]
+    C[PR]
+    D[CI]
+    E[Merge]
+    F[Release PR]
+    G[Package Publish]
+    H[Changelog]
+    I[Migration Docs]
+
+    A --> B --> C --> D --> E --> F --> G
+    G --> H
+    G --> I
+```
+
+Tools such as Changesets can automate package versioning in monorepos.
+
+---
+
+## Deprecation strategy
+
+Never remove widely used APIs immediately.
+
+Suggested lifecycle:
+
+```text
+Supported
+   ↓
+Deprecated
+   ↓
+Migration warning
+   ↓
+Replacement available
+   ↓
+Removed in major release
+```

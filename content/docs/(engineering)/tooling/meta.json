@@ -1,0 +1,10 @@
+{
+  "title": "21. Tooling",
+  "pages": [
+    "index",
+    "development-tooling",
+    "design-tooling",
+    "code-quality-automation"
+  ],
+  "defaultOpen": false
+}

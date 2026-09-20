@@ -1,0 +1,31 @@
+---
+title: "17.17 Modal / Dialog"
+description: "Core Components · Section 17.17"
+---
+
+One of the most accessibility-sensitive components.
+
+Requirements:
+
+- proper dialog semantics
+- focus moves into dialog
+- focus trapped appropriately
+- Escape closes when allowed
+- focus returns to trigger
+- background interaction blocked
+- accessible title
+- optional description
+- scroll handling
+
+Example structure:
+
+```tsx
+<Dialog>
+  <DialogTrigger />
+  <DialogContent>
+    <DialogTitle />
+    <DialogDescription />
+    ...
+  </DialogContent>
+</Dialog>
+```

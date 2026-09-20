@@ -1,0 +1,10 @@
+{
+  "title": "Chapter 5",
+  "root": true,
+  "pages": [
+    "contribution-and-governance",
+    "project-management",
+    "analytics-and-health-metrics"
+  ],
+  "description": "Operations and governance"
+}

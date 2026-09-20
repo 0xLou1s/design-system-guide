@@ -1,0 +1,18 @@
+---
+title: "18.1 Prefer semantic props"
+description: "Component API Design · Section 18.1"
+---
+
+Bad:
+
+```tsx
+<Button blue rounded shadow>
+```
+
+Better:
+
+```tsx
+<Button variant="primary" size="md">
+```
+
+The second describes intent rather than visual implementation.

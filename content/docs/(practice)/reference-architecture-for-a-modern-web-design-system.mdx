@@ -1,0 +1,104 @@
+---
+title: "27. Reference Architecture for a Modern Web Design System"
+description: "Organize tokens, primitives, components, and documentation in a modern monorepo."
+---
+
+A practical monorepo might look like:
+
+```text
+design-system/
+├── apps/
+│   ├── docs/
+│   └── storybook/
+│
+├── packages/
+│   ├── tokens/
+│   ├── primitives/
+│   ├── react/
+│   ├── icons/
+│   ├── eslint-config/
+│   └── typescript-config/
+│
+├── .changeset/
+├── package.json
+├── pnpm-workspace.yaml
+└── turbo.json
+```
+
+---
+
+## Package relationships
+
+```mermaid
+flowchart TD
+    TOKENS["@company/tokens"]
+    ICONS["@company/icons"]
+    PRIM["@company/primitives"]
+    REACT["@company/react"]
+    DOCS["Docs"]
+    SB["Storybook"]
+    APP["Product Apps"]
+
+    TOKENS --> PRIM
+    TOKENS --> REACT
+    ICONS --> REACT
+    PRIM --> REACT
+    REACT --> DOCS
+    REACT --> SB
+    REACT --> APP
+```
+
+---
+
+## Token package
+
+Outputs might include:
+
+```text
+dist/tokens.css
+dist/tokens.json
+dist/tokens.ts
+```
+
+---
+
+## React package
+
+Example structure:
+
+```text
+src/
+├── button/
+│   ├── button.tsx
+│   ├── button.test.tsx
+│   ├── button.stories.tsx
+│   └── index.ts
+│
+├── dialog/
+├── input/
+└── index.ts
+```
+
+---
+
+## CSS strategy
+
+Possible options:
+
+- plain CSS
+- CSS Modules
+- Tailwind
+- vanilla-extract
+- Panda CSS
+- CSS-in-JS
+
+There is no universally correct answer.
+
+Important requirements:
+
+- token usage
+- predictable styling
+- theming
+- SSR compatibility if needed
+- low runtime cost
+- consumer ergonomics

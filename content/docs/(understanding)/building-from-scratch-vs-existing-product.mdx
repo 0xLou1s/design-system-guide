@@ -1,0 +1,46 @@
+---
+title: "7. Building From Scratch vs Existing Product"
+description: "Choose an approach for a new product or an existing interface."
+---
+
+## From scratch
+
+If the product is new:
+
+```mermaid
+flowchart TD
+    A[Brand / Product Strategy]
+    B[Design Principles]
+    C[Design Language]
+    D[Tokens]
+    E[Core Components]
+    F[Pilot Product]
+    G[Documentation]
+    H[Release]
+
+    A --> B --> C --> D --> E --> F --> G --> H
+```
+
+You can skip the large-scale visual audit because no legacy UI exists.
+
+---
+
+## From existing product
+
+For an existing product:
+
+```mermaid
+flowchart TD
+    A[Existing Product]
+    B[Visual Audit]
+    C[Inventory]
+    D[Find Inconsistencies]
+    E[Normalize Decisions]
+    F[Create Tokens]
+    G[Create Components]
+    H[Migrate Incrementally]
+
+    A --> B --> C --> D --> E --> F --> G --> H
+```
+
+This path is often harder because you are replacing many undocumented decisions.

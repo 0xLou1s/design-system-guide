@@ -1,0 +1,17 @@
+{
+  "title": "Chapter 2",
+  "root": true,
+  "pages": [
+    "existing-design-analysis",
+    "creating-the-design-language",
+    "accessibility-foundations",
+    "design-tokens",
+    "layout-system",
+    "color-system",
+    "iconography",
+    "typography",
+    "motion-and-interaction"
+  ],
+  "pagesIndex": "existing-design-analysis/index",
+  "description": "Design language and foundations"
+}

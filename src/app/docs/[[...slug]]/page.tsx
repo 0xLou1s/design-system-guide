@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PageActions } from "@/components/page-actions";
+import { Mermaid } from "@/components/mdx/mermaid";
 import { source } from "@/lib/source";
 
 export default async function Page({ params }: PageProps<"/docs/[[...slug]]">) {
@@ -27,7 +28,7 @@ export default async function Page({ params }: PageProps<"/docs/[[...slug]]">) {
         />
       </div>
       <DocsBody className="[&_:not(pre)>code]:wrap-break-word">
-        <MDX components={{ ...defaultMdxComponents, ...TabsComponents, ...FilesComponents }} />
+        <MDX components={{ ...defaultMdxComponents, ...TabsComponents, ...FilesComponents, Mermaid }} />
       </DocsBody>
     </DocsPage>
   );

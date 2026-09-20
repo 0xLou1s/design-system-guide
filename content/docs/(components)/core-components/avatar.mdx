@@ -1,0 +1,26 @@
+---
+title: "17.1 Avatar"
+description: "Core Components · Section 17.1"
+---
+
+Purpose: represent a user/entity.
+
+Requirements:
+
+- image
+- fallback initials
+- fallback icon
+- multiple sizes
+- accessible description where meaningful
+- deterministic background if using initials
+
+Possible API:
+
+```tsx
+<Avatar
+  src={user.avatar}
+  alt="Louis Mai"
+  fallback="LM"
+  size="md"
+/>
+```

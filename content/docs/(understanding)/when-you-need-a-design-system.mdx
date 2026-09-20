@@ -1,0 +1,37 @@
+---
+title: "6. When You Need a Design System"
+description: "Recognize when shared infrastructure is worth the investment."
+---
+
+A design system is useful when:
+
+- multiple products share the same visual language
+- multiple teams build similar interfaces
+- UI inconsistencies are growing
+- duplicated component implementations are common
+- accessibility quality varies across teams
+- brand changes are expensive
+- product development is slowed by repeated UI decisions
+
+You may **not** need a full system when:
+
+- the product is still a tiny prototype
+- the team is extremely small
+- the UI is temporary
+- product direction changes every week
+- reuse is minimal
+
+Premature abstraction is still abstraction debt.
+
+---
+
+## Design system maturity curve
+
+```mermaid
+flowchart LR
+    A[Ad-hoc UI] --> B[Shared Styles]
+    B --> C[UI Kit]
+    C --> D[Component Library]
+    D --> E[Design System]
+    E --> F[Multi-product Platform]
+```

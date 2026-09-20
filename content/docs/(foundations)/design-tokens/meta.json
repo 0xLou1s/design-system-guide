@@ -1,0 +1,14 @@
+{
+  "title": "11. Design Tokens",
+  "pages": [
+    "index",
+    "why-tokens",
+    "token-layers",
+    "avoid-value-oriented-naming",
+    "aliasing",
+    "dtcg-token-format",
+    "token-categories",
+    "multi-theme-architecture"
+  ],
+  "defaultOpen": false
+}

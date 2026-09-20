@@ -1,0 +1,12 @@
+{
+  "title": "18. Component API Design",
+  "pages": [
+    "index",
+    "prefer-semantic-props",
+    "avoid-boolean-explosion",
+    "composition-over-mega-components",
+    "controlled-vs-uncontrolled-apis",
+    "escape-hatches"
+  ],
+  "defaultOpen": false
+}

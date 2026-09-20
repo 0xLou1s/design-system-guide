@@ -1,0 +1,13 @@
+{
+  "title": "Chapter 6",
+  "root": true,
+  "pages": [
+    "reference-architecture-for-a-modern-web-design-system",
+    "end-to-end-workflow",
+    "practical-learning-path",
+    "design-system-review-checklist",
+    "recommended-references",
+    "final-mental-model"
+  ],
+  "description": "Architecture and practice"
+}

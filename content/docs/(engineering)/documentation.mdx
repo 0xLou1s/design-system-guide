@@ -1,0 +1,78 @@
+---
+title: "20. Documentation"
+description: "Organize usage guidance, examples, and a component catalog."
+---
+
+Documentation drives adoption.
+
+A technically excellent component that nobody understands will be reimplemented.
+
+Every component should document:
+
+```text
+Purpose
+When to use
+When not to use
+Anatomy
+Variants
+Sizes
+States
+Behavior
+Accessibility
+Content guidance
+Examples
+API
+Known constraints
+Migration notes
+```
+
+---
+
+## Documentation information architecture
+
+```mermaid
+flowchart LR
+    A[Foundations]
+    B[Components]
+    C[Patterns]
+    D[Content]
+    E[Accessibility]
+    F[Developers]
+    G[Releases]
+
+    A --> B
+    B --> C
+    D --> C
+    E --> B
+    F --> B
+    G --> B
+```
+
+---
+
+## Storybook
+
+Storybook is especially useful for:
+
+- isolated component rendering
+- variants
+- states
+- visual regression
+- interactive tests
+- accessibility checks
+- documentation
+
+Example story matrix:
+
+```text
+Button
+├── Default
+├── Variants
+├── Sizes
+├── Icons
+├── Loading
+├── Disabled
+├── Long text
+├── Dark background
+└── RTL
+```

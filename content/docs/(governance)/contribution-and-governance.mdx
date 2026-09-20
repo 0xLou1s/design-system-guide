@@ -1,0 +1,60 @@
+---
+title: "24. Contribution and Governance"
+description: "Define proposals, ownership, review workflows, and admission criteria."
+---
+
+A design system must be easy to contribute to without becoming chaotic.
+
+---
+
+## Contribution proposal
+
+A proposal should answer:
+
+```text
+Problem
+Evidence
+Existing workaround
+Why existing components cannot solve it
+Proposed API
+Design
+Accessibility behavior
+Responsive behavior
+Migration impact
+Alternatives considered
+```
+
+---
+
+## Governance workflow
+
+```mermaid
+flowchart TD
+    A[Need Identified]
+    B[Proposal]
+    C[Design Review]
+    D[Engineering Review]
+    E[Accessibility Review]
+    F[Pilot]
+    G[Documentation]
+    H[Release]
+    I[Adoption]
+    J[Measure]
+
+    A --> B --> C --> D --> E --> F --> G --> H --> I --> J
+    J -. feedback .-> B
+```
+
+---
+
+## Component admission criteria
+
+Before adding a new core component, ask:
+
+- Is the use case repeated?
+- Is it product-agnostic?
+- Will at least multiple consumers use it?
+- Can an existing component be extended?
+- Is the interaction pattern understood?
+- Can accessibility be solved reliably?
+- Can the API remain stable?

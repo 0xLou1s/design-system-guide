@@ -1,0 +1,34 @@
+---
+title: "18.3 Composition over mega-components"
+description: "Component API Design · Section 18.3"
+---
+
+Bad:
+
+```tsx
+<Card
+  title=""
+  subtitle=""
+  image=""
+  footer=""
+  button=""
+  badge=""
+  menu=""
+/>
+```
+
+Better:
+
+```tsx
+<Card>
+  <CardHeader>
+    ...
+  </CardHeader>
+
+  <CardContent>
+    ...
+  </CardContent>
+</Card>
+```
+
+Composition scales better.

@@ -1,0 +1,24 @@
+---
+title: "11.3 Avoid value-oriented naming"
+description: "Design Tokens · Section 11.3"
+---
+
+Bad:
+
+```text
+color.blue
+color.lightGray
+spacing.16
+```
+
+for application-level usage.
+
+Better:
+
+```text
+color.action.primary
+color.border.default
+spacing.component.gap
+```
+
+Semantic naming enables themes.

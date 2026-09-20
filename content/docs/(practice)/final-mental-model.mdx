@@ -1,0 +1,82 @@
+---
+title: "Final Mental Model"
+description: "Connect product principles to reusable building blocks, then put the system into practice."
+---
+
+If you remember only one diagram, remember this:
+
+```mermaid
+flowchart TD
+    A[Product / Brand Principles]
+    B[Design Language]
+    C[Design Tokens]
+    D[Accessible Primitives]
+    E[Reusable Components]
+    F[Patterns]
+    G[Product UI]
+    H[Documentation]
+    I[Testing]
+    J[Governance]
+    K[Analytics]
+
+    A --> B --> C --> D --> E --> F --> G
+
+    H -. teaches .-> C
+    H -. teaches .-> E
+    I -. protects .-> D
+    I -. protects .-> E
+    J -. evolves .-> C
+    J -. evolves .-> E
+    G --> K
+    K -. informs .-> J
+```
+
+A design system is not a folder full of UI components.
+
+It is a **feedback-driven system for turning product decisions into reusable, documented, accessible, testable, and governable building blocks**.
+
+---
+
+## Suggested build exercise
+
+Build a small production-style system with:
+
+```text
+Tokens
+├── color
+├── spacing
+├── typography
+├── radius
+├── shadow
+└── motion
+
+Components
+├── Button
+├── Badge
+├── Avatar
+├── Input
+├── Textarea
+├── Checkbox
+├── Radio
+├── Switch
+├── Select
+├── Tooltip
+├── DropdownMenu
+├── Dialog
+├── Tabs
+└── Toast
+
+Infrastructure
+├── Storybook
+├── Vitest
+├── Testing Library
+├── axe accessibility tests
+├── Playwright
+├── visual regression
+├── Changesets
+└── CI
+```
+
+Then build one real application screen entirely using the system.
+
+That exercise will teach more than memorizing component names from a roadmap.

@@ -8,6 +8,7 @@ import { source } from "@/lib/source";
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: source.pageTree,
+  tabMode: "sidebar",
   slots: {
     header: DocsSiteHeader,
   },
