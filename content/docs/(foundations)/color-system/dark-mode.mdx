@@ -1,0 +1,25 @@
+---
+title: "13.2 Dark mode"
+description: "Color System · Section 13.2"
+---
+
+Dark mode is not:
+
+```text
+white -> black
+black -> white
+```
+
+It requires semantic remapping.
+
+Example:
+
+```text
+light:
+surface.primary -> gray.0
+text.primary    -> gray.950
+
+dark:
+surface.primary -> gray.950
+text.primary    -> gray.50
+```

@@ -1,0 +1,33 @@
+---
+title: "11.1 Why tokens?"
+description: "Design Tokens · Section 11.1"
+---
+
+Without tokens:
+
+```css
+.card {
+  color: #161616;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.modal {
+  color: #161616;
+  background: #ffffff;
+  border-radius: 8px;
+}
+```
+
+With tokens:
+
+```css
+.card,
+.modal {
+  color: var(--color-text-primary);
+  background: var(--color-surface-primary);
+  border-radius: var(--radius-md);
+}
+```
+
+The important difference is **semantic meaning**.

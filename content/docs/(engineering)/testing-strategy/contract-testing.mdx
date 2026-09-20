@@ -1,0 +1,22 @@
+---
+title: "22.5 Contract testing"
+description: "Testing Strategy · Section 22.5"
+---
+
+If multiple frameworks consume shared tokens, test generated outputs.
+
+Example:
+
+```text
+tokens.json
+   ↓
+CSS variables
+   ↓
+TypeScript
+   ↓
+Android
+   ↓
+iOS
+```
+
+A change should resolve consistently across all platforms.

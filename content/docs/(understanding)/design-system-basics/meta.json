@@ -1,0 +1,10 @@
+{
+  "title": "2. Design System Basics",
+  "pages": [
+    "index",
+    "what-is-a-design-system",
+    "why-design-systems-exist",
+    "design-system-vs-component-library"
+  ],
+  "defaultOpen": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Chapter 1",
+  "root": true,
+  "pages": [
+    "index",
+    "the-big-picture",
+    "design-system-basics",
+    "terminology",
+    "atomic-design",
+    "stakeholders-and-team-models",
+    "when-you-need-a-design-system",
+    "building-from-scratch-vs-existing-product"
+  ],
+  "description": "Understanding design systems"
+}

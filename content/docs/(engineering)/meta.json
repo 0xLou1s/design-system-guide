@@ -1,0 +1,11 @@
+{
+  "title": "Chapter 4",
+  "root": true,
+  "pages": [
+    "documentation",
+    "tooling",
+    "testing-strategy",
+    "versioning-and-releases"
+  ],
+  "description": "Documentation and engineering"
+}

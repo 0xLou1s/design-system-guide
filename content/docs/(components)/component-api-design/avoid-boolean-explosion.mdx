@@ -1,0 +1,29 @@
+---
+title: "18.2 Avoid boolean explosion"
+description: "Component API Design · Section 18.2"
+---
+
+Bad:
+
+```tsx
+<Button
+  primary
+  secondary
+  destructive
+  compact
+  large
+  rounded
+  square
+/>
+```
+
+Impossible combinations become easy.
+
+Prefer enums:
+
+```tsx
+<Button
+  variant="destructive"
+  size="lg"
+/>
+```

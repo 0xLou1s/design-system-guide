@@ -1,0 +1,21 @@
+---
+title: "18.4 Controlled vs uncontrolled APIs"
+description: "Component API Design · Section 18.4"
+---
+
+Example:
+
+```tsx
+<Dialog
+  open={open}
+  onOpenChange={setOpen}
+/>
+```
+
+or:
+
+```tsx
+<Dialog defaultOpen />
+```
+
+Support both only when complexity is justified.

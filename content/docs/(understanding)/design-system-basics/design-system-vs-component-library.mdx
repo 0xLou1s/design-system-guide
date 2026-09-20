@@ -1,0 +1,38 @@
+---
+title: "2.3 Design system vs component library"
+description: "Design System Basics · Section 2.3"
+---
+
+A **component library** is one implementation layer of a design system.
+
+A design system additionally includes:
+
+- rationale
+- principles
+- accessibility requirements
+- usage guidance
+- content guidance
+- tokens
+- design assets
+- contribution rules
+- versioning
+- governance
+- release strategy
+- documentation
+
+```mermaid
+flowchart LR
+    DS[Design System]
+    DS --> T[Design Tokens]
+    DS --> CL[Component Library]
+    DS --> DL[Design Language]
+    DS --> DOC[Documentation]
+    DS --> GOV[Governance]
+    DS --> UX[UX Patterns]
+    DS --> CG[Content Guidelines]
+    DS --> QA[Testing & Quality]
+```
+
+You can have a component library without a true design system.
+
+A healthy design system almost always includes one or more component libraries.

@@ -1,0 +1,48 @@
+---
+title: "10. Accessibility Foundations"
+description: "Build accessibility into foundations, interactions, and delivery."
+---
+
+Accessibility must be architectural, not decorative.
+
+The system should target at least a clearly defined accessibility baseline such as WCAG AA where applicable.
+
+Key areas:
+
+- semantic HTML
+- keyboard navigation
+- focus management
+- screen reader labels
+- color contrast
+- reduced motion
+- touch target size
+- error identification
+- form labeling
+- live announcements
+
+---
+
+## Accessibility hierarchy
+
+```mermaid
+flowchart TD
+    A[Semantic HTML]
+    B[Keyboard Behavior]
+    C[Focus Management]
+    D[Accessible Name]
+    E[ARIA when necessary]
+    F[Visual Contrast]
+    G[Automated Tests]
+    H[Manual Assistive Tech Testing]
+
+    A --> B --> C --> D --> E
+    F --> G
+    E --> G
+    G --> H
+```
+
+Important:
+
+> ARIA does not replace semantic HTML.
+
+A native `<button>` is almost always better than a clickable `<div>` with manually recreated keyboard semantics.

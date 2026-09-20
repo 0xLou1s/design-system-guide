@@ -1,0 +1,133 @@
+---
+title: "3. Terminology"
+description: "The shared vocabulary of components, tokens, patterns, governance, and product pilots."
+---
+
+## Component
+
+A reusable UI unit with a defined responsibility and interaction contract.
+
+Examples:
+
+- Button
+- Input
+- Checkbox
+- Dialog
+- Tabs
+- Tooltip
+
+---
+
+## Component Library
+
+A packaged set of reusable components.
+
+Examples of tooling used to browse components:
+
+- Storybook
+- custom documentation portals
+- design system websites
+
+---
+
+## Design Language
+
+The visual and interaction vocabulary of a product.
+
+It includes:
+
+- color
+- typography
+- spacing
+- shape
+- motion
+- iconography
+- illustration
+- content tone
+- interaction principles
+
+---
+
+## Token
+
+A named design decision represented as data.
+
+Example:
+
+```json
+{
+  "color": {
+    "background": {
+      "danger": {
+        "$type": "color",
+        "$value": "#D92D20"
+      }
+    }
+  }
+}
+```
+
+Conceptually:
+
+```text
+token name  -> semantic meaning -> resolved value
+```
+
+For example:
+
+```text
+color.background.danger -> destructive background -> #D92D20
+```
+
+---
+
+## UI Kit
+
+A design-tool representation of reusable system components.
+
+For example:
+
+- Figma component library
+- Sketch library
+
+A UI Kit usually represents the **design-side interface** of a design system.
+
+---
+
+## Pattern
+
+A reusable solution for a recurring user experience problem.
+
+Examples:
+
+- authentication flow
+- form validation
+- search and filters
+- empty state
+- bulk selection
+- destructive confirmation
+
+Patterns usually combine multiple components.
+
+---
+
+## Governance
+
+The decision-making framework for maintaining the system.
+
+Governance answers:
+
+- Who can add components?
+- Who approves changes?
+- How are proposals reviewed?
+- What counts as a breaking change?
+- Who owns accessibility?
+- How are deprecated APIs removed?
+
+---
+
+## Pilot
+
+A real product or feature used to validate the design system before wider adoption.
+
+A pilot is extremely useful because isolated components often look perfect until used in an actual workflow.

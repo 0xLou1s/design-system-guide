@@ -1,4 +1,11 @@
 {
   "title": "Design System Guide",
-  "pages": ["---Getting started---", "index"]
+  "pages": [
+    "(understanding)",
+    "(foundations)",
+    "(components)",
+    "(engineering)",
+    "(governance)",
+    "(practice)"
+  ]
 }

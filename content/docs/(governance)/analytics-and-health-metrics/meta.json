@@ -1,0 +1,11 @@
+{
+  "title": "26. Analytics and Health Metrics",
+  "pages": [
+    "index",
+    "component-adoption",
+    "migration-health",
+    "quality-metrics",
+    "consumer-satisfaction"
+  ],
+  "defaultOpen": false
+}

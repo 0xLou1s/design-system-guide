@@ -5,6 +5,54 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Keep all application surfaces flat, including UI rendered through portals. */
+*,
+*::before,
+*::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+:is([role="dialog"], [role="menu"], [role="listbox"]) {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  border-radius: 4px;
+  background-color: var(--color-fd-background);
+  border-color: var(--color-fd-border);
+  backdrop-filter: none;
+}
+
+:is([role="dialog"], [role="menu"], [role="listbox"]) :is(a, button, p) {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: normal;
+  border-radius: 4px;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-fd-primary);
+  outline-offset: 2px;
+}
+
+.mermaid-diagram .mindmap-node :is(rect, circle, polygon, path) {
+  fill: var(--muted) !important;
+  stroke: var(--border) !important;
+}
+
+.mermaid-diagram .mindmap-node :is(text, span) {
+  fill: var(--foreground) !important;
+  color: var(--foreground) !important;
+}
+
+.mermaid-diagram .edge {
+  stroke: var(--muted-foreground) !important;
+}
+
 @theme inline {
   --font-sans: var(--font-geist);
   --font-mono: var(--font-geist-mono);
@@ -266,9 +314,25 @@
   font-weight: 400;
 }
 
-/* Mono is kept for the micro labels only: prose stays Geist Sans for readability. */
-#nd-sidebar [aria-expanded],
-#nd-sidebar-mobile [aria-expanded],
+/* Page links, folders, and group labels share the same sidebar typography. */
+:is(#nd-sidebar, #nd-sidebar-mobile) :is(a, button, p) {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Keep the chapter trigger compact; descriptions belong to dropdown options. */
+:is(#nd-sidebar, #nd-sidebar-mobile) button[aria-haspopup] p + p {
+  display: none;
+}
+
+[role="dialog"].fd-scroll-container {
+  width: min(20rem, calc(100vw - 2rem));
+}
+
 #toc-title {
   font-family: var(--font-geist-mono);
   font-size: 10px;

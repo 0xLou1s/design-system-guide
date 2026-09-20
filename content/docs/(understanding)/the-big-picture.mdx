@@ -1,0 +1,73 @@
+---
+title: "1. The Big Picture"
+description: "How a design system connects product intent, reusable decisions, and implementation."
+---
+
+A design system is a **shared product-design infrastructure**.
+
+It is not just a Figma file.
+
+It is not just a React component library.
+
+It is not just a collection of colors and fonts.
+
+A mature design system connects:
+
+- brand
+- product design
+- UX principles
+- content rules
+- design tokens
+- reusable components
+- accessibility
+- engineering conventions
+- documentation
+- testing
+- releases
+- contribution workflows
+- governance
+- analytics
+
+A useful mental model is:
+
+```mermaid
+flowchart TD
+    A[Brand & Product Principles]
+    B[Design Language]
+    C[Design Tokens]
+    D[Primitive Components]
+    E[Composite Components]
+    F[Patterns]
+    G[Templates]
+    H[Product Experiences]
+    I[Documentation]
+    J[Testing]
+    K[Governance]
+    L[Analytics]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+
+    I -. explains .-> C
+    I -. explains .-> D
+    I -. explains .-> E
+    I -. explains .-> F
+
+    J -. validates .-> D
+    J -. validates .-> E
+    J -. validates .-> F
+
+    K -. controls change .-> C
+    K -. controls change .-> D
+    K -. controls change .-> E
+
+    H --> L
+    L --> K
+```
+
+The design system sits **between product intent and product implementation**.

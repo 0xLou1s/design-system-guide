@@ -1,0 +1,82 @@
+---
+title: "15. Typography"
+description: "Establish type scales, responsive typography, and font performance."
+---
+
+Typography controls:
+
+- hierarchy
+- readability
+- information density
+- brand personality
+
+Define:
+
+- font family
+- size
+- weight
+- line height
+- letter spacing
+- paragraph spacing
+- max line length
+
+---
+
+## Example scale
+
+```text
+display-lg
+display-md
+heading-lg
+heading-md
+heading-sm
+body-lg
+body-md
+body-sm
+caption
+```
+
+Each token can represent a bundle:
+
+```ts
+const typography = {
+  bodyMd: {
+    fontSize: "16px",
+    lineHeight: "24px",
+    fontWeight: 400,
+    letterSpacing: "0",
+  },
+};
+```
+
+---
+
+## Responsive typography
+
+Fluid typography may use `clamp()`:
+
+```css
+font-size: clamp(2rem, 4vw, 4rem);
+```
+
+But use it intentionally.
+
+Not every UI label needs fluid scaling.
+
+---
+
+## Performance
+
+Custom fonts affect:
+
+- download size
+- first render
+- layout shifts
+
+Consider:
+
+- font subsetting
+- preload
+- `font-display`
+- variable fonts
+- system fallbacks

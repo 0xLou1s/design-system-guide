@@ -1,0 +1,51 @@
+---
+title: "16. Motion and Interaction"
+description: "Use motion to explain interface changes and respect reduced-motion preferences."
+---
+
+A modern design system should define motion even if the original roadmap gives it less emphasis.
+
+Tokenize:
+
+```text
+duration.fast
+duration.normal
+duration.slow
+
+easing.standard
+easing.enter
+easing.exit
+```
+
+Example:
+
+```css
+--duration-fast: 120ms;
+--duration-normal: 200ms;
+--ease-standard: cubic-bezier(.2, 0, 0, 1);
+```
+
+---
+
+## Motion principles
+
+Use motion to communicate:
+
+- state change
+- spatial relationship
+- feedback
+- hierarchy
+
+Avoid motion that exists only as decoration when it slows interaction.
+
+---
+
+## Reduced motion
+
+Respect:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  /* reduce or remove non-essential animation */
+}
+```

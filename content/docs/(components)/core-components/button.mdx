@@ -1,0 +1,56 @@
+---
+title: "17.4 Button"
+description: "Core Components · Section 17.4"
+---
+
+Purpose: trigger an action.
+
+Variants:
+
+```text
+primary
+secondary
+ghost
+destructive
+link-like
+```
+
+States:
+
+```text
+default
+hover
+active
+focus-visible
+disabled
+loading
+```
+
+Sizes:
+
+```text
+sm
+md
+lg
+```
+
+Core rules:
+
+- use semantic `<button>`
+- preserve accessible name
+- loading state should not cause layout shift
+- icon-only buttons require labels
+- focus state must remain visible
+- disabled styling must not rely only on opacity
+
+Example API:
+
+```tsx
+<Button
+  variant="primary"
+  size="md"
+  loading={isSaving}
+>
+  Save changes
+</Button>
+```

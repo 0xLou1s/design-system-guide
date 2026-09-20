@@ -1,0 +1,27 @@
+{
+  "title": "17. Core Components",
+  "pages": [
+    "index",
+    "avatar",
+    "banner-alert",
+    "badge",
+    "button",
+    "card",
+    "carousel",
+    "dropdown-popover-menu",
+    "icon",
+    "checkbox",
+    "radio",
+    "text-input",
+    "switch",
+    "select",
+    "textarea",
+    "list",
+    "loading-indicator",
+    "modal-dialog",
+    "tabs",
+    "toast",
+    "tooltip"
+  ],
+  "defaultOpen": false
+}

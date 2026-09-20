@@ -1,0 +1,11 @@
+{
+  "title": "Chapter 3",
+  "root": true,
+  "pages": [
+    "core-components",
+    "component-api-design",
+    "patterns-templates-and-product-specific-components"
+  ],
+  "pagesIndex": "core-components/index",
+  "description": "Components and patterns"
+}

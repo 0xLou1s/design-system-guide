@@ -1,0 +1,34 @@
+---
+title: "21.3 Code quality automation"
+description: "Tooling · Section 21.3"
+---
+
+Typical checks:
+
+```text
+lint
+format
+typecheck
+unit tests
+accessibility tests
+build
+visual regression
+bundle size
+```
+
+Example pipeline:
+
+```mermaid
+flowchart LR
+    A[Pull Request]
+    B[Lint]
+    C[Typecheck]
+    D[Unit Tests]
+    E[A11y Tests]
+    F[Storybook Build]
+    G[Visual Tests]
+    H[Review]
+    I[Merge]
+
+    A --> B --> C --> D --> E --> F --> G --> H --> I
+```
