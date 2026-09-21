@@ -1,0 +1,7 @@
+{
+  "title": "10. Performance as Feel",
+  "root": true,
+  "pages": ["performance-as-feel", "perceived-speed", "layout-stability", "device-testing"],
+  "description": "A design concern measured in milliseconds",
+  "pagesIndex": "performance-as-feel"
+}

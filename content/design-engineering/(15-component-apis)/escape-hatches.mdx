@@ -1,0 +1,92 @@
+---
+title: "15.3 Escape hatches"
+description: "Component APIs · Section 15.3"
+---
+
+Every system meets a case it did not anticipate. Without a sanctioned way out, people fork the component — and a fork never gets your updates.
+
+---
+
+## Make deviation visible
+
+The principle: **you want deviations you can find and count.**
+
+```text
+className override    greppable, reviewable, countable
+a forked component    invisible, and now permanent
+```
+
+A `className` passthrough looks like a leak in the abstraction. It is actually a pressure valve with a counter attached — each usage tells you something the system does not cover.
+
+---
+
+## The common hatches
+
+**className passthrough.** The simplest, and worth having almost everywhere:
+
+```tsx
+function Button({ className, ...props }) {
+  return <button className={cn(styles.button, className)} {...props} />;
+}
+```
+
+Order matters: consumer classes last, so they can win. With Tailwind, `cn` (clsx + tailwind-merge) resolves conflicts properly instead of letting both classes apply.
+
+**asChild.** Change the rendered element while keeping behaviour and styling:
+
+```tsx
+<Button asChild>
+  <a href="/settings">Settings</a>
+</Button>
+```
+
+This solves the recurring "I need a link that looks like a button" without a `as` prop that breaks types. Radix's `Slot` implements it.
+
+**Exposing parts.** Composition (15.2) *is* an escape hatch — if someone can assemble the pieces differently, they do not need to fork.
+
+**Ref forwarding.** Give consumers access to the DOM node. Without it, anything needing measurement, focus or scroll has nowhere to go.
+
+---
+
+## Pass the rest of the props
+
+```tsx
+function Input({ label, ...props }) {
+  return (
+    <label>
+      {label}
+      <input {...props} />   {/* everything else reaches the element */}
+    </label>
+  );
+}
+```
+
+Without this, every native attribute — `autoComplete`, `inputMode`, `aria-describedby`, `data-testid` — needs explicitly adding. You will never finish, and consumers will fork to get one attribute.
+
+---
+
+## Where to draw the line
+
+Escape hatches should not let people break the system's guarantees:
+
+```text
+allow      spacing, width, colour in context, layout
+resist     removing focus styles, breaking contrast,
+           overriding semantics, disabling keyboard support
+```
+
+You cannot enforce all of it through types. You can make the accessible path the default and require effort to leave it — which is enough, because most deviation is convenience rather than intent.
+
+---
+
+## Read the overrides
+
+Periodically grep for how your components are actually overridden:
+
+```bash
+rg 'className="[^"]*"' --glob '*.tsx' | rg '<Button'
+```
+
+If forty call sites override the same padding, your padding is wrong. If everyone adds the same three classes, that is a missing variant.
+
+The overrides are the highest-quality feedback you will get about the API, because they are what people did instead of asking.

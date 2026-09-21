@@ -1,0 +1,78 @@
+---
+title: "5.4 Density"
+description: "Spacing and Layout · Section 5.4"
+---
+
+How much air an interface needs is a product decision, not an aesthetic one.
+
+---
+
+## Density serves the task
+
+```text
+spacious    marketing, onboarding, low-frequency tasks,
+            anything read once
+dense       dashboards, tables, tools used daily,
+            anything scanned or compared
+```
+
+A trading terminal and a landing page have opposite correct answers. Applying landing-page spacing to a data table means fewer rows visible, which means more scrolling, which makes the tool worse.
+
+This is the clearest case of taste versus preference from chapter 17. Wanting an interface to be airy is a preference. Knowing that someone scanning 200 rows needs density — and building that instead of the thing that would photograph well — is taste.
+
+---
+
+## Dense is not cramped
+
+Density comes from reducing padding and line height, not from removing the grouping ratios.
+
+```text
+comfortable    row padding 16px, line-height 1.5
+dense          row padding  8px, line-height 1.4
+cramped        row padding  4px, line-height 1.2   ← too far
+```
+
+The 2x inner/outer ratio from 5.2 still applies at every density. You are scaling the whole system down, not flattening it.
+
+---
+
+## Making density switchable
+
+If your product serves both modes, drive it from tokens rather than from component variants:
+
+```css
+:root {
+  --density-space: var(--space-4);
+  --density-row-height: 2.5rem;
+}
+
+[data-density="compact"] {
+  --density-space: var(--space-2);
+  --density-row-height: 2rem;
+}
+```
+
+Components reference `--density-space`. One attribute on a container changes the whole subtree, and no component needs a `compact` prop.
+
+---
+
+## Touch targets set the floor
+
+Density has a hard lower bound on touch devices: **44×44px minimum** for anything tappable (Apple's guidance; Android says 48dp).
+
+You can go below that visually as long as the *hit area* meets it:
+
+```css
+.icon-button {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+.icon-button::after {
+  content: "";
+  position: absolute;
+  inset: -10px;   /* 44px hit area around a 24px icon */
+}
+```
+
+This is a good example of a detail nobody asks for and everybody feels. A dense toolbar where every button is slightly hard to hit is frustrating in a way users rarely articulate.

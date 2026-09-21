@@ -1,0 +1,65 @@
+---
+title: "12.3 Design QA"
+description: "Working with Designers · Section 12.3"
+---
+
+Reviewing implementation against intent — and doing it as a system question rather than a list of complaints.
+
+---
+
+## Two kinds of finding
+
+The distinction that makes design QA useful instead of irritating:
+
+**Implementation drift.** The code does not match the system. A raw hex where a token exists, a missing focus ring, spacing off the scale, a specified hover state that was not built. → Fix in the feature.
+
+**System gaps.** The code deviates because the system had no answer. A state never defined, a variant that does not exist, a layout the grid cannot express. → Fix in the system, then in the feature.
+
+Filing the second kind as a feature bug is how systems stop growing. The feature gets patched, the gap remains, and the next team rediscovers it.
+
+**Every system gap you find is a component that needs to exist.** That is your work, not the feature team's.
+
+---
+
+## What to check
+
+Ordered by how often it is wrong:
+
+```text
+states        hover, focus, active, disabled, loading   (6.1)
+tokens        no raw values where a token exists
+spacing       on the scale, grouping ratios correct     (5.2)
+keyboard      tab through it; focus visible and ordered (9.2)
+data          empty, long text, many items              (6.2, 6.3)
+responsive    the awkward widths between breakpoints    (8.3)
+motion        duration and easing from the scale        (7.1)
+```
+
+Tab order and the in-between widths are the two most consistently skipped.
+
+---
+
+## How to give it
+
+**Say why.** "This should be `space-4`" is a correction. "The gap inside the group matches the gap between groups, so they stop reading as separate" is a reason — and reasons transfer to the next thing they build.
+
+**Own the system half.** If the deviation exists because the system had no answer, say so explicitly. It changes the feedback from "you did this wrong" to "we are missing this."
+
+**Go earlier.** QA at the end of a sprint is expensive because the cost of change is highest. Five minutes on a branch on day two prevents most of it.
+
+---
+
+## Automate the mechanical parts
+
+Much of the list above should not need a human:
+
+```text
+stylelint             raw values where tokens exist
+eslint-jsx-a11y       missing labels, bad ARIA
+axe in CI             contrast, roles, names
+visual regression     unintended visual change
+```
+
+Human review is for what a machine cannot see: whether the hierarchy is right, whether the motion feels right, whether the empty state says something useful.
+
+Every rule enforced by a person erodes — people get busy, go on holiday, and eventually stop repeating themselves. Every rule enforced by a machine holds.

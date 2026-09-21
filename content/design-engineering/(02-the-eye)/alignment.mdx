@@ -1,0 +1,70 @@
+---
+title: "2.5 Alignment"
+description: "The Eye · Section 2.5"
+---
+
+Everything should line up with something. Elements off the grid read as accidental, even when nobody can say why.
+
+This is the principle engineers get right most easily, because it is the most rule-like — and the one where the remaining 10% is pure judgement.
+
+---
+
+## Fewer alignment lines is better
+
+Each new alignment edge is another line the eye has to track. Strong layouts use very few.
+
+```text
+weak      six different left edges across a card
+strong    everything on one left edge, one right edge
+```
+
+When a layout feels messy despite a grid, count the distinct edges. It is usually more than you expected.
+
+---
+
+## Left-align by default
+
+For body text in left-to-right languages, left alignment gives the eye a consistent return point on every line.
+
+**Centred text** is fine for a line or two — a heading, a short empty state. For a paragraph it forces the eye to search for the start of each line, which measurably slows reading.
+
+**Justified text** should be avoided on the web. Without hyphenation control you get rivers of whitespace. Print typesetters solve this with hyphenation dictionaries; browsers mostly do not.
+
+---
+
+## Optical alignment
+
+The part that is judgement, not arithmetic.
+
+Mathematical centring is sometimes visually wrong, because the eye responds to visual mass rather than bounding boxes:
+
+- A play triangle centred in a circle looks left-heavy. Nudge it right.
+- A quotation mark at the start of a line looks indented. Pull it into the margin.
+- Round shapes look smaller than squares at identical dimensions, so icon sets overshoot circles slightly.
+
+```css
+/* optical, not mathematical */
+.play-icon { transform: translateX(1px); }
+```
+
+**Trust the eye over the number.** If it is centred and looks wrong, it is wrong.
+
+---
+
+## Grids
+
+A grid makes alignment a decision you make once. Pick a column count and a gutter, then place things on it.
+
+The mistake is treating the grid as binding. It is a default that removes a hundred small decisions; break it deliberately when there is a reason, and the break will read as intentional precisely because everything else holds.
+
+---
+
+## Baseline alignment
+
+The detail that separates careful work from adequate work: text of different sizes on the same row should sit on a shared baseline, not be centred against each other.
+
+```css
+.row { display: flex; align-items: baseline; }
+```
+
+`align-items: center` on a row containing a 24px heading and 14px metadata leaves both slightly off. `baseline` is almost always what you meant.

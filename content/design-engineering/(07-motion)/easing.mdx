@@ -1,0 +1,61 @@
+---
+title: "7.2 Easing"
+description: "Motion · Section 7.2"
+---
+
+Easing carries more of the feel than duration, and receives far less attention.
+
+The same 200ms transition can feel mechanical, natural or bouncy depending entirely on the curve.
+
+---
+
+## The three you need
+
+```css
+--ease-out:   cubic-bezier(0, 0, 0.2, 1);    /* entering */
+--ease-in:    cubic-bezier(0.4, 0, 1, 1);    /* exiting */
+--ease-inout: cubic-bezier(0.4, 0, 0.2, 1);  /* moving between positions */
+```
+
+**Entering eases out.** Fast at the start, settling at the end. The element arrives quickly and comes to rest — which reads as responsive.
+
+**Exiting eases in.** Slow at the start, accelerating away. It leaves decisively.
+
+**Moving eases in-out.** Something travelling from one position to another accelerates and decelerates, as physical objects do.
+
+---
+
+## Never use linear for UI
+
+`transition: 200ms linear` reads as mechanical because nothing in the physical world moves at a constant velocity with instant start and stop.
+
+Linear is correct for exactly two things: continuous rotation (spinners) and progress bars. Everything with a beginning and an end needs a curve.
+
+Worth knowing: CSS `ease` (the default) is `cubic-bezier(0.25, 0.1, 0.25, 1)` — slightly eased both ends. It is acceptable and slightly generic. `ease-out` is usually a better default for interface work.
+
+---
+
+## Why ease-out feels responsive
+
+The perceptual reason is worth internalising: most of the visible movement happens in the first few frames.
+
+The element is *almost* where it is going within the first 30% of the duration, then settles. The user's eye registers arrival early, so the interaction feels immediate even though the animation is still finishing.
+
+`ease-in` does the opposite — nothing appears to happen for the first third — which is why it feels laggy on entrances and correct on exits.
+
+---
+
+## Springs
+
+Springs are described by physics (stiffness, damping, mass) rather than duration and curve.
+
+Their real advantage is **interruption**. A spring that is mid-animation when the user acts again continues naturally from its current velocity. A CSS transition restarts, which produces a visible stutter.
+
+Use springs for anything draggable, rapidly toggleable, or gesture-driven — sheets, drag-and-drop, pull-to-refresh. For a dropdown opening, a spring is more machinery than the problem needs.
+
+```ts
+// Framer Motion
+transition={{ type: "spring", stiffness: 400, damping: 30 }}
+```
+
+Higher stiffness is faster; higher damping means less bounce. Overshoot is appropriate for playful, physical interactions and wrong for most product UI — a settings panel that bounces reads as unserious.

@@ -1,0 +1,86 @@
+---
+title: "3.4 Pairing"
+description: "Typography · Section 3.4"
+---
+
+Choosing typefaces is the part of typography that feels most like taste. There is more method to it than it appears.
+
+---
+
+## One is a legitimate answer
+
+Most product interfaces need exactly one typeface. A well-built UI family gives you enough range through weight and size alone.
+
+Pairing is for when you want tonal contrast — an editorial serif for headings against a neutral sans for body. If you cannot articulate what the second face is *for*, you do not need it.
+
+---
+
+## If you pair, make them different
+
+The failure case is two typefaces that are similar but not identical. It reads as a mistake rather than a decision.
+
+```text
+works     serif heading + sans body      clear contrast
+works     sans display + sans text       same family, different optical size
+fails     Helvetica + Arial              nearly identical
+fails     two geometric sans families    similar enough to look accidental
+```
+
+Either commit to obvious contrast, or use one family.
+
+---
+
+## What makes a good UI typeface
+
+```text
+tall x-height          legible at small sizes
+open apertures         c, e, s do not close up
+distinct 1 I l         disambiguation matters in UI
+tabular figures        numbers that align in columns
+wide weight range      400 through 600 at minimum
+good hinting           holds up at 14px on Windows
+```
+
+Safe choices: Inter, system UI stacks, IBM Plex Sans, Source Sans. Display faces chosen for personality usually fail the small-size test.
+
+---
+
+## Tabular figures
+
+The detail engineers most often miss. In proportional figures, `1` is narrower than `8`, so numbers in a column do not align and appear to shift as they update.
+
+```css
+.table-cell, .metric, .timer {
+  font-variant-numeric: tabular-nums;
+}
+```
+
+Use tabular figures for anything in a column, any live-updating number, and any timer. Use proportional figures in running text, where they look better.
+
+---
+
+## Loading, briefly
+
+Web fonts block or swap, and both are visible:
+
+```css
+@font-face {
+  font-family: "Inter";
+  src: url("inter.woff2") format("woff2");
+  font-display: swap;
+}
+```
+
+`swap` renders the fallback immediately and swaps when the font arrives — text is readable throughout, at the cost of a visible reflow.
+
+Reduce that reflow by choosing a fallback with similar metrics, and by using `size-adjust` to match them more precisely:
+
+```css
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107%;
+}
+```
+
+This matters more than it sounds. Font swap is one of the main causes of layout shift, which is covered in chapter 10.

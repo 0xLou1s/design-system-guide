@@ -1,0 +1,77 @@
+---
+title: "9.4 Testing"
+description: "Accessibility · Section 9.4"
+---
+
+Automated tools catch roughly a third of accessibility issues. That third should never reach review; the rest needs a person.
+
+---
+
+## Automate the mechanical third
+
+```text
+eslint-plugin-jsx-a11y    at authoring time — missing alt, bad ARIA
+axe DevTools              browser extension, per page
+@axe-core/playwright      in your e2e suite
+Lighthouse CI             coarse, good for trends
+```
+
+In tests:
+
+```ts
+import { injectAxe, checkA11y } from "axe-playwright";
+
+test("dashboard has no a11y violations", async ({ page }) => {
+  await page.goto("/dashboard");
+  await injectAxe(page);
+  await checkA11y(page);
+});
+```
+
+Put this on your component library's stories and it covers a wide surface cheaply. What it reliably catches: contrast failures, missing labels, invalid ARIA, duplicate IDs, missing document language.
+
+---
+
+## What needs a person
+
+```text
+is the tab order logical
+does focus go somewhere sensible after an action
+do the announcements make sense in context
+is the error actually reachable and understandable
+can the task be completed without a mouse
+is the alt text meaningful, or just present
+```
+
+An automated tool will confirm every image has an `alt` attribute. It cannot tell you the alt text says "image1.png".
+
+---
+
+## The five-minute pass
+
+For anything new, before it ships:
+
+```text
+1  tab through it — focus visible and ordered
+2  resize to 320px — no horizontal scroll
+3  zoom to 200% — nothing clipped or overlapping
+4  DevTools reduced-motion — animations suppressed
+5  axe scan — zero violations
+6  turn on VoiceOver, use the main flow once
+```
+
+Steps 1 through 5 take about four minutes. Step 6 takes longer the first few times and becomes fast.
+
+---
+
+## Zoom is the forgotten one
+
+WCAG requires content to work at 200% zoom, and 400% for reflow. Many layouts break well before that — fixed heights clip text, absolutely positioned elements overlap, sticky headers consume the viewport.
+
+Zoom is also one of the most *used* accessibility features, far more common than screen readers. Testing it is cheap and catches real problems.
+
+---
+
+## Where to put the effort
+
+Build the automated layer into CI so it never regresses, and spend your human attention on flows rather than pages: signup, checkout, the main task. A page can pass every automated check and still be impossible to complete end to end.

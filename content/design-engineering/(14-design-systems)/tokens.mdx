@@ -1,0 +1,71 @@
+---
+title: "14.1 Tokens"
+description: "Design Systems · Section 14.1"
+---
+
+Tokens are the shared vocabulary between design and code. When both sides name the same value the same way, most translation error disappears.
+
+---
+
+## The layers
+
+```text
+primitive    blue-500, space-4, text-md        raw values, no meaning
+semantic     color-action, space-inline-sm      intent, references a primitive
+component    button-bg, card-padding            optional, references a semantic
+```
+
+Product code uses semantic tokens. Primitives exist so semantics have something to point at (4.2).
+
+The component layer is optional and often skipped. Add it when a component needs to be themeable independently of the rest of the system; otherwise it is indirection without benefit.
+
+---
+
+## What to tokenise
+
+```text
+color          the full palette, plus semantic roles
+spacing        the scale from 5.1
+typography     size, weight, line height, family
+radius         corner radii
+border         widths
+shadow         elevation levels
+motion         duration and easing (7.1, 7.2)
+z-index        stacking levels (8.2)
+breakpoint     though prefer intrinsic layout where possible
+```
+
+Motion and z-index are the two most often forgotten, and both cause the same class of problem when missing: people invent values, and the values disagree.
+
+---
+
+## Naming
+
+Name by intent, not appearance. The test: could someone use this token correctly without knowing what value it holds?
+
+```text
+bad      blue-500, gray-100, font-14, space-16
+good     color-action, surface-raised, text-body, space-inline-sm
+```
+
+Value names describe what a token *is*; intent names describe what it is *for*. When the brand colour changes from blue to green, `color-action` still reads correctly and `blue-500` becomes a lie.
+
+---
+
+## Where token systems fail
+
+**Too many.** 400 semantic tokens is a system nobody can hold in their head, so people guess, guess wrong, and fall back to raw values.
+
+**Gaps.** If a common need has no token, people use a raw value. Every hardcoded value in product code is a missing token — treat it as a bug report about the system.
+
+**No enforcement.** Without linting, the scale erodes one hex at a time:
+
+```js
+// stylelint
+"declaration-property-value-allowed-list": {
+  "/color$/": ["/^var\\(--color-/", "transparent", "currentColor", "inherit"],
+  "/^padding|^margin|^gap/": ["/^var\\(--space-/", "0", "auto"]
+}
+```
+
+**Two sources.** Tokens maintained separately in Figma and code will drift. Generate both from one source (13.3).

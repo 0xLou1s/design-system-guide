@@ -1,0 +1,63 @@
+---
+title: "2.2 Hierarchy"
+description: "The Eye · Section 2.2"
+---
+
+Every screen answers one question before any other: what do I look at first?
+
+If the answer is unclear, nothing else you did matters. The user is scanning, and a screen with no entry point gets scanned and abandoned.
+
+---
+
+## The four tools
+
+Ranked by strength — the first is much stronger than the last:
+
+```text
+size      the largest thing wins, almost always
+weight    bold separates from its surroundings
+color     high contrast pulls; low contrast recedes
+space     isolation creates importance
+```
+
+The common failure is using all four at once on the same element. A heading that is larger, bolder, darker *and* surrounded by space is shouting — and when everything shouts, the hierarchy flattens back out.
+
+**Prefer removing emphasis elsewhere over adding more here.** A heading looks more important when the text around it is lighter, without touching the heading at all. This is the single most useful reflex in visual design, and it is the opposite of what engineers reach for first.
+
+---
+
+## Three levels is usually enough
+
+Primary (the one thing), secondary (supporting), tertiary (metadata).
+
+Past three, the distinctions stop being perceptible. If you need a fourth, the screen is probably doing too much — an information architecture problem wearing a typography costume.
+
+---
+
+## In code
+
+Hierarchy should come from tokens, not ad hoc values:
+
+```css
+.title { font-size: var(--text-xl); font-weight: 600; color: var(--text-primary); }
+.body  { font-size: var(--text-md); font-weight: 400; color: var(--text-primary); }
+.meta  { font-size: var(--text-sm); font-weight: 400; color: var(--text-muted); }
+```
+
+Note only the metadata drops in colour. Using `--text-muted` for body text is a frequent mistake — it lowers contrast on the content people came to read.
+
+---
+
+## Visual is not semantic
+
+`<h1>`–`<h6>` carry meaning for screen readers and must stay in order regardless of size.
+
+Style a heading to look small when the design calls for it. Never pick a heading level for its default size — that breaks the document outline for anyone navigating by headings, which is how most screen reader users move through a page.
+
+```html
+<!-- correct: right level, styled down -->
+<h2 class="text-sm font-medium">Section label</h2>
+
+<!-- wrong: level chosen for appearance -->
+<h5>Section label</h5>
+```

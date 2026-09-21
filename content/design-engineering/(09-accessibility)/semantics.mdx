@@ -1,0 +1,92 @@
+---
+title: "9.1 Semantics"
+description: "Accessibility · Section 9.1"
+---
+
+Most accessibility comes free from correct HTML. Most failures come from rebuilding native elements badly.
+
+---
+
+## What you get for free
+
+```html
+<button>Save</button>
+```
+
+That gives you: focusable, click on Enter and Space, announced as a button, disabled support, and correct behaviour in forms.
+
+```html
+<div class="button" onclick="save()">Save</div>
+```
+
+That gives you nothing. To reach parity you need `role="button"`, `tabindex="0"`, keydown handlers for Enter and Space, and `aria-disabled` handling. It is rarely done completely, and it is never done for free.
+
+Reach for native first: `<button>`, `<a href>`, `<label>`, `<dialog>`, `<details>`, `<input>`, `<select>`. Every element you replace is behaviour you now own forever.
+
+---
+
+## Buttons and links
+
+```html
+<!-- navigates somewhere -->
+<a href="/settings">Settings</a>
+
+<!-- performs an action -->
+<button onclick="save()">Save</button>
+```
+
+A link that runs JavaScript and does not navigate cannot be opened in a new tab, copied, or middle-clicked. A button styled as a link is fine; a link doing a button's job is not.
+
+The test: if it changes the URL, it is a link. Otherwise it is a button.
+
+---
+
+## Labels
+
+Every input needs a programmatically associated label — not just adjacent text:
+
+```html
+<!-- explicit -->
+<label for="email">Email</label>
+<input id="email" type="email">
+
+<!-- implicit, no id needed -->
+<label>Email <input type="email"></label>
+
+<!-- no visible label -->
+<button aria-label="Close dialog">✕</button>
+```
+
+Placeholders are not labels. They vanish on focus, usually fail contrast, and leave the user with no reference for what the field was once they start typing.
+
+---
+
+## Headings
+
+Headings are the primary navigation mechanism for screen reader users. They jump between them the way you scan a page visually.
+
+```text
+h1    one per page, the page's subject
+h2    major sections
+h3    subsections
+```
+
+Do not skip levels for visual reasons. Style a heading down instead (2.2).
+
+---
+
+## ARIA is a last resort
+
+The first rule of ARIA is not to use ARIA. Incorrect ARIA is worse than none, because it *overrides* correct native semantics.
+
+```html
+<!-- actively harmful: now announced as a link -->
+<button role="link">Save</button>
+
+<!-- redundant, but harmless -->
+<nav role="navigation">
+```
+
+Where ARIA is genuinely needed: live regions for dynamic content, `aria-expanded` on disclosure controls, `aria-current` for the active nav item, and describing relationships HTML cannot express.
+
+When you do reach for it, use the APG patterns rather than inventing — the interaction expectations for a combobox or a tab list are specific, and users rely on them.

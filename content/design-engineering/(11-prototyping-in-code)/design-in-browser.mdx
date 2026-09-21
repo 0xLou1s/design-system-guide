@@ -1,0 +1,80 @@
+---
+title: "11.3 Design in the browser"
+description: "Prototyping in Code · Section 11.3"
+---
+
+The extension of the idea: for some work, skip the design tool entirely.
+
+---
+
+## When it is faster
+
+```text
+layout and responsive behaviour   constraints are real immediately
+dense data views                  real data reveals the problem
+interaction and motion            only exists when it runs
+iterating on something existing   you are already in the code
+state-heavy components            all six states, side by side
+```
+
+In these cases you are not designing something and then discovering it does not fit. It either fits or it does not, immediately.
+
+---
+
+## When the design tool is still right
+
+Be honest about this, or you will waste time proving a point:
+
+```text
+exploring visual direction    no constraints is the point
+generating many options       ten variants in minutes
+anything brand or illustration  the tools are built for it
+communicating before building  a picture is cheaper than a branch
+working with a designer       they are in Figma; meet them there
+```
+
+The design tool is better at *divergence* — producing many possibilities quickly. Code is better at *convergence* — finding out whether one actually works.
+
+A good rhythm: explore in Figma, converge in code. Move to code earlier than feels natural, which for most engineers is immediately and for most designers is far too late.
+
+---
+
+## What it looks like in practice
+
+```tsx
+// one file, every variant visible at once
+export default function Scratch() {
+  return (
+    <div className="grid gap-8 p-8">
+      <Card variant="a" {...fixtures.long} />
+      <Card variant="b" {...fixtures.long} />
+      <Card variant="a" {...fixtures.empty} />
+    </div>
+  );
+}
+```
+
+Seeing the options simultaneously, with hostile content, is something a design tool makes surprisingly hard and a browser makes trivial.
+
+---
+
+## Tools that help
+
+```text
+Storybook          components in isolation, every state
+a /scratch route   the lowest-friction option
+Tailwind           fast iteration without naming things
+browser DevTools   edit live, then copy the values back
+```
+
+That last one is underused. Adjusting spacing directly in DevTools — arrow keys nudging a value while watching it change — is a genuinely good way to find the right number. Then move it into a token.
+
+---
+
+## The honest caveat
+
+Designing in the browser has a bias: you will tend toward what is easy to build.
+
+That is sometimes good — it is the constraint-awareness that makes you useful. It is sometimes a failure of ambition, where the better design is the harder one and you never consider it because your hands went to the familiar pattern.
+
+Notice when you are choosing something because it is right versus because it is convenient. Nobody else in the room can tell the difference, which means only you can catch it.

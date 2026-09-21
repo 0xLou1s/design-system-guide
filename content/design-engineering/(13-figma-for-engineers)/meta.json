@@ -1,0 +1,7 @@
+{
+  "title": "13. Figma for Engineers",
+  "root": true,
+  "pages": ["figma-for-engineers", "reading-files", "building-in-figma", "tokens-in-figma"],
+  "description": "Enough fluency to be a participant, not a recipient",
+  "pagesIndex": "figma-for-engineers"
+}

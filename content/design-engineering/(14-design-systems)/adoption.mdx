@@ -1,0 +1,85 @@
+---
+title: "14.3 Adoption"
+description: "Design Systems · Section 14.3"
+---
+
+A system nobody adopts is a side project. At some point your limit stops being what you can build and becomes what you can get used.
+
+---
+
+## Workarounds are bug reports
+
+Teams do not skip the system out of stubbornness. They skip it because in that moment it was the more expensive option.
+
+Every time someone works around it, one of these was true:
+
+```text
+the component did not exist
+it existed but not the variant they needed
+they could not find it
+it was harder to use than writing it themselves
+it was missing a state, so they forked it
+the escape hatch was not obvious, so they copied the source
+```
+
+All six are system failures, not user failures. **The workarounds are your roadmap** — each one is somebody telling you exactly where the system failed them, which is more actionable than any survey.
+
+---
+
+## Make the correct path the easy one
+
+Adoption comes from defaults, not advocacy:
+
+**Reduce the distance.** A component one import away gets used. One needing configuration, a provider and a doc read does not.
+
+**Cover the real cases.** Systems built for the clean case get abandoned at the first messy one. The awkward variants are what earn trust.
+
+**Make it findable.** If people cannot tell whether something exists, they assume it does not. Search that works beats documentation that is thorough.
+
+**Migrate for them.** Do not ask twelve teams to each spend a day. Write the codemod and open the PRs:
+
+```bash
+npx jscodeshift -t ./codemods/button-variant.ts src/
+```
+
+Adoption of a breaking change tracks almost exactly with whether a migration path existed.
+
+---
+
+## Ship it like a product
+
+It has users, releases and a support burden:
+
+```text
+semantic versioning, honestly
+changelogs saying what to do, not what changed
+deprecation with a migration path and a date
+never break things quietly
+```
+
+One breaking change shipped without warning costs more adoption than a quarter of good work earns back.
+
+---
+
+## Measuring it
+
+A few numbers, tracked over time, beat a dashboard nobody opens:
+
+```text
+% of UI built from system components
+raw values in product code, over time
+forked or duplicated components
+components with no consumers
+```
+
+The second is the most honest single number, and it is a grep in CI. Hardcoded values counted monthly tell you whether the system is winning or eroding.
+
+The fourth is worth acting on: components nobody uses are maintenance cost with no return. Delete them.
+
+---
+
+## The caveat
+
+Measure to decide and to make the work visible — not to perform productivity.
+
+A metric that stops reflecting the goal has become the goal. High adoption of components that are wrong for the job is not success; it is the system being used because it is mandatory rather than because it is good.

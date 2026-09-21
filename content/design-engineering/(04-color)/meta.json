@@ -1,0 +1,7 @@
+{
+  "title": "4. Color",
+  "root": true,
+  "pages": ["color", "palette", "semantic-color", "dark-mode", "contrast-ratios"],
+  "description": "Building a palette that survives contact with a real product",
+  "pagesIndex": "color"
+}

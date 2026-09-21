@@ -1,0 +1,67 @@
+---
+title: "2.3 Contrast"
+description: "The Eye · Section 2.3"
+---
+
+Contrast does two jobs: it creates hierarchy, and it makes things legible. The second is non-negotiable and measurable, which makes it the easiest visual property for an engineer to get right immediately.
+
+---
+
+## The numbers
+
+```text
+4.5:1    body text
+3:1      large text (18px+, or 14px bold)
+3:1      interactive borders, focus indicators, icons carrying meaning
+```
+
+These are WCAG AA. They are a floor, not a target — and they are checkable in CI, which means they should never regress.
+
+The most common real-world failures: placeholder text, disabled states, and light grey secondary text on white. All three usually sit around 2.5:1 because they were chosen to look subtle.
+
+---
+
+## Never colour alone
+
+Roughly one in twelve men has some form of colour vision deficiency. Red/green status indicators with no other signal are invisible to them.
+
+Always pair colour with a second channel:
+
+```text
+colour + icon        ✓ success   ✗ error
+colour + shape       filled vs outlined
+colour + text        "Paid" / "Overdue"
+colour + position    consistent placement
+```
+
+This is also just better design for everyone — an icon reads faster than a colour, even with perfect vision.
+
+---
+
+## Contrast as hierarchy
+
+Beyond legibility, contrast controls attention. The highest-contrast element on screen is where the eye goes.
+
+The useful consequence: **to make something prominent, lower the contrast of everything else.** A single dark button on a page of grey text is unmissable without being large.
+
+This is why "muted" tokens exist. They are not a lesser version of your text colour — they are a tool for pushing things back so something else can come forward.
+
+---
+
+## Contrast is not only colour
+
+Size, weight, spacing, and shape all create contrast. A layout where everything is the same size has no contrast even with perfect colour choices.
+
+When a screen feels flat, check whether every element is the same size and weight before reaching for colour. Usually that is the actual problem.
+
+---
+
+## Checking it
+
+```text
+axe DevTools       per-page, catches ratio failures
+Lighthouse         CI-friendly
+browser DevTools   contrast ratio in the colour picker
+```
+
+Automate the ratio check and forget about it. Spend your attention on the part a tool cannot see: whether the contrast is pointing at the right thing.

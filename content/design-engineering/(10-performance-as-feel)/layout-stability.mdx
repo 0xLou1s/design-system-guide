@@ -1,0 +1,109 @@
+---
+title: "10.2 Layout stability"
+description: "Performance as Feel · Section 10.2"
+---
+
+The most damaging performance problem is not slowness. It is movement.
+
+Content that shifts after load makes people click the wrong thing — and unlike a slow page, it actively punishes the user for paying attention.
+
+---
+
+## The causes
+
+All of them preventable, all of them common:
+
+```text
+images without dimensions      the space is not reserved
+web fonts swapping             metrics change, text reflows
+ads, embeds, banners           injected above existing content
+skeletons of the wrong size    the swap changes the height
+content loading in above       a notification bar appearing at the top
+```
+
+---
+
+## Reserve the space
+
+```css
+/* the browser reserves the correct box before the image arrives */
+img {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+}
+```
+
+Or set `width` and `height` attributes on the element — modern browsers derive the aspect ratio from them and reserve space accordingly.
+
+```html
+<img src="hero.jpg" width="1600" height="900" alt="">
+```
+
+This is a two-attribute fix for one of the most common causes of shift, and it is free.
+
+---
+
+## Fonts
+
+Font swap changes text metrics, which reflows every line. Reduce it by matching fallback metrics to the web font:
+
+```css
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+}
+
+body { font-family: "Inter", "Inter Fallback", sans-serif; }
+```
+
+With the metrics matched, the swap is nearly invisible. Next.js `next/font` does this automatically, which is a good reason to use it.
+
+---
+
+## Reserve space for things that may not appear
+
+If a banner, alert or badge can appear later, give it a slot now:
+
+```css
+.notification-slot { min-height: 3rem; }
+```
+
+An empty reserved slot is better than content jumping down when the notification arrives. Weigh it against the cost of the empty space — if the thing appears rarely, it may not be worth it.
+
+---
+
+## Never insert above the fold
+
+Content added above what the user is currently reading pushes everything down mid-sentence. Consider it hostile.
+
+If you must add something — a cookie banner, an alert — overlay it or place it below. Do not reflow the page under the reader's eyes.
+
+---
+
+## Measuring it
+
+Cumulative Layout Shift (CLS) quantifies this:
+
+```text
+good              < 0.1
+needs work    0.1 - 0.25
+poor              > 0.25
+```
+
+```text
+Lighthouse           in the Performance audit
+DevTools Performance  shows shift regions highlighted
+web-vitals library   report real-user CLS from production
+```
+
+Lab numbers miss things field data catches — real users have slower connections, cold caches, and ad blockers that change what loads. Track the real-user number if you can.
+
+---
+
+## Transform is exempt
+
+Worth knowing: `transform` animations do not cause layout shift, because they do not affect layout. This is another reason the rule in 7.3 matters — animating `transform` is both cheaper *and* stable, while animating `height` is expensive *and* shifts everything below it.

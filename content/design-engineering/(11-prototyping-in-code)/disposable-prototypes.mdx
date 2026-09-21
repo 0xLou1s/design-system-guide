@@ -1,0 +1,68 @@
+---
+title: "11.2 Disposable prototypes"
+description: "Prototyping in Code · Section 11.2"
+---
+
+The mistake engineers make with prototypes is building them like production code.
+
+Then they are slow to make, and — worse — you will not throw them away. You defend them instead of learning from them.
+
+---
+
+## One question at a time
+
+A prototype exists to answer something specific:
+
+```text
+does this interaction feel right
+does this layout survive real data
+is this animation too slow
+can we actually build this in the time we have
+which of these three is better
+```
+
+Write the question down first. When it is answered, the prototype is finished, whatever state it is in.
+
+---
+
+## Permission to be bad
+
+```text
+hardcode everything
+skip error handling
+ignore accessibility
+one file, no abstractions
+no tests
+inline styles
+copy-paste instead of extracting
+```
+
+Every one of those is wrong in production and correct here. The value is the answer, not the artefact.
+
+This is genuinely uncomfortable if you have spent years building the habits that make code maintainable. Suspending them deliberately is a skill.
+
+---
+
+## Then delete it
+
+Knowing what to build is the output. Prototypes that drift into production are where "temporary" code comes from — and where the shortcuts you took on purpose become debt you did not choose.
+
+Keep the learning, delete the code. If part of it was genuinely right, rebuild that part properly.
+
+The exception worth allowing: a prototype that turns out to *be* the thing, where rebuilding is pure waste. That is a judgement call, and the honest version requires admitting it needs the accessibility, states and error handling you skipped — before it ships, not after.
+
+---
+
+## How fast is fast enough
+
+Cursor's "hours, not days" is a useful calibration.
+
+If a prototype takes more than a day, it is probably too ambitious — narrow the question. Three rough prototypes answering three questions beat one polished prototype answering none, because each one you build teaches you what to ask next.
+
+---
+
+## Keep a scratch setup
+
+Reduce the cost of starting. A local project you can copy in seconds, with your framework, a styling setup and a few fixtures already wired.
+
+Most prototypes never happen because of the twenty minutes of setup friction at the start. Remove that and you will build ten times as many, which is the actual goal.

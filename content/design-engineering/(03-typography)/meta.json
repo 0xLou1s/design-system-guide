@@ -1,0 +1,13 @@
+{
+  "title": "3. Typography",
+  "root": true,
+  "pages": [
+    "typography",
+    "type-scale",
+    "measure",
+    "weight",
+    "pairing"
+  ],
+  "description": "The settings that carry most of an interface's quality",
+  "pagesIndex": "typography"
+}

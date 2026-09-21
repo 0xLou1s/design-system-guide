@@ -1,0 +1,7 @@
+{
+  "title": "11. Prototyping in Code",
+  "root": true,
+  "pages": ["prototyping-in-code", "why-prototype", "disposable-prototypes", "design-in-browser"],
+  "description": "The highest-leverage thing a design engineer does",
+  "pagesIndex": "prototyping-in-code"
+}

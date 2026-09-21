@@ -1,0 +1,95 @@
+---
+title: "5.1 Spacing scale"
+description: "Spacing and Layout · Section 5.1"
+---
+
+A spacing scale is a fixed set of values. Every gap, padding and margin uses one of them.
+
+---
+
+## The 4px base
+
+Most systems use 4px as the base unit, with the useful values being multiples:
+
+```text
+4px    tight — icon to label
+8px    within a group
+12px   related elements
+16px   standard gap
+24px   between groups
+32px   between sections
+48px   major sections
+64px   page-level separation
+```
+
+As tokens:
+
+```css
+--space-1:  0.25rem;  /*  4px */
+--space-2:  0.5rem;   /*  8px */
+--space-3:  0.75rem;  /* 12px */
+--space-4:  1rem;     /* 16px */
+--space-6:  1.5rem;   /* 24px */
+--space-8:  2rem;     /* 32px */
+--space-12: 3rem;     /* 48px */
+--space-16: 4rem;     /* 64px */
+```
+
+Why 4px: it divides evenly at common zoom levels and device pixel ratios, and it is fine enough for small adjustments without offering infinite choice.
+
+---
+
+## The gaps get bigger as they get bigger
+
+Notice the scale is not linear — it accelerates. 4, 8, 12, 16, 24, 32, 48, 64.
+
+This matters because perception is roughly logarithmic. The difference between 4px and 8px is obvious; between 60px and 64px, invisible. A linear scale wastes most of its steps at the large end where nobody can tell them apart.
+
+---
+
+## Never use an off-scale value
+
+The rule that makes the scale worth having. `padding: 13px` is where systems die.
+
+If nothing on the scale fits, the honest options are: use the nearest value (almost always fine), or add a step deliberately and document why. What you must not do is quietly introduce a one-off.
+
+Enforce it:
+
+```js
+// stylelint
+"declaration-property-value-allowed-list": {
+  "/^padding|^margin|^gap/": ["/^var\\(--space-/", "0", "auto"]
+}
+```
+
+---
+
+## Prefer gap
+
+Modern layout removes most margin decisions:
+
+```css
+/* margins: collapsing, directional, last-child problems */
+.stack > * + * { margin-block-start: var(--space-4); }
+
+/* gap: no collapsing, no exceptions, works in both axes */
+.stack { display: flex; flex-direction: column; gap: var(--space-4); }
+```
+
+`gap` works in flex and grid, never collapses, and needs no last-child handling. Reach for it first.
+
+---
+
+## Space belongs to the container
+
+A recurring source of mess: components adding their own outer margin.
+
+```css
+/* bad — the component decides its surroundings */
+.card { margin-block-end: var(--space-4); }
+
+/* good — the container decides */
+.card-list { display: grid; gap: var(--space-4); }
+```
+
+A component that carries external margin cannot be reused in a context that spaces things differently. Keep padding inside the component and let gaps come from the layout.

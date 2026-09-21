@@ -1,0 +1,62 @@
+---
+title: "17.2 Details"
+description: "Building Taste · Section 17.2"
+---
+
+> Care about details nobody asked you to care about. The `:active` state. The animation curve. The micro-interaction that makes something feel alive.
+
+This is the habit that separates a design engineer from a developer implementing a ticket — and it is a habit, not a talent.
+
+---
+
+## The details nobody specifies
+
+```text
+the :active state          most interfaces have none
+optical alignment          the 1px nudge (2.5)
+the focus ring             styled rather than removed (6.1)
+exit animation timing      faster than the entrance (7.1)
+tabular figures            on anything in a column (3.4)
+the empty state's words    actually useful (6.4)
+loading that holds layout  no jump on arrival (10.2)
+44px hit areas             on a dense toolbar (5.4)
+cursor on interactive text
+text selection that does not look broken
+what happens on double-click
+```
+
+None appear in a mockup. None get filed as bugs. All of them are felt.
+
+---
+
+## Why they matter collectively
+
+Individually, none of these changes anything. Together they are the entire difference between software that feels considered and software that feels assembled.
+
+Users almost never articulate this. They say an app "feels nice" or "feels cheap" without being able to say why — and what they are responding to is the accumulation of a hundred small decisions that either were or were not made.
+
+You cannot ship "feels nice" as a ticket. You can ship the hundred details.
+
+---
+
+## The cost, honestly
+
+This takes time nobody budgeted. That is the real difficulty, not knowing what to do.
+
+How to make it sustainable:
+
+**Fold it into the build.** Adding the `:active` state while building the button costs a minute. Adding it three weeks later costs a context switch, a branch and a review.
+
+**Fix it in the system.** A detail fixed in a shared component is fixed everywhere, forever. This is the strongest argument for doing polish work in the design system rather than per feature.
+
+**Pick your moments.** The details on a primary action matter more than on an admin settings page nobody visits twice. Spend where it is felt.
+
+---
+
+## The line
+
+There is a failure mode: spending a day on a detail nobody will notice while the actual feature is unfinished.
+
+The discipline is knowing which details carry meaning. A focus ring is not optional — it is accessibility. A 1px icon nudge on an internal dashboard probably is.
+
+Ask who experiences this, how often, and whether it affects their ability to do the thing. If the answer is "nobody, rarely, no," let it go.

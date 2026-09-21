@@ -1,0 +1,73 @@
+---
+title: "3.3 Weight"
+description: "Typography · Section 3.3"
+---
+
+Weight is emphasis. It is also the setting most often used badly, because bold is the easiest button to reach for.
+
+---
+
+## Three weights is usually enough
+
+```text
+400   regular    body text
+500   medium     UI labels, subtle emphasis
+600   semibold   headings, buttons
+```
+
+Many interfaces need only these three. Adding 300 and 800 gives more range and more opportunities for inconsistency.
+
+**Avoid weights below 400 for body text.** Light weights look elegant at display sizes and become genuinely hard to read at 14–16px, particularly on lower-resolution screens or for anyone with less than perfect vision.
+
+---
+
+## 700 is heavier than you need
+
+The browser default `font-weight: bold` maps to 700. In most modern UI typefaces, 600 gives the same separation with less shouting.
+
+```css
+h2     { font-weight: 600; }   /* not 700 */
+strong { font-weight: 600; }
+```
+
+This is a small change that makes an interface feel noticeably more composed.
+
+---
+
+## Weight versus colour
+
+Two ways to de-emphasise, and they are not interchangeable:
+
+```text
+lighter weight    keeps contrast, reduces presence
+muted colour      reduces contrast, risks legibility
+```
+
+For secondary text, prefer a muted colour at regular weight over a light weight at full colour. It reads better and is more likely to survive a contrast check.
+
+For emphasis *within* a paragraph, weight is correct and colour is usually wrong — coloured text in running copy looks like a link.
+
+---
+
+## Faux bold
+
+If a typeface has no 600 and you ask for it, the browser will synthesise one by smearing the 400 outline. It looks muddy, especially at small sizes.
+
+Load the weights you use, and only those:
+
+```css
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  src: url("inter-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 600;
+  src: url("inter-600.woff2") format("woff2");
+}
+```
+
+Each weight is a separate file and a separate download. This is a real argument for using few weights — three weights across two families is six files before you have rendered anything.
+
+**Variable fonts** solve this: one file covering the full weight range, usually smaller than two or three static cuts. If the typeface offers one, use it.

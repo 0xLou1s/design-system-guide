@@ -1,0 +1,76 @@
+---
+title: "6.4 Empty states"
+description: "States · Section 6.4"
+---
+
+The most wasted screen in most products.
+
+A new user sees the empty state **first** — before any of the interface you spent your time on. It is the first impression, and in most products it says "No items."
+
+---
+
+## Three kinds
+
+They need different treatments, and conflating them is the usual mistake.
+
+**First use.** The user has nothing because they just arrived. This is onboarding, and it is the highest-value one to get right.
+
+**Cleared.** They had things and dealt with them all. This is an accomplishment — say so, briefly.
+
+**No results.** A filter or search matched nothing. The user needs to know it was their query, not the system, and how to widen it.
+
+```text
+first use    "Create your first project" + button + one line on why
+cleared      "All caught up" + a light illustration
+no results   "No matches for 'xyz'" + clear filters + what else to try
+```
+
+Showing "No results found" to a brand-new user is the classic failure — it implies something is missing when in fact nothing has been created yet.
+
+---
+
+## The structure that works
+
+```text
+1  what would be here
+2  why it is not
+3  the single action that fixes it
+4  optionally, a way to learn more
+```
+
+Keep it to one primary action. An empty state with four equally weighted buttons is a decision problem at the exact moment the user knows least.
+
+---
+
+## Write it as a sentence, not a label
+
+```text
+weak      "No projects"
+better    "No projects yet"
+good      "Create a project to start tracking work.
+           Projects hold your tasks, files and team."
+```
+
+The third does real work: it tells the user what a project *is*, which the empty state is uniquely positioned to do because there is nothing else on screen competing.
+
+---
+
+## Errors are not empty states
+
+A failed fetch is not "no data". If you render the empty state on error, the user sees "No projects" when they in fact have twelve and the request failed.
+
+```tsx
+if (error)        return <ErrorState onRetry={refetch} />;
+if (isLoading)    return <Skeleton />;
+if (!data.length) return <EmptyState />;
+```
+
+Order matters. This bug is common and confusing to the user in a specific way — they believe their data is gone.
+
+---
+
+## Worth the effort
+
+Empty states feel like edge cases and are actually the highest-traffic screens for new users, which makes them the highest-leverage place to spend design attention.
+
+This is also a good example of "caring about details nobody asked you to care about" — nobody will file a ticket asking for a better empty state, and improving one measurably changes activation.

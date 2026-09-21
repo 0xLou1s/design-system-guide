@@ -1,0 +1,7 @@
+{
+  "title": "12. Working with Designers",
+  "root": true,
+  "pages": ["working-with-designers", "translating-constraints", "pushback", "design-qa"],
+  "description": "Skipping the handoff means being in the room",
+  "pagesIndex": "working-with-designers"
+}

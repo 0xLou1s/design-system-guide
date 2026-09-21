@@ -1,0 +1,56 @@
+---
+title: "11.1 Why prototype"
+description: "Prototyping in Code · Section 11.1"
+---
+
+Four categories of question that a design tool structurally cannot answer.
+
+---
+
+## Timing
+
+A 300ms transition in a prototype and in a product are different experiences. You cannot judge duration from a number — only by feeling it, repeatedly, at the speed your users will (7.1).
+
+This extends to anything with a temporal dimension: how long a skeleton shows, whether a debounce feels responsive or laggy, how quickly a menu should open on hover.
+
+---
+
+## Real data
+
+Mockups use "Acme Inc" and a tidy two-line description. Production has a 60-character company name, an empty description, and a user with 400 items in a list built for five.
+
+Wire a prototype to real data — or realistic fixtures (6.3) — and layout problems appear immediately that no amount of mockup review would surface.
+
+---
+
+## Interaction under load
+
+```text
+how does the drag feel on a slow device
+what happens if the user taps twice
+what if they interrupt the animation halfway
+what if the request fails mid-gesture
+what if they scroll while it is opening
+```
+
+These are not edge cases; they are Tuesday. They only exist in a running thing.
+
+---
+
+## Responsive behaviour
+
+A design tool shows three widths. A browser shows all of them, including the awkward zone where a two-column layout has not yet earned its second column (8.3).
+
+Prototyping catches the in-between states that no one drew.
+
+---
+
+## The argument this wins
+
+The political value, which is larger than it sounds.
+
+"I think the drawer should be faster" is an opinion, and opinions get argued by seniority. Two versions at 200ms and 300ms that everyone can feel is an observation, and observations get decided in about ten seconds.
+
+Build both. Let people feel them. The conversation ends, and it ends on evidence rather than on who spoke most confidently.
+
+This is the single most effective thing you can do in a design review, and it is available to you precisely because you can build.

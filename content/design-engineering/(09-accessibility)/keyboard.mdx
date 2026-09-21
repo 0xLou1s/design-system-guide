@@ -1,0 +1,98 @@
+---
+title: "9.2 Keyboard"
+description: "Accessibility · Section 9.2"
+---
+
+Tab through your interface. This takes two minutes and finds most accessibility problems.
+
+---
+
+## The checklist
+
+```text
+can you reach everything interactive
+is focus visible at every single stop
+is the order logical, following the visual layout
+can you escape anything you enter
+does focus move sensibly when content changes
+can you operate every control without a mouse
+```
+
+If focus disappears at any point, stop — that is the bug. A keyboard user who loses focus has no way to recover except tabbing blindly.
+
+---
+
+## Focus order follows the DOM
+
+Tab order is DOM order, which is why CSS that reorders content visually creates a mismatch:
+
+```css
+/* visual order no longer matches tab order */
+.item-a { order: 2; }
+.item-b { order: 1; }
+```
+
+Same with `grid-row`/`grid-column` placement and `flex-direction: row-reverse`. Use them for layout, not for reordering meaningful sequences — change the DOM instead.
+
+**Never use positive `tabindex`.** `tabindex="1"` jumps that element to the front of the entire page's tab order, ahead of everything. Only two values are correct: `0` (focusable in DOM order) and `-1` (focusable by script only).
+
+---
+
+## Focus management
+
+The part most often missed entirely. Focus is state, and it needs handling when the UI changes.
+
+```text
+open a modal        focus moves into it, and is trapped there
+close it            focus returns to the trigger
+delete a row        focus moves to the next row, not to <body>
+open a menu         focus moves to the first item
+submit with errors  focus moves to the first error
+navigate (SPA)      focus moves to the new page's heading
+```
+
+That last one is a common SPA failure: the route changes, the content changes, and focus stays wherever it was — often on a nav link, with no announcement that anything happened.
+
+```tsx
+useEffect(() => {
+  headingRef.current?.focus();
+}, [pathname]);
+```
+
+---
+
+## Escape and expected keys
+
+Users expect standard keys to work. If you build a custom control, it must honour the conventions:
+
+```text
+Escape          close menu, modal, popover
+Enter / Space   activate a button
+Arrows          move within a group — menu, tabs, radio, listbox
+Home / End      first and last item
+Tab             leave the component entirely
+```
+
+A dropdown where arrows do nothing is broken, even if it is clickable and has correct ARIA. This is the strongest argument for using a primitive library — Radix, React Aria, Base UI — rather than building these yourself. They get the interaction patterns right, and getting them right is a lot of work.
+
+---
+
+## Skip links
+
+For keyboard users, tabbing through forty navigation links to reach content on every page is punishing.
+
+```html
+<a href="#main" class="skip-link">Skip to content</a>
+```
+
+```css
+.skip-link {
+  position: absolute;
+  inset-block-start: -100%;
+}
+.skip-link:focus {
+  inset-block-start: var(--space-2);
+}
+```
+
+Hidden until focused, then visible. Ten minutes of work, and a significant improvement for anyone navigating by keyboard.

@@ -1,0 +1,7 @@
+{
+  "title": "5. Spacing and Layout",
+  "root": true,
+  "pages": ["spacing-and-layout", "spacing-scale", "grouping", "grid", "density"],
+  "description": "The principle that fixes more interfaces than any other",
+  "pagesIndex": "spacing-and-layout"
+}

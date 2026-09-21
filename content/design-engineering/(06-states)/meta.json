@@ -1,0 +1,7 @@
+{
+  "title": "6. States",
+  "root": true,
+  "pages": ["states", "interaction-states", "data-states", "content-states", "empty-states"],
+  "description": "The gap between a mockup and a product",
+  "pagesIndex": "states"
+}

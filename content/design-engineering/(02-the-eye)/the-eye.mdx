@@ -1,0 +1,38 @@
+---
+title: "2. The Eye"
+description: "The principles that convert a vague reaction into a specific, fixable cause."
+---
+
+Most engineers can tell when an interface is bad. Far fewer can tell when it is *slightly* wrong, and fewer still can name the cause.
+
+That conversion is the entire skill of this chapter. "This feels off" is a dead end — you cannot act on it, you cannot hand it to anyone, and you cannot defend it in a meeting. "The gap inside the group matches the gap between groups, so the grouping is invisible" is a fix.
+
+You already do this with code. You read a function and something feels wrong, then you locate it: the name lies, the abstraction leaks, the state is in the wrong place. Same muscle, different domain. It needs the same thing to develop — vocabulary plus repetition.
+
+---
+
+## In this chapter
+
+<Cards>
+<Card title="2.1 Seeing" href="/design-engineering/seeing" description="How to look, before what to look for" />
+<Card title="2.2 Hierarchy" href="/design-engineering/hierarchy" description="What the eye reaches first" />
+<Card title="2.3 Contrast" href="/design-engineering/contrast" description="Difference that carries meaning" />
+<Card title="2.4 Balance" href="/design-engineering/balance" description="Distribution of visual weight" />
+<Card title="2.5 Alignment" href="/design-engineering/alignment" description="The invisible lines holding a layout" />
+</Cards>
+
+---
+
+## The order to check in
+
+When something is wrong, work down this list. Most problems resolve in the first two steps:
+
+```text
+1  hierarchy    is the entry point obvious
+2  proximity    do related things group        (chapter 5)
+3  alignment    is anything off the grid
+4  contrast     is anything illegible or competing
+5  balance      does one region feel heavy
+```
+
+The principles are not independent — hierarchy is *built from* contrast, space and alignment. So one broken principle usually produces symptoms in two others. Fixing the symptom moves the problem; find the cause.

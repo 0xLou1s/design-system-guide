@@ -1,0 +1,28 @@
+---
+title: "15. Component APIs"
+description: "A design decision expressed as code."
+---
+
+A component's API determines what is easy to build, what is hard, and what is impossible — which means it determines what the product ends up looking like.
+
+This is the clearest place where the two halves of the role meet. API design is an engineering skill you already have. Knowing *which* API expresses the design system correctly is the design half.
+
+---
+
+## In this chapter
+
+<Cards>
+<Card title="15.1 Semantic props" href="/design-engineering/semantic-props" description="Intent, not appearance" />
+<Card title="15.2 Composition" href="/design-engineering/composition" description="When one component is two" />
+<Card title="15.3 Escape hatches" href="/design-engineering/escape-hatches" description="Planning for the case you did not anticipate" />
+</Cards>
+
+---
+
+## The test
+
+A good component API makes the right thing easy and the wrong thing awkward.
+
+If people are routinely passing `className` to override your padding, your padding is wrong. If everyone sets the same three props together, that combination should be a variant. If a prop is only ever used with one other prop, they are one prop.
+
+Read how your components are actually used. The usage is feedback about the API, and it is more reliable than your intentions.

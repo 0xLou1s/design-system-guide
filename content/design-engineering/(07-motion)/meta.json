@@ -1,0 +1,7 @@
+{
+  "title": "7. Motion",
+  "root": true,
+  "pages": ["motion", "duration", "easing", "what-to-animate", "reduced-motion"],
+  "description": "The decisions that can only be made in the real material",
+  "pagesIndex": "motion"
+}

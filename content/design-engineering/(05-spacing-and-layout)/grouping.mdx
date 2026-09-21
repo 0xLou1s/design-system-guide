@@ -1,0 +1,77 @@
+---
+title: "5.2 Grouping"
+description: "Spacing and Layout · Section 5.2"
+---
+
+Proximity is the strongest grouping signal available. Elements close together read as related; far apart, as separate. This happens before the user reads anything.
+
+---
+
+## The ratio is what matters
+
+Not the absolute values — the relationship between them:
+
+```text
+inside a group     8px
+between groups     24px
+                   ↑ 3x difference, grouping is obvious
+```
+
+```text
+inside a group     16px
+between groups     20px
+                   ↑ barely different, grouping is invisible
+```
+
+Aim for at least a 2x difference between the inner and outer gap. Anything less and the eye cannot resolve it.
+
+---
+
+## The most common bug
+
+A form where every field is 16px apart, including the gap between a label and its input.
+
+```css
+/* wrong — label and input are as far apart as unrelated fields */
+.field, .field > * { margin-block-end: 16px; }
+
+/* right */
+.field       { display: grid; gap: var(--space-1); }  /*  4px: label ↔ input */
+.field-group { display: grid; gap: var(--space-6); }  /* 24px: field ↔ field */
+```
+
+The fix takes one line and transforms how the form reads.
+
+---
+
+## Space replaces borders
+
+If grouping is done with space, you usually do not need dividers, borders or background panels.
+
+Every border is visual noise competing for attention. Interfaces that feel heavy are often over-divided — boxes inside boxes inside boxes, each one earning its keep only because the spacing was not doing the job.
+
+Try removing a border before adding one. Often the grouping was already clear.
+
+---
+
+## Grouping in depth
+
+Real interfaces nest several levels, and each level needs a distinguishable gap:
+
+```text
+4px    icon ↔ its label
+8px    label ↔ input
+16px   field ↔ field
+32px   fieldset ↔ fieldset
+64px   form ↔ page section
+```
+
+Five levels is about the maximum anyone can perceive. If you need six, the page structure is too deep — that is an information architecture problem, not a spacing one.
+
+---
+
+## Checking it
+
+Squint. Groups should appear as distinct clusters.
+
+If you see one even field of elements, the grouping is not working, and the cause is almost always that your inner and outer gaps are too close in value.

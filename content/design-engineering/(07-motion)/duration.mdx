@@ -1,0 +1,72 @@
+---
+title: "7.1 Duration"
+description: "Motion · Section 7.1"
+---
+
+Almost everything is too slow. This is the single most reliable observation about motion in shipped products.
+
+What feels elegant on the fifth viewing is tedious on the fiftieth — and your users are on the five hundredth.
+
+---
+
+## The ranges
+
+```text
+70-120ms     hover, focus, small state changes
+120-200ms    dropdowns, toggles, local transitions
+200-300ms    modals, drawers, larger surfaces
+300ms+       rarely justified — usually a full page transition
+```
+
+If you are unsure, go shorter. A transition that is slightly too fast reads as responsive; slightly too slow reads as sluggish, and sluggish is the more damaging error.
+
+---
+
+## Scale with distance and size
+
+A tooltip appearing 4px away and a drawer crossing the screen should not share a duration.
+
+```text
+small distance, small element     shorter
+large distance, large element     longer
+```
+
+Same duration for both makes one feel abrupt and the other laggy. This is why a single `--duration-normal` applied everywhere feels wrong even when the value is reasonable.
+
+---
+
+## Exits are faster than entrances
+
+Nobody wants to wait for something they have dismissed.
+
+```text
+enter    200ms
+exit     150ms
+```
+
+Roughly 75% of the entrance duration is a good starting point. The asymmetry is invisible and the interface feels markedly more responsive.
+
+---
+
+## As tokens
+
+```css
+--duration-instant: 100ms;
+--duration-fast:    150ms;
+--duration-normal:  200ms;
+--duration-slow:    300ms;
+```
+
+Four values covers product UI. As with spacing, the value of the scale is that you stop re-deciding — and that you can change the feel of the whole product by editing four numbers.
+
+---
+
+## The fifty-times test
+
+The most reliable way to judge duration, and the reason prototyping in code matters:
+
+**Use the interaction fifty times in a row.**
+
+Anything that felt delightful on the first pass and tedious by the twentieth is too slow. You cannot get this from a design tool, a video, or a single click-through — only from repetition, which is how your users will experience it.
+
+Do this before shipping any transition you are unsure about. It takes two minutes and the answer is never ambiguous.

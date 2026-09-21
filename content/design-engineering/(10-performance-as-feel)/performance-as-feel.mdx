@@ -1,0 +1,36 @@
+---
+title: "10. Performance as Feel"
+description: "A design concern that happens to be measured in milliseconds."
+---
+
+A beautiful interface that responds in 400ms feels worse than a plain one that responds in 50ms.
+
+Users do not experience your bundle size. They experience whether the thing reacted when they touched it. That makes performance a design property, not just an engineering metric — and it is the one where your existing skills transfer most directly.
+
+The shift is what you optimise *for*. Not the number, but the feeling: not "reduce TTI by 200ms" but "make the button feel like it responded."
+
+---
+
+## In this chapter
+
+<Cards>
+<Card title="10.1 Perceived speed" href="/design-engineering/perceived-speed" description="Making the wait feel shorter" />
+<Card title="10.2 Layout stability" href="/design-engineering/layout-stability" description="The most damaging problem is movement" />
+<Card title="10.3 Device testing" href="/design-engineering/device-testing" description="Your laptop is not the test" />
+</Cards>
+
+---
+
+## The thresholds
+
+Human perception has fixed boundaries, and they set the targets:
+
+```text
+under 100ms    feels instant — direct manipulation
+100-300ms      noticeable, still responsive
+300ms-1s       clearly waiting; needs feedback
+over 1s        attention drifts; needs progress
+over 10s       assumed broken
+```
+
+Under 100ms, no spinner is needed. Between 300ms and 1s, feedback matters more than speed — an instant skeleton often beats shaving 100ms off the request.

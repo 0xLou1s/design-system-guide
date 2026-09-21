@@ -1,0 +1,71 @@
+---
+title: "4.4 Contrast ratios"
+description: "Color · Section 4.4"
+---
+
+The measurable part of colour, which makes it the part you can enforce.
+
+---
+
+## The requirements
+
+```text
+4.5:1    body text (WCAG AA)
+3:1      large text — 18px+, or 14px bold
+3:1      UI components: borders, focus rings, icons carrying meaning
+7:1      AAA, if you are aiming higher
+```
+
+The 3:1 rule for UI components is newer and widely missed. It applies to the visual boundary of anything interactive — the border of a text input, the edge of a toggle, a focus ring.
+
+---
+
+## Where it commonly fails
+
+```text
+placeholder text       usually ~2.5:1
+disabled states        often deliberately low
+secondary grey text    the most frequent failure
+borders on inputs      pale grey on white
+white text on brand    depends entirely on the brand colour
+```
+
+Secondary text is the big one. It is chosen to look subtle, and subtle is exactly what fails the check.
+
+---
+
+## Disabled is not exempt
+
+WCAG technically exempts disabled controls from contrast requirements. That is a compliance position, not a design one — a disabled button nobody can read is a usability problem whether or not it passes.
+
+Aim for 3:1 on disabled states. It still reads as clearly inactive.
+
+---
+
+## Automate it
+
+This is a numeric check, which means it belongs in CI rather than in review:
+
+```text
+axe DevTools         browser extension, per-page
+@axe-core/playwright  in your e2e suite
+eslint-plugin-jsx-a11y  catches some at authoring time
+Lighthouse CI        coarse, but trend-friendly
+```
+
+Check the token pairs once, in a test that asserts every text-on-surface combination your system allows. Then it cannot regress:
+
+```ts
+expect(contrast(tokens.textPrimary, tokens.surfaceBase)).toBeGreaterThan(4.5);
+expect(contrast(tokens.textSecondary, tokens.surfaceBase)).toBeGreaterThan(4.5);
+```
+
+---
+
+## The limits of the number
+
+Passing is a floor, not a goal. The formula is known to be imperfect — it handles light-on-dark differently from dark-on-light, and it does not account for font weight or size beyond the crude large-text threshold.
+
+Text can pass at 4.5:1 and still be unpleasant to read at 300 weight on a bright background. The ratio catches the disasters; your eye catches the rest.
+
+APCA, the algorithm proposed for WCAG 3, models this better. Worth knowing about; not yet the standard you will be held to.

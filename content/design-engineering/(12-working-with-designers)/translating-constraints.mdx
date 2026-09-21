@@ -1,0 +1,63 @@
+---
+title: "12.1 Translating constraints"
+description: "Working with Designers · Section 12.1"
+---
+
+"We can't do that" ends a conversation and spends credibility.
+
+The useful version explains the constraint and offers the nearest possible thing.
+
+---
+
+## The shape
+
+> That blur on scroll would repaint the whole list every frame — it will stutter on mid-range Android. We could apply it only to the header, which is cheap, or fade the list instead. Want to feel both?
+
+Three things happened there:
+
+```text
+1  named the real constraint      not "it's slow"
+2  said who it affects            mid-range Android, not "some users"
+3  offered options                and a way to decide between them
+```
+
+Same constraint. Now it is a design conversation with alternatives rather than a refusal.
+
+---
+
+## Give the cost, not the verdict
+
+You have information the designer does not. Share the information and let the decision be joint:
+
+```text
+weak     "we can't do that animation"
+better   "that's about a week and needs a library —
+          this version is an afternoon. Worth the week?"
+
+weak     "the table can't be virtualised with expandable rows"
+better   "virtualisation and expandable rows fight each other.
+          We can have smooth scrolling at 10k rows, or expandable
+          rows capped at ~500. Which matters more here?"
+```
+
+Framing it as a trade-off respects that they may know something you do not about which side matters.
+
+---
+
+## Build the answer when you can
+
+The strongest version of this is not a sentence, it is a branch.
+
+If the question is whether something feels right, twenty minutes of prototyping answers it better than any explanation (11.1). If the question is whether something is too slow, build it and throttle to 4x (10.3).
+
+You have a capability most people in the conversation do not. Use it to replace speculation with evidence.
+
+---
+
+## Do not hide behind the constraint
+
+The failure mode in the other direction: using technical difficulty as cover for not wanting to do the work.
+
+Designers can often tell. And if the constraint turns out to be soft — if someone else builds it in a day — you have spent credibility you will not easily get back.
+
+If the honest answer is "that's a lot of work and I don't think it's worth it," say that instead. It is a legitimate position, and it is a different conversation from "it's not possible."

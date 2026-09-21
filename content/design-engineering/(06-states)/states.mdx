@@ -1,0 +1,29 @@
+---
+title: "6. States"
+description: "The single biggest gap between a mockup and a shipped product."
+---
+
+A design shows one state. A component has many, and the ones nobody designed are the ones that break.
+
+This chapter is where your engineering instincts are an advantage. You already think in terms of state machines, edge cases and failure modes — you do it for data every day. The shift is applying that same rigour to the *visual* surface, and recognising that an undesigned state is a design decision made by default.
+
+---
+
+## In this chapter
+
+<Cards>
+<Card title="6.1 Interaction states" href="/design-engineering/interaction-states" description="Hover, focus, active, disabled, loading" />
+<Card title="6.2 Data states" href="/design-engineering/data-states" description="Empty, one, many, error" />
+<Card title="6.3 Content states" href="/design-engineering/content-states" description="What real content does to a layout" />
+<Card title="6.4 Empty states" href="/design-engineering/empty-states" description="The most wasted screen in most products" />
+</Cards>
+
+---
+
+## The practice
+
+Build components **state-first**. Before styling the default, list every state the thing can be in, then build them all.
+
+You will find at least one nobody considered. Found now, it is a five-minute decision. Found in production, it is a bug, a meeting and a patch.
+
+This is the habit that most visibly separates a design engineer from a developer implementing a ticket: the ticket describes the happy path, and you ship the whole machine.

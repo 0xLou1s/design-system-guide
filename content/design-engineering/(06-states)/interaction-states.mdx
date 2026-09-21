@@ -1,0 +1,90 @@
+---
+title: "6.1 Interaction states"
+description: "States · Section 6.1"
+---
+
+Every interactive element needs all of these, decided rather than defaulted:
+
+```text
+default     resting
+hover       pointer only — never the sole signal
+focus       keyboard — must be visible, always
+active      during the press
+disabled    and the user can tell why
+loading     after action, before result
+```
+
+---
+
+## Focus is not optional
+
+`outline: none` with no replacement makes an interface unusable by keyboard. It is the most damaging single line of CSS in common use.
+
+If the default ring is ugly, style it:
+
+```css
+/* never this alone */
+:focus { outline: none; }
+
+/* this */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+```
+
+`:focus-visible` gives the ring to keyboard users without showing it on mouse click — which is the actual reason people remove focus styles. It solves the aesthetic complaint without breaking the interface.
+
+`outline` is better than `box-shadow` for this: it follows border-radius, is not clipped by `overflow: hidden`, and survives forced-colors mode.
+
+---
+
+## Hover is not a signal on its own
+
+Touch devices have no hover. Anything discoverable only on hover is invisible to roughly half your users.
+
+Hover can *enhance* — reveal a shortcut, strengthen an affordance. It cannot be the only way to learn something exists.
+
+```css
+/* only apply hover styles where hover actually exists */
+@media (hover: hover) {
+  .button:hover { background: var(--color-action-hover); }
+}
+```
+
+Without the guard, touch devices apply hover styles on tap and leave them stuck until the next tap elsewhere.
+
+---
+
+## Disabled needs a reason
+
+A greyed-out button with no explanation is a dead end. The user cannot proceed and cannot tell what would let them.
+
+Two workable options:
+
+- keep it disabled, and say why nearby (or in a tooltip)
+- keep it enabled, and explain on attempt
+
+The second is often better: `aria-disabled="true"` keeps the control focusable and announceable, so a screen reader user can reach it and hear why, rather than tabbing past something that does not exist for them.
+
+---
+
+## Loading belongs to the element
+
+After an action, feedback should appear on the thing that was acted upon:
+
+```text
+< 300ms     no indicator — a flash of spinner is worse than the wait
+300ms-1s    inline spinner on the button, button disabled
+> 1s        progress, and a way to cancel if possible
+```
+
+Preserve the button's width while loading, or the layout jumps as the label is replaced.
+
+---
+
+## The combinations
+
+States compose, and some combinations need deciding: hover *and* focus, loading *and* disabled, active *and* error.
+
+You do not need a design for every pair. You do need to know that focus should remain visible on top of hover, and that a loading button should not also show a hover state.

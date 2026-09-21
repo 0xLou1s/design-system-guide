@@ -1,0 +1,7 @@
+{
+  "title": "8. CSS Craft",
+  "root": true,
+  "pages": ["css-craft", "modern-css", "stacking", "responsive"],
+  "description": "The part of the stack a design engineer owns",
+  "pagesIndex": "css-craft"
+}

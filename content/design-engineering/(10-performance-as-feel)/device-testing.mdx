@@ -1,0 +1,80 @@
+---
+title: "10.3 Device testing"
+description: "Performance as Feel · Section 10.3"
+---
+
+Your laptop is not the test.
+
+Development machines are fast, on fast networks, with warm caches, running one tab. Almost none of that describes your users.
+
+---
+
+## Throttle by default
+
+```text
+Chrome DevTools → Performance
+  CPU: 4x or 6x slowdown
+  Network: Fast 3G
+
+Chrome DevTools → Network
+  Throttling: Fast 3G / Slow 4G
+```
+
+4x CPU throttling approximates a mid-range Android phone. Things that felt instant will not be. Animations that were smooth will drop frames — particularly any animating a layout property (7.3).
+
+Make this your default when building anything with motion or interaction. The bugs only exist at the speeds your users have.
+
+---
+
+## Test on a real device at least once
+
+Emulation misses things:
+
+```text
+touch accuracy       whether targets are actually hittable
+scroll momentum      iOS scrolling behaves differently
+keyboard behaviour   how the viewport resizes on focus
+thermal throttling   sustained load slows the device
+real network         latency and packet loss, not just bandwidth
+```
+
+A cheap Android phone is the single most useful piece of test hardware you can own. If most of your traffic is mobile, most of your users are on something closer to it than to your laptop.
+
+Remote debugging: Android over USB via `chrome://inspect`, iOS Safari via Safari's Develop menu.
+
+---
+
+## What to check
+
+```text
+does it respond within 100ms of touch
+do animations hold 60fps
+is anything janky while scrolling
+does the layout shift as things load
+is text readable without zooming
+are tap targets at least 44px
+does it work on a slow connection
+```
+
+---
+
+## Reading the Performance panel
+
+Record the interaction, then look for:
+
+```text
+long tasks (> 50ms)     block the main thread; input feels stuck
+purple layout bars      layout recalculation during animation
+frames over 16ms        dropped frames at 60fps
+large scripting blocks  JS running when it should be idle
+```
+
+A red-cornered frame means a dropped frame. A row of them during an animation means the animation is janky regardless of how it looks on your machine.
+
+---
+
+## The habit
+
+Keep DevTools throttled to 4x CPU while building interaction work, not just when investigating a complaint.
+
+It changes what you build. An animation designed under throttling is designed within the constraint, instead of being designed freely and then discovered to be too expensive after it has shipped.
