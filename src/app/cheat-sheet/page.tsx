@@ -1,4 +1,3 @@
-import { cheatSheet } from "fumadocs-mdx:collections/server";
 import { TOCProvider, TOCScrollArea } from "fumadocs-ui/components/toc";
 import { TOCItem, TOCItems } from "fumadocs-ui/components/toc/clerk";
 import defaultMdxComponents from "fumadocs-ui/mdx";
@@ -6,9 +5,7 @@ import type { Metadata } from "next";
 
 import { PageActions } from "@/components/page-actions";
 import { HomeSiteHeader } from "@/components/site-header";
-
-/* Single-file collection: frontmatter and body sit on the entry itself. */
-const page = cheatSheet[0];
+import { cheatSheetPage as page } from "@/lib/source";
 
 export const metadata: Metadata = {
   title: page.title,
