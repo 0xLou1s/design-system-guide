@@ -1,12 +1,7 @@
-import * as FilesComponents from "fumadocs-ui/components/files";
-import * as TabsComponents from "fumadocs-ui/components/tabs";
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/layouts/notebook/page";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PageActions } from "@/components/page-actions";
-import { Mermaid } from "@/components/mdx/mermaid";
+import { DocPage } from "@/components/doc-page";
 import { source } from "@/lib/source";
 
 export default async function Page({ params }: PageProps<"/design-system-guide/[[...slug]]">) {
@@ -14,23 +9,17 @@ export default async function Page({ params }: PageProps<"/design-system-guide/[
   const page = source.getPage(slug);
   if (!page) notFound();
 
-  const MDX = page.data.body;
-  const markdownUrl = `/api/markdown/${(slug ?? []).join("/")}`;
-
   return (
-    <DocsPage toc={page.data.toc} tableOfContent={{ style: "clerk" }} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <div className="flex flex-row flex-wrap items-center gap-2 border-b pt-2 pb-6">
-        <PageActions
-          markdownUrl={markdownUrl}
-          githubUrl={`https://github.com/0xLou1s/handbook/blob/main/content/design-system-guide/${page.path}`}
-        />
-      </div>
-      <DocsBody className="[&_:not(pre)>code]:wrap-break-word">
-        <MDX components={{ ...defaultMdxComponents, ...TabsComponents, ...FilesComponents, Mermaid }} />
-      </DocsBody>
-    </DocsPage>
+    <DocPage
+      title={page.data.title}
+      description={page.data.description}
+      toc={page.data.toc}
+      full={page.data.full}
+      body={page.data.body}
+      part="design-system-guide"
+      sourcePath={`design-system-guide/${page.path}`}
+      slug={slug}
+    />
   );
 }
 

@@ -4,6 +4,7 @@ import { TOCItem, TOCItems } from "fumadocs-ui/components/toc/clerk";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 
+import { PageActions } from "@/components/page-actions";
 import { HomeSiteHeader } from "@/components/site-header";
 
 /* Single-file collection: frontmatter and body sit on the entry itself. */
@@ -29,6 +30,12 @@ export default function CheatSheetPage() {
             {description && (
               <p className="mt-2 text-fd-muted-foreground text-lg">{description}</p>
             )}
+            <div className="flex flex-row flex-wrap items-center gap-2 border-b pt-4 pb-6">
+              <PageActions
+                markdownUrl="/api/markdown/cheat-sheet"
+                githubUrl="https://github.com/0xLou1s/handbook/blob/main/content/cheat-sheet/index.mdx"
+              />
+            </div>
             <div className="prose mt-8 min-w-0 max-w-none [&_:not(pre)>code]:wrap-break-word">
               <MDX components={defaultMdxComponents} />
             </div>

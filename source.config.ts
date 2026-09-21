@@ -32,6 +32,9 @@ export const docs = defineDocs({
 export const cheatSheet = defineCollections({
   type: "doc",
   dir: "content/cheat-sheet",
+  postprocess: {
+    includeProcessedMarkdown: true,
+  },
   schema: pageSchema,
 });
 

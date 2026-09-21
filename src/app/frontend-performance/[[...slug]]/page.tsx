@@ -1,11 +1,7 @@
-import * as FilesComponents from "fumadocs-ui/components/files";
-import * as TabsComponents from "fumadocs-ui/components/tabs";
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/layouts/notebook/page";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Mermaid } from "@/components/mdx/mermaid";
+import { DocPage } from "@/components/doc-page";
 import { performanceSource } from "@/lib/source";
 
 export default async function Page({ params }: PageProps<"/frontend-performance/[[...slug]]">) {
@@ -13,16 +9,17 @@ export default async function Page({ params }: PageProps<"/frontend-performance/
   const page = performanceSource.getPage(slug);
   if (!page) notFound();
 
-  const MDX = page.data.body;
-
   return (
-    <DocsPage toc={page.data.toc} tableOfContent={{ style: "clerk" }} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <DocsBody className="[&_:not(pre)>code]:wrap-break-word">
-        <MDX components={{ ...defaultMdxComponents, ...TabsComponents, ...FilesComponents, Mermaid }} />
-      </DocsBody>
-    </DocsPage>
+    <DocPage
+      title={page.data.title}
+      description={page.data.description}
+      toc={page.data.toc}
+      full={page.data.full}
+      body={page.data.body}
+      part="frontend-performance"
+      sourcePath={`frontend-performance/${page.path}`}
+      slug={slug}
+    />
   );
 }
 

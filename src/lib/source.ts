@@ -1,5 +1,5 @@
 import { loader } from "fumadocs-core/source";
-import { docs, frontendPerformance } from "fumadocs-mdx:collections/server";
+import { cheatSheet, docs, frontendPerformance } from "fumadocs-mdx:collections/server";
 
 export const source = loader({
   baseUrl: "/design-system-guide",
@@ -10,3 +10,6 @@ export const performanceSource = loader({
   baseUrl: "/frontend-performance",
   source: frontendPerformance.toFumadocsSource(),
 });
+
+/* Single-file collection, so the one entry is the page. */
+export const cheatSheetPage = cheatSheet[0];
