@@ -17,7 +17,7 @@ bun run start
 
 This is a standalone Next.js app. Fumadocs versions, the notebook layout, responsive header, fonts, and theme settings are reused from Better T Stack. See THIRD_PARTY_NOTICES.md for attribution.
 
-The handbook is split into 104 MDX pages: 31 chapters, 71 numbered sections, an overview, and the final mental model. README.md remains the original source. Content is organized into six route groups in `content/docs`: `(understanding)`, `(foundations)`, `(components)`, `(engineering)`, `(governance)`, and `(practice)`. Parentheses keep existing page URLs unchanged.
+The handbook is split into 104 MDX pages: 31 chapters, 71 numbered sections, an overview, and the final mental model. HANDBOOK.md remains the original source. Content is organized into six route groups in `content/docs`: `(understanding)`, `(foundations)`, `(components)`, `(engineering)`, `(governance)`, and `(practice)`. Parentheses keep existing page URLs unchanged.
 
 Each group uses Fumadocs root-folder metadata to appear in the sidebar switcher. Overview and chapter index pages use Fumadocs Cards. Edit the corresponding MDX page and its `meta.json` ordering to maintain the docs. The header links to Docs and GitHub; article sections use the table of contents.
 
