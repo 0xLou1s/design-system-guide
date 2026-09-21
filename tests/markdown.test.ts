@@ -9,7 +9,7 @@ title: Example
 ---
 
 <Cards>
-<Card title="Tokens &amp; themes" href="/docs/design-tokens" description="Reusable decisions." />
+<Card title="Tokens &amp; themes" href="/design-system-guide/design-tokens" description="Reusable decisions." />
 </Cards>
 
 \`\`\`mermaid
@@ -22,7 +22,7 @@ flowchart TD
 \`\`\`
 `);
     expect(result).not.toContain("title: Example");
-    expect(result).toContain("[Tokens & themes](/docs/design-tokens) — Reusable decisions.");
+    expect(result).toContain("[Tokens & themes](/design-system-guide/design-tokens) — Reusable decisions.");
     expect(result).toContain("```mermaid\nflowchart TD\n  A --> B\n```");
     expect(result).toContain('```tsx\n<Card title="An actual code example" />\n```');
     expect(result).not.toContain("<Cards>");

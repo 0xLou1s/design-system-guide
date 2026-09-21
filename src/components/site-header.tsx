@@ -90,7 +90,7 @@ function NavTitle() {
     return <Title className={className} href="/" />;
   }
   return (
-    <Link aria-label="Design System Guide home" className={className} href="/">
+    <Link aria-label="Handbook home" className={className} href="/">
       {navTitle}
     </Link>
   );
