@@ -1,0 +1,131 @@
+---
+title: "6.3 The Mental Model to Keep"
+description: Think in concepts, map vendors onto them, and know which questions to ask.
+---
+
+Product names change. Concepts do not. The most durable thing to take from this
+part of the handbook is a mental model that survives changing employers, clouds
+and frameworks.
+
+## Think in concepts, not products
+
+Instead of memorizing:
+
+```text
+CloudFront · ALB · ECS · Route53
+```
+
+hold the shape:
+
+```text
+DNS
+ ↓
+CDN
+ ↓
+Load Balancer
+ ↓
+Compute
+ ↓
+Storage
+```
+
+Then map vendors onto it as needed:
+
+| Concept | AWS | Cloudflare / Others |
+| --- | --- | --- |
+| DNS | Route 53 | Cloudflare DNS |
+| CDN | CloudFront | Cloudflare |
+| Compute | ECS / Lambda | Workers |
+| Object storage | S3 | R2 |
+| Load balancer | ALB | Cloudflare Load Balancing |
+| Logs | CloudWatch | Datadog, Grafana, others |
+
+This is what stops you becoming fluent in one platform's vocabulary and helpless
+outside it. Someone who knows "CloudFront" knows a product; someone who knows
+"CDN" can evaluate four of them and pick one.
+
+## The final path
+
+```mermaid
+flowchart LR
+    Browser --> HTTP
+    HTTP --> DNS
+    DNS --> TLS
+    TLS --> CDN
+    CDN --> Nginx
+    Nginx --> Docker
+    Docker --> CICD[CI/CD]
+    CICD --> AWS
+    AWS --> Observability
+    Observability --> Terraform
+    Terraform --> Kubernetes
+```
+
+## What this is for
+
+A strong frontend engineer does not need to operate all of this. But looking at
+a stack like:
+
+```text
+Browser
+  ↓
+CloudFront
+  ↓
+ALB
+  ↓
+ECS
+  ↓
+API Gateway
+  ↓
+Services
+```
+
+they should be able to say:
+
+- where requests go
+- where caching happens
+- where TLS terminates
+- where authentication is checked
+- where failures can occur
+- where logs should appear
+- what is frontend responsibility
+- what is backend responsibility
+- what is infrastructure responsibility
+
+Those last three are the ones that change how a team works. Most arguments about
+whose bug something is are really arguments about a boundary nobody has drawn.
+
+## Questions worth being able to answer
+
+A self-check, drawn from across these chapters:
+
+**Delivery.** Why is the site slow in Singapore but fast in Virginia? Why does a
+user still see old JavaScript after a deploy? Where would you set cache headers
+for a hashed bundle, and why `immutable`?
+
+**Routing.** A request returns 502. Which layers could have produced it? Why does
+the app think every request is HTTP when it is served over HTTPS?
+
+**Config.** Why does it work locally and fail in the container? Which of your
+environment variables are public, and how would you verify that?
+
+**Auth.** Why should the session token not be in `localStorage`? What does
+`SameSite=Lax` prevent, and what does it not?
+
+**Operations.** Checkout is slow for some users. What do you look at first?
+Which signal — logs, metrics, traces, errors — answers "how many users are
+affected"?
+
+If most of those have an answer, the model is working.
+
+## Where the line is
+
+You are not expected to run clusters, tune databases or design multi-region
+failover. Those are real specializations and other people do them full time.
+
+What is expected — and what this part of the handbook was for — is that
+infrastructure stops being *"the mysterious stuff DevOps handles"* and becomes
+part of your normal engineering mental model: a system you can reason about,
+debug across, and make informed decisions within.
+
+That shift is the whole point. Everything else is details you can look up.

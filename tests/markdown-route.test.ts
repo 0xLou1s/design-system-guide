@@ -1,9 +1,10 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from "vitest";
 
-const { getPage, getPerformancePage, cheatSheetPage } = vi.hoisted(() => ({
+const { getPage, getPerformancePage, getInfrastructurePage, cheatSheetPage } = vi.hoisted(() => ({
   getPage: vi.fn(),
   getPerformancePage: vi.fn(),
+  getInfrastructurePage: vi.fn(),
   cheatSheetPage: {
     title: "Interface Design Cheat Sheet",
     description: "Guidelines",
@@ -13,6 +14,7 @@ const { getPage, getPerformancePage, cheatSheetPage } = vi.hoisted(() => ({
 vi.mock("@/lib/source", () => ({
   source: { getPage },
   performanceSource: { getPage: getPerformancePage },
+  infrastructureSource: { getPage: getInfrastructurePage },
   cheatSheetPage,
 }));
 
@@ -42,6 +44,20 @@ describe("Markdown export", () => {
     expect(response.status).toBe(200);
     expect(await response.text()).toBe("# 3.4 Use WOFF2\n\nSmaller\n\nUse WOFF2");
     expect(getPerformancePage).toHaveBeenCalledWith(["woff2"]);
+  });
+
+  it("serves the infrastructure part from its own source", async () => {
+    const getText = vi.fn().mockResolvedValue("DNS maps names to addresses");
+    getInfrastructurePage.mockReturnValue({
+      data: { title: "1.3 DNS and Domains", description: "Names to addresses", getText },
+    });
+    const response = await call(["frontend-infrastructure", "dns"]);
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe(
+      "# 1.3 DNS and Domains\n\nNames to addresses\n\nDNS maps names to addresses",
+    );
+    expect(getInfrastructurePage).toHaveBeenCalledWith(["dns"]);
   });
 
   it("serves the single-page cheat sheet", async () => {

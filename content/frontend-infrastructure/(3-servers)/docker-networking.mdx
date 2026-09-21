@@ -1,0 +1,125 @@
+---
+title: "3.2 Docker Networking"
+description: Service names, Compose, and why the browser cannot use them.
+---
+
+Once you have more than one container, they need to talk to each other. Docker
+gives containers on the same network a DNS entry under their service name.
+
+```mermaid
+flowchart LR
+    A[Frontend Container]
+    B[Backend Container]
+    C[Postgres Container]
+
+    A -->|http://backend:4000| B
+    B -->|postgres:5432| C
+```
+
+No IP addresses, no port publishing between them. `backend` resolves to
+whichever container currently holds that role, which means containers can be
+restarted and replaced without anything being reconfigured.
+
+## Compose
+
+Docker Compose declares the whole local stack in one file and puts every service
+on a shared network automatically:
+
+```yaml
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      API_URL: http://backend:4000
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+Points worth noticing:
+
+Only `frontend` publishes a port. The others are reachable within the network
+but not from your machine — which is what you want, and also why you cannot
+connect a database GUI to `postgres` until you publish `5432` yourself.
+
+The `pgdata` volume is what stops your data disappearing on
+`docker compose down`. Containers are ephemeral; volumes are not.
+
+`depends_on` controls start *order*, not readiness. Postgres accepting
+connections takes a few seconds after the container starts, so the backend still
+needs to retry — this is the cause of the classic crash-on-first-boot that
+resolves itself after a restart.
+
+## Server-side vs browser URLs
+
+The most common Docker confusion in frontend work, and worth being very precise
+about.
+
+`http://backend:4000` works **inside the Docker network**. Your browser is not
+inside the Docker network. It has no idea what `backend` means, and will fail to
+resolve it.
+
+```text
+Server-side fetch (SSR, route handler)  →  http://backend:4000
+Browser fetch (client component)        →  http://localhost:4000
+                                           or /api via a proxy
+```
+
+A Next.js app hits this directly: the same `fetch` in a server component and a
+client component needs different hostnames. Hence the common pattern of two
+variables:
+
+```yaml
+environment:
+  API_URL: http://backend:4000              # server-side only
+  NEXT_PUBLIC_API_URL: http://localhost:4000 # sent to the browser
+```
+
+The cleaner fix is to avoid the split entirely by putting a
+[reverse proxy](/frontend-infrastructure/reverse-proxies) in front of both, so
+the browser only ever calls `/api` on the same origin — no second hostname, and
+no CORS.
+
+## Useful commands
+
+```bash
+docker compose up --build        # rebuild and start
+docker compose logs -f backend   # follow one service's logs
+docker compose exec backend sh   # shell inside a running container
+docker compose down -v           # stop and delete volumes
+```
+
+`exec ... sh` is the debugging tool that matters. When a container behaves
+unexpectedly, get a shell inside it and check what it actually sees:
+
+```bash
+env | grep API        # is the variable set?
+wget -qO- backend:4000/health   # can it reach the other service?
+```
+
+Nearly every "it works locally but not in Docker" problem answers to one of
+those two questions.
+
+<Callout>
+`docker compose down -v` deletes your volumes, and therefore your local database
+contents. Use plain `down` for stopping work; keep `-v` for when you actually
+want a clean slate.
+</Callout>

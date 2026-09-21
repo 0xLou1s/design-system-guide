@@ -1,11 +1,11 @@
 import { createSearchAPI } from "fumadocs-core/search/server";
 
-import { performanceSource, source } from "@/lib/source";
+import { infrastructureSource, performanceSource, source } from "@/lib/source";
 
 export const revalidate = false;
 
 /* Every handbook part is searchable from the one index the header search uses. */
-const indexes = [source, performanceSource].flatMap((loader) =>
+const indexes = [source, performanceSource, infrastructureSource].flatMap((loader) =>
   loader.getPages().map((page) => ({
     id: page.url,
     url: page.url,

@@ -1,0 +1,6 @@
+{
+  "title": "3. Servers",
+  "root": true,
+  "pages": ["docker", "docker-networking", "load-balancers", "api-gateways"],
+  "description": "Hosting a frontend without a platform"
+}

@@ -1,0 +1,94 @@
+---
+title: Frontend Infrastructure
+description: The infrastructure a frontend engineer actually needs, in the order it becomes useful.
+---
+
+You do not need to become a DevOps or SRE engineer. You do need to understand
+what happens between the browser and the database, because a surprising share of
+frontend bugs live in that gap — the stale asset that will not go away, the CORS
+error that only happens in staging, the login that works locally and fails
+behind the proxy, the deploy that succeeded but served the old build.
+
+None of those are fixable from inside the component tree. They are all fixable
+once you know which hop owns the behaviour.
+
+## The gap this fills
+
+A request crosses several systems before your code runs, and each one can change
+or break it:
+
+```text
+Browser
+  ↓
+DNS
+  ↓
+CDN
+  ↓
+Reverse Proxy / Load Balancer
+  ↓
+Frontend Server
+  ↓
+API
+  ↓
+Database / Services
+```
+
+The goal of this part of the handbook is that you can look at that list and say
+what every arrow means — where caching happens, where TLS terminates, where auth
+is checked, and which box to open first when something is wrong.
+
+## How this is ordered
+
+The chapters build on each other, and the order matters more than it looks.
+
+**[Chapter 1 — Fundamentals](/frontend-infrastructure/the-big-picture)** is the
+request lifecycle: networking, DNS, TLS. Cloud terminology is mostly
+incomprehensible without these, which is why so much infrastructure reading
+feels like memorizing product names.
+
+**[Chapter 2 — Delivery](/frontend-infrastructure/reverse-proxies)** covers how
+your built files reach a user: reverse proxies, CDNs, caching, and what a
+platform like Vercel is doing on your behalf.
+
+**[Chapter 3 — Servers](/frontend-infrastructure/docker)** is hosting it
+yourself — Docker, networking between containers, load balancers, API gateways.
+
+**[Chapter 4 — Pipeline](/frontend-infrastructure/ci-cd)** is everything around
+the running app: CI/CD, secrets, authentication, observability.
+
+**[Chapter 5 — Cloud](/frontend-infrastructure/cloud-fundamentals)** maps the
+concepts onto one provider, plus object storage, IAM and Terraform.
+
+**[Chapter 6 — Roadmap](/frontend-infrastructure/learning-order)** is the
+suggested learning order, a project to build, and the mental model worth keeping
+once the product names change.
+
+<Callout>
+Kubernetes is deliberately last. Starting there is the most common way to spend
+months on infrastructure and still not understand why a request 404s — it
+assumes every layer below it, and hides all of them.
+</Callout>
+
+## What to learn deeply, and what to leave conceptual
+
+Not everything here deserves equal depth. These affect frontend work constantly
+and are worth real fluency:
+
+```text
+HTTP · DNS · TLS · CORS · Cookies
+CDN · Caching · Browser networking
+Frontend deployment · Docker basics
+CI/CD · Authentication · Object storage · Observability
+```
+
+These are worth understanding conceptually — why they exist, what problem they
+solve — long before you learn to operate them:
+
+```text
+Kubernetes · Kafka · database replication
+service meshes · BGP · advanced Linux networking
+multi-region databases · complex Terraform modules
+```
+
+Knowing what a service mesh is for takes an afternoon. Running one is someone's
+full-time job. Do not confuse the two, in either direction.

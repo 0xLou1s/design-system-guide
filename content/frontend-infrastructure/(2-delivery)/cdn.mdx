@@ -1,0 +1,119 @@
+---
+title: "2.2 CDN"
+description: Moving bytes closer to users, and the invalidation problem that comes with it.
+---
+
+CDNs matter more to frontend engineers than to almost anyone else, because the
+assets a CDN serves are the ones you produce.
+
+The premise is geographic. A round trip from Vietnam to Virginia costs a couple
+of hundred milliseconds no matter how fast the server is, and
+[TLS setup needs several](/frontend-infrastructure/networking) before content
+moves.
+
+```mermaid
+flowchart LR
+    A[User in Vietnam]
+    B[Server in US]
+
+    A -->|Long network distance| B
+```
+
+A CDN puts a copy near the user:
+
+```mermaid
+flowchart LR
+    A[User in Vietnam]
+    B[Edge Server Singapore]
+    C[Origin Server US]
+
+    A --> B
+    B -->|Cache Miss| C
+```
+
+The first request to an edge location populates its cache; everyone nearby after
+that is served locally and the origin never hears about it.
+
+## Hit, miss, and why it matters
+
+Every CDN response is one of:
+
+```text
+HIT      served from the edge cache
+MISS     not cached; fetched from origin
+STALE    expired but served anyway while revalidating
+BYPASS   rules said do not cache this
+```
+
+Most CDNs expose this in a response header — `x-cache`, `cf-cache-status` or
+similar. When a "CDN-backed" site is slow, checking this header is the first
+thing to do: a cache that reports MISS on every request is not a cache, it is an
+extra hop.
+
+The usual causes of permanent MISS are a `Set-Cookie` on the response, a
+`Cache-Control: private` the framework added by default, or a query string the
+CDN treats as part of the cache key.
+
+## Cache the document, not just assets
+
+A common half-configuration: assets are cached, the HTML is not. Since the
+document is the request that blocks everything else, this leaves the slowest
+request uncached.
+
+If your HTML is static or near-static, cache it at the edge.
+`stale-while-revalidate` makes this safe for content that changes periodically —
+covered in [Caching](/frontend-infrastructure/caching).
+
+This is also the main lever on TTFB. No amount of frontend optimization improves
+a 600ms document response that crossed an ocean.
+
+## Invalidation
+
+The hard part of CDNs is not caching, it is un-caching. Two approaches, and one
+is much better:
+
+**Purge** — tell the CDN to drop an object. Works, but is asynchronous, rate
+limited, and leaves a window where some edges serve old content.
+
+**Content hashing** — never invalidate anything. Give every build's assets a new
+filename:
+
+```text
+app.81acdd2.js  →  app.ef2901.js
+```
+
+The URL changed, so there is nothing to invalidate. Cache the hashed assets
+forever and cache the HTML that references them briefly. Every modern bundler
+does this by default; the main thing is not to defeat it.
+
+## Edge compute
+
+Modern CDNs run code at the edge — Cloudflare Workers, Lambda@Edge, Vercel's
+Edge Runtime. Useful for A/B assignment, auth checks, redirects, geolocation and
+request rewriting, all without a round trip to origin.
+
+The constraint is that the runtime is not Node. No filesystem, no native
+modules, tight CPU limits, and a different set of available APIs. Code written
+for the edge has to be written for the edge.
+
+## Fewer origins, not more
+
+Splitting assets across several CDNs to "parallelize downloads" is an HTTP/1.1
+artifact and is now counterproductive. Each additional origin costs a DNS
+lookup, a TCP handshake and a TLS handshake. Under
+[HTTP/2](/frontend-infrastructure/networking) one connection carrying everything
+beats several carrying a little.
+
+The same reasoning argues for self-hosting fonts and scripts: one fewer origin
+in the critical path and no third-party availability risk. The old "shared CDN
+cache" benefit no longer exists — browsers partition their caches per site
+specifically to prevent cross-site tracking.
+
+If a third-party origin is genuinely required, warm it early and use it
+sparingly:
+
+```html
+<link rel="preconnect" href="https://cdn.example.com" crossorigin />
+```
+
+Two or three origins at most.
