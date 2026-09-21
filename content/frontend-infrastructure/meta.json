@@ -1,0 +1,11 @@
+{
+  "title": "Frontend Infrastructure",
+  "pages": [
+    "(1-fundamentals)",
+    "(2-delivery)",
+    "(3-servers)",
+    "(4-pipeline)",
+    "(5-cloud)",
+    "(6-roadmap)"
+  ]
+}

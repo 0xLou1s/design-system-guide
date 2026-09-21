@@ -1,0 +1,13 @@
+{
+  "title": "4. Pipeline",
+  "root": true,
+  "pages": [
+    "ci-cd",
+    "environment-variables-and-secrets",
+    "authentication",
+    "cookies-vs-tokens",
+    "observability",
+    "distributed-tracing"
+  ],
+  "description": "Automation, auth and production visibility"
+}

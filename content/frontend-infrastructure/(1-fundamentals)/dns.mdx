@@ -1,0 +1,152 @@
+---
+title: "1.3 DNS and Domains"
+description: The highest-leverage infrastructure topic for a frontend engineer.
+---
+
+DNS is probably the most immediately useful infrastructure topic on this list.
+Frontend engineers are handed custom domains, staging subdomains and "the
+certificate is not working" tickets constantly, and all of them are DNS
+problems wearing different hats.
+
+The model is simple: DNS maps names to addresses, and the answers are cached
+aggressively at every level.
+
+## Who owns what
+
+Three roles that are easy to confuse, especially when one company plays all
+three:
+
+**Registrar** — who you bought the domain from, and who bills you for it
+(Namecheap, Cloudflare, GoDaddy).
+
+**Nameservers** — the servers that hold the authoritative answers for your
+domain. The registrar points at these. Changing nameservers moves the entire
+zone.
+
+**DNS provider** — who runs those nameservers and where you actually edit
+records (Cloudflare, Route 53, Vercel).
+
+When records seem to have no effect, the usual cause is editing them at a
+provider your nameservers no longer point to. Check the nameservers first:
+
+```bash
+dig +short NS example.com
+```
+
+## Record types
+
+```text
+A       name → IPv4 address
+AAAA    name → IPv6 address
+CNAME   name → another name
+TXT     arbitrary text; domain verification, SPF
+MX      where mail for this domain goes
+NS      which nameservers are authoritative
+```
+
+`A` and `CNAME` are the two you will use weekly. `TXT` shows up whenever a
+platform asks you to prove you own the domain.
+
+## Pointing a subdomain at a platform
+
+You own `example.com` and want `app.example.com` served by Vercel:
+
+```mermaid
+flowchart LR
+    A[app.example.com]
+    B[CNAME Record]
+    C[cname.vercel-dns.com]
+    D[Vercel Infrastructure]
+
+    A --> B
+    B --> C
+    C --> D
+```
+
+The record:
+
+```text
+Type: CNAME
+Name: app
+Value: cname.vercel-dns.com
+```
+
+The indirection is the point. The platform can change IPs, add edge locations or
+move regions, and your record keeps working because it names a name rather than
+an address.
+
+## Why the apex domain is different
+
+`example.com` with no subdomain is the *apex* (or root, or zone apex). The DNS
+spec does not allow a CNAME at the apex — it must coexist with the `NS` and `SOA`
+records that live there, and CNAME cannot coexist with anything.
+
+This is why `www.example.com` often works while `example.com` does not. The
+`www` subdomain can be a CNAME; the apex cannot.
+
+Providers work around it with non-standard record types that behave like a CNAME
+but resolve to an address at query time:
+
+```text
+ALIAS      (DNSimple and others)
+ANAME      (some providers)
+CNAME flattening  (Cloudflare)
+```
+
+If your provider supports none of these, the apex needs an `A` record with a real
+IP address — which means you are responsible for updating it if the platform's
+IP changes.
+
+## TTL and propagation
+
+Every record carries a TTL — how many seconds resolvers may cache the answer.
+
+```text
+TTL 3600   cached for an hour
+TTL 300    cached for five minutes
+```
+
+"DNS propagation" is a slightly misleading phrase. Nothing is being pushed
+anywhere; you are waiting for previously cached answers to expire. A record with
+a 24-hour TTL can take a day to stop being served from someone's cache, no
+matter how fast you edited it.
+
+<Callout>
+Before a planned migration, lower the TTL to 300 and wait for the *old* TTL to
+elapse. Then the cutover itself takes minutes instead of a day. Raise it again
+afterwards — low TTLs mean more lookups.
+</Callout>
+
+## Wildcards
+
+A wildcard record matches any subdomain that has no record of its own:
+
+```text
+*.example.com
+```
+
+matches:
+
+```text
+app.example.com
+api.example.com
+merchant.example.com
+```
+
+Useful for multi-tenant products where each customer gets a subdomain and you
+cannot create records in advance. Note that a wildcard TLS certificate is a
+separate thing you also need — see
+[HTTPS and TLS](/frontend-infrastructure/https-and-tls).
+
+## Check yourself
+
+You should be able to answer these without looking:
+
+- Why does `www.example.com` work but `example.com` does not?
+- Why can't every record be a CNAME?
+- Why does a DNS change sometimes take a day?
+- What actually happens when you add a custom domain to a hosting platform?
+- What does a wildcard domain match, and what does it not?
+
+The last one has a trap: `*.example.com` does not match `example.com` itself,
+and does not match `a.b.example.com` on most providers.

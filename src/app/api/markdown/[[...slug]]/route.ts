@@ -1,10 +1,11 @@
 import { exportMarkdown } from "@/lib/markdown";
-import { cheatSheetPage, performanceSource, source } from "@/lib/source";
+import { cheatSheetPage, infrastructureSource, performanceSource, source } from "@/lib/source";
 
 /* The first segment names the handbook part; the rest is that part's own slug. */
 const sources = {
   "design-system-guide": source,
   "frontend-performance": performanceSource,
+  "frontend-infrastructure": infrastructureSource,
 } as const;
 
 function isPart(value: string): value is keyof typeof sources {

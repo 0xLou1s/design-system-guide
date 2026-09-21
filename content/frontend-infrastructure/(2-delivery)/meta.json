@@ -1,0 +1,6 @@
+{
+  "title": "2. Delivery",
+  "root": true,
+  "pages": ["reverse-proxies", "cdn", "caching", "deployment"],
+  "description": "How frontend code reaches users"
+}

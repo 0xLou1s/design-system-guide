@@ -51,6 +51,19 @@ export const frontendPerformance = defineDocs({
   },
 });
 
+export const frontendInfrastructure = defineDocs({
+  dir: "content/frontend-infrastructure",
+  docs: {
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+    schema: pageSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 export default defineConfig({
   mdxOptions: {
     remarkPlugins: [remarkMdxMermaid],

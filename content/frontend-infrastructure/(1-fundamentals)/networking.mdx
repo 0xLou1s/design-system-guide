@@ -1,0 +1,116 @@
+---
+title: "1.2 Web and Networking"
+description: The layer everything else is built on — learn it first or the rest stays mysterious.
+---
+
+Learn this before anything else. Without it, infrastructure reads as a list of
+cloud product names with no relationship to each other.
+
+The good news is that the useful subset is small. You do not need to implement
+TCP; you need to know what it guarantees and what it costs.
+
+## The pieces
+
+**Addressing** — an IP address identifies a machine, a port identifies a program
+on it. `app.example.com:443` means "the program listening on port 443 of
+whichever machine that name resolves to." Port 80 is HTTP, 443 is HTTPS, and
+your dev server on 3000 is the same idea with a less famous number.
+
+**TCP** gives you an ordered, reliable byte stream, paid for with a handshake
+before any data moves. **UDP** gives you neither and charges nothing. Almost all
+web traffic was TCP until HTTP/3 moved to UDP and rebuilt reliability on top.
+
+**HTTP** is a request/response protocol on top of that: a method, a path,
+headers, and an optional body, answered by a status code, headers, and an
+optional body. Everything about the web is a variation on this.
+
+## The round trip is the cost
+
+The single most useful networking intuition for a frontend engineer: latency is
+dominated by round trips, not bandwidth.
+
+```text
+Sydney → Virginia, one round trip ≈ 200ms
+TCP handshake        1 round trip
+TLS handshake        1–2 round trips
+HTTP request         1 round trip
+```
+
+That is roughly 600–800ms before a single byte of HTML arrives, on a connection
+advertised as "fast". Bandwidth improves every year; the speed of light does
+not. This is why [CDNs](/frontend-infrastructure/cdn) matter, why connection
+reuse matters, and why reducing the *number* of sequential requests usually beats
+reducing their size.
+
+## Protocol versions
+
+The version in use changes which optimizations are correct, which is why so much
+performance advice from 2014 is now actively harmful.
+
+**HTTP/1.1** allows one in-flight request per connection. Browsers opened ~6
+connections per origin to compensate, which is where "concatenate everything"
+and "shard across subdomains" came from.
+
+**HTTP/2** multiplexes many requests over one connection. Those two workarounds
+became counterproductive: extra origins now cost handshakes, and giant bundles
+hurt caching without buying parallelism.
+
+**HTTP/3** runs on QUIC over UDP, which removes head-of-line blocking at the
+transport layer and makes connection setup cheaper — noticeable on lossy mobile
+networks.
+
+<Callout>
+Check which version you are actually serving before optimizing for one. The
+Network panel in Chrome DevTools has a **Protocol** column, off by default —
+right-click the column headers to enable it.
+</Callout>
+
+## Headers worth knowing by name
+
+Headers are where most of the frontend-visible infrastructure behaviour lives:
+
+```text
+Cache-Control      how long, and who may cache this
+Content-Type       how to interpret the body
+Content-Encoding   how it was compressed
+Set-Cookie         state the browser will send back
+Authorization      credentials the client attaches
+Access-Control-*   the CORS answer
+X-Forwarded-For    the original client IP, added by proxies
+```
+
+You will meet every one of these again in a later chapter.
+
+## Cookies and CORS
+
+Two browser behaviours that constantly surface as "backend problems" in frontend
+tickets.
+
+**Cookies** are attached automatically by the browser to requests matching their
+domain and path. That automatic attachment is what makes sessions convenient and
+what makes CSRF possible. Covered in
+[Cookies vs Tokens](/frontend-infrastructure/cookies-vs-tokens).
+
+**CORS** is the browser refusing to let JavaScript read a cross-origin response
+unless the server opts in with `Access-Control-Allow-*` headers. Two things are
+worth internalizing now:
+
+- CORS is enforced by the *browser*, not the server. The request often reaches
+  the server and succeeds; the browser then refuses to hand you the response.
+- It cannot be fixed from frontend code. Either the server sends the headers, or
+  a [proxy](/frontend-infrastructure/reverse-proxies) puts both on the same
+  origin so it is no longer cross-origin.
+
+A "CORS error" in the console is nearly always a message about a server you now
+need to go configure.
+
+## WebSockets
+
+HTTP is request/response, so the server cannot initiate. WebSockets upgrade an
+HTTP connection into a persistent bidirectional one for chat, live updates and
+collaborative editing.
+
+The infrastructure consequence shows up later: every proxy and load balancer in
+the path must be configured to pass the upgrade through, and persistent
+connections interact badly with naive load balancing. Both are covered in
+[Load Balancers](/frontend-infrastructure/load-balancers).

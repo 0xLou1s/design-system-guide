@@ -1,0 +1,12 @@
+{
+  "title": "5. Cloud",
+  "root": true,
+  "pages": [
+    "cloud-fundamentals",
+    "object-storage",
+    "iam",
+    "infrastructure-as-code",
+    "kubernetes"
+  ],
+  "description": "How production systems are assembled"
+}
