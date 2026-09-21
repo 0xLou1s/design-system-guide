@@ -1,0 +1,52 @@
+---
+title: "1.16 Non-blocking JavaScript"
+description: A plain script tag stops the parser dead.
+---
+
+> Non Blocking JavaScript: Use async / defer
+
+When the HTML parser reaches a `<script>` without `async` or `defer`, it stops.
+It fetches the script, executes it, and only then continues. A script in the
+`<head>` therefore blocks everything, including first paint.
+
+```html
+<!-- Blocks parsing while it fetches and runs. -->
+<script src="/app.js"></script>
+
+<!-- Fetches in parallel, runs after parsing, in document order. -->
+<script src="/app.js" defer></script>
+
+<!-- Fetches in parallel, runs as soon as it arrives, order not guaranteed. -->
+<script src="/analytics.js" async></script>
+```
+
+**`defer` is the default you want.** Scripts download in parallel, execute in
+order after parsing, and never block rendering.
+
+**`async` is for independent scripts** with no dependency on your code or each
+other — analytics being the classic case. Execution order is whatever finishes
+first, so anything with dependencies breaks intermittently.
+
+**`type="module"` is deferred automatically.** No `defer` needed.
+
+## It does not fix the main thread
+
+`defer` stops JavaScript blocking the *parser*. It does not stop it blocking the
+*main thread* once it runs.
+
+A deferred 500kB bundle still has to be parsed, compiled and executed, and on a
+mid-range phone that is seconds of unresponsive page. No loading attribute fixes
+that — see [JavaScript performance](/frontend-performance/javascript-performance).
+
+The structural fixes are route-based code splitting and deferring non-essential
+work:
+
+```js
+// Load the editor only when someone needs it.
+button.addEventListener("click", async () => {
+  const { Editor } = await import("./editor.js");
+  new Editor(el);
+});
+```
+
+- [Efficiently load third-party JavaScript](https://web.dev/articles/efficiently-load-third-party-javascript)

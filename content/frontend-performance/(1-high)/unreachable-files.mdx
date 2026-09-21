@@ -1,0 +1,35 @@
+---
+title: "1.7 Unreachable files"
+description: A 404 costs the full round trip and returns nothing.
+---
+
+> Avoid requesting unreachable files (404)
+
+A failed request is not free. The browser still resolves DNS, opens the
+connection, sends headers and waits for a response — then gets nothing useful.
+On a slow connection that is a wasted round trip in the critical path.
+
+They accumulate quietly: a renamed icon, a stale analytics script, a font path
+that changed during a redesign, a source map referenced in production. Nobody
+notices because the page still works.
+
+## Find them
+
+The Network panel, filtered by status. Red rows are 404s. Do this occasionally
+on the pages that matter — it takes a minute.
+
+For continuous checking, a link checker in CI catches broken internal references
+before they ship.
+
+## Also worth fixing
+
+**Missing favicons.** Browsers request `/favicon.ico` whether you reference it or
+not. If it 404s, that is a wasted request on every first visit.
+
+**Referenced-but-absent source maps.** A `//# sourceMappingURL` comment pointing
+at a file you did not deploy makes DevTools request it on every open.
+
+Beyond performance, 404s from your own pages let search engines crawl dead URLs
+and waste crawl budget.
+
+- [404 — MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/404)

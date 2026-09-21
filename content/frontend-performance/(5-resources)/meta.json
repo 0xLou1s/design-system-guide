@@ -1,0 +1,11 @@
+{
+  "title": "5. More Resources",
+  "root": true,
+  "pages": [
+    "more-resources",
+    "framework-guides",
+    "recommended-guides"
+  ],
+  "description": "Where to go deeper",
+  "pagesIndex": "more-resources"
+}

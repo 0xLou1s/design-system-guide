@@ -1,0 +1,39 @@
+---
+title: "1.9 Use HTTPS"
+description: A prerequisite for the platform, not just for security.
+---
+
+> Use HTTPs on your website
+
+HTTPS is not only for sites handling payments. Modern browsers gate capabilities
+behind it — [service workers](/frontend-performance/service-workers),
+geolocation, push notifications, the clipboard API, and HTTP/2 itself.
+
+An insecure site is a slower site with fewer features.
+
+## The performance argument
+
+The TLS handshake does cost round trips. But HTTP/2 requires HTTPS in every
+browser implementation, and HTTP/2's multiplexing more than compensates. **HTTPS
+with HTTP/2 is faster in practice than HTTP/1.1 without it.**
+
+Session resumption and TLS 1.3 have cut handshake cost further — 1.3 completes
+in one round trip, and zero for a resumed session.
+
+## Getting it
+
+Certificates are free from [Let's Encrypt](https://letsencrypt.org/), and most
+hosting platforms provision and renew them automatically. This has not been a
+meaningful cost or effort barrier for years.
+
+Once enabled:
+
+- Redirect HTTP to HTTPS, permanently.
+- Add HSTS so browsers skip the insecure request entirely on return visits.
+- Fix any [mixed content](/frontend-performance/same-protocol).
+
+```http
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+```
+
+- [Why use HTTPS?](https://www.cloudflare.com/learning/security/why-use-https/)

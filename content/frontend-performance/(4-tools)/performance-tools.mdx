@@ -1,0 +1,37 @@
+---
+title: "4. Performance Tools"
+description: What to run, and what each one actually tells you.
+---
+
+These overlap, but each is best at one job.
+
+**Start with [PageSpeed Insights](/frontend-performance/pagespeed-insights)** for
+an unfamiliar page — it gives you lab and field data side by side.
+
+**Use [WebPageTest](/frontend-performance/webpagetest)** when you know the page
+is slow and need to know why.
+
+**Do the work in [DevTools](/frontend-performance/chrome-devtools).**
+
+## Lab and field data
+
+Worth understanding before reading any tool's output.
+
+**Lab data** comes from a synthetic test: one machine, one network profile, one
+run. Reproducible, so it is good for catching regressions.
+
+**Field data** comes from real users on real devices. Noisy and slow to update,
+but it is the truth.
+
+Trust field data when the two disagree. A page that scores 98 in Lighthouse and
+p75 of four seconds in the field is a slow page.
+
+## Test on a real device
+
+The most misleading thing you can do is test on your development machine. A
+recent laptop on office wifi is nothing like a three-year-old Android phone on a
+congested network, and the gap is widest exactly where it hurts — JavaScript
+parse and execute time.
+
+Throttle deliberately: 4–6× CPU slowdown approximates a mid-range phone, and
+"Slow 4G" is a reasonable network default.

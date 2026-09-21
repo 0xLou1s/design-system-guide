@@ -1,0 +1,49 @@
+---
+title: "1.13 Avoid inline CSS"
+description: Style attributes in the body, and why they cost you.
+---
+
+> Avoid the embedded / inline CSS
+
+This means `style="..."` attributes and `<style>` blocks scattered through the
+`<body>` — not the deliberate
+[critical CSS](/frontend-performance/critical-css) block in the `<head>`, which
+is the one legitimate case.
+
+## Why it costs
+
+**It cannot be cached.** An external stylesheet is downloaded once and reused
+across every page. Inline styles are re-sent with every HTML response, so you
+pay for them on every navigation.
+
+**It bloats the document.** The HTML is in the critical path — it is the first
+thing downloaded and the thing everything else waits on. Padding it with style
+declarations delays everything.
+
+**It does not compress as well** as a dedicated stylesheet, where repeated
+declarations sit together.
+
+**A `<style>` block mid-body can trigger a re-render** as the parser hits new
+rules after content is already laid out.
+
+## The maintenance argument
+
+Inline styles have the highest specificity short of `!important`, so they cannot
+be overridden from a stylesheet. Every one is a small exception to your design
+system that someone will eventually fight.
+
+## Where it is fine
+
+- **Dynamic values** — a progress bar width, a computed transform. These cannot
+  live in a stylesheet.
+- **Email HTML**, where external CSS is unsupported.
+- **The critical CSS block**, as above.
+
+For dynamic values, prefer setting a custom property rather than a full
+declaration:
+
+```html
+<div class="progress" style="--value: 72%"></div>
+```
+
+The styling stays in CSS; only the number is inline.

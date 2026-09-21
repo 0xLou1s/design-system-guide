@@ -1,0 +1,51 @@
+---
+title: "2.4 Set image dimensions"
+description: Always set width and height, or the page will jump.
+---
+
+> Set width and height attributes on images (aspect ratio)
+
+Without dimensions, the browser does not know how much space an image needs
+until it downloads it. So it reserves none, lays out the page, and reflows
+everything below once the image arrives.
+
+That reflow is **Cumulative Layout Shift**, and it is the most irritating kind:
+you start reading, and the paragraph jumps out from under you.
+
+```html
+<img src="/photo.jpg" alt="" width="800" height="600" />
+```
+
+These are the image's intrinsic dimensions, not its display size. CSS still
+controls rendering:
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+Modern browsers compute `aspect-ratio` from the two attributes and reserve
+exactly the right space before the file arrives. This is why the old advice to
+omit them in responsive layouts is now wrong — with `height: auto` they cost
+nothing and prevent the shift.
+
+## Everything else that loads late
+
+The same reasoning applies beyond images. Anything arriving after first paint
+should have its space reserved:
+
+- **Embeds and iframes** — set dimensions or wrap in an `aspect-ratio` box.
+- **Ads** — reserve the slot, even if it renders empty.
+- **Dynamic content** — a skeleton the same size as the real thing.
+- **Fonts** — see [flash of invisible text](/frontend-performance/flash-text).
+
+```css
+.video-embed {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+```
+
+- [Optimize CLS](https://web.dev/articles/optimize-cls)

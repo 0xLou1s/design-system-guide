@@ -1,0 +1,46 @@
+---
+title: "1.11 Non-blocking CSS"
+description: Why the browser refuses to paint until stylesheets arrive.
+---
+
+> CSS files are non-blocking
+
+The browser will not paint until it has the CSS. This is deliberate: painting
+unstyled content and then restyling would produce a flash of unstyled text,
+which is worse than a brief delay.
+
+The consequence is that **every stylesheet in `<head>` delays first paint by at
+least one round trip**. On a slow connection that is the difference between a
+page appearing in 800ms and in 3 seconds.
+
+## Split by media
+
+A stylesheet whose `media` does not match the current context downloads at lower
+priority and does not block rendering:
+
+```html
+<link rel="stylesheet" href="/main.css" />
+<link rel="stylesheet" href="/print.css" media="print" />
+```
+
+## The preload pattern
+
+To load a stylesheet without blocking, request it as a preload and promote it
+once it arrives:
+
+```html
+<link rel="preload" href="/non-critical.css" as="style" onload="this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="/non-critical.css" /></noscript>
+```
+
+The `noscript` fallback matters — without it, users without JavaScript get no
+styles at all.
+
+Use this for genuinely below-the-fold styles. Applying it to your main
+stylesheet just reintroduces the flash of unstyled content that render-blocking
+exists to prevent.
+
+The companion technique is [critical CSS](/frontend-performance/critical-css):
+inline what the first screen needs, defer the rest.
+
+- [Preloading content with rel="preload"](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload)

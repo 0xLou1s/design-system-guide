@@ -1,0 +1,44 @@
+---
+title: "2.13 Cookie count"
+description: Under 20 per domain, well below what browsers allow.
+---
+
+> Keep the cookie count less than 20
+
+The companion to [cookie size](/frontend-performance/cookie-size). Browsers allow
+around 180 cookies per domain; staying under 20 keeps total header weight
+reasonable, since all of them are sent on every matching request.
+
+High counts are almost always accumulation rather than design: an analytics tool
+setting six, a consent manager setting four, an A/B framework setting three, and
+several from features removed two years ago.
+
+## Audit them
+
+DevTools → Application → Cookies lists every one with its size, domain and
+expiry. Sort by size and ask of each: what sets this, and does anything still
+read it?
+
+Expect to find orphans. Cookies outlive the code that created them, because
+nothing fails when they are left behind.
+
+## Reduce the count
+
+**Consolidate.** Several related flags can be one cookie with a compact encoded
+value rather than six separate ones.
+
+**Move what does not need to be sent.** If the server never reads it, it should
+be in `localStorage`. The only reason to use a cookie is server-side access.
+
+**Audit third parties.** Analytics and tag managers are the usual source. Each
+tool you add sets its own, and they are rarely removed when the tool is.
+
+## Serve assets from a cookieless origin
+
+A separate domain for static assets means those requests carry no cookies at all.
+This is the one piece of old domain-sharding advice that still holds — but the
+benefit is real only if your cookies are large, and it costs an extra
+[connection setup](/frontend-performance/cdn).
+
+Fix the size and count first. If they are small, this is not worth the
+complexity.

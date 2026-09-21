@@ -1,0 +1,52 @@
+---
+title: "1.14 Stylesheet complexity"
+description: Selector cost is mostly a myth; size and specificity are real.
+---
+
+> Analyse stylesheets complexity
+
+There is a long-standing belief that selector performance matters — that
+descendant selectors are slow, that ID selectors are meaningfully faster than
+classes.
+
+On any browser from the last decade, **this is almost never measurable**. Style
+recalculation is rarely the bottleneck, and browsers optimize selector matching
+aggressively. Writing worse-structured CSS to chase it is a bad trade.
+
+## What actually costs you
+
+**Stylesheet size.** See [unused CSS](/frontend-performance/unused-css). This is
+the one that matters.
+
+**Specificity wars.** Not a runtime cost, a maintenance one — but it becomes a
+performance problem indirectly. When every override needs a more specific
+selector, the stylesheet only grows, and nobody dares delete anything.
+
+**Layout thrashing.** Reading a layout property right after writing one forces a
+synchronous reflow. In a loop this is genuinely slow — and it is JavaScript's
+fault, not CSS's:
+
+```js
+// Forces a reflow every iteration.
+for (const el of items) {
+  el.style.height = `${el.offsetHeight * 2}px`;
+}
+
+// Read all, then write all.
+const heights = items.map((el) => el.offsetHeight);
+items.forEach((el, i) => { el.style.height = `${heights[i] * 2}px`; });
+```
+
+**Animating expensive properties.** `width`, `height`, `top` and `left` cost a
+reflow per frame. Animate `transform` and `opacity`, which the compositor
+handles without touching layout.
+
+## Track it as a trend
+
+Stylesheet statistics are useful as a direction rather than a score. A steadily
+climbing rule count or specificity graph says the CSS is accumulating rather
+than being maintained.
+
+- [CSS Stats](https://cssstats.com/)
+- [Project Wallace](https://www.projectwallace.com/) — the same, over time
+- [Avoid layout thrashing](https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing)

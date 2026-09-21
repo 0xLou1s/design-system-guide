@@ -1,0 +1,51 @@
+---
+title: "1.15 Minify JavaScript"
+description: Rename, strip, and drop what never runs.
+---
+
+> Minify your JavaScript
+
+Minification removes whitespace and comments, shortens local variable names, and
+drops unreachable code. The saving is larger than on CSS or HTML — commonly
+30–40% before compression — because identifier names are so repetitive.
+
+Every modern bundler does this in production by default. If you use Vite,
+Next.js, Rollup or webpack in production mode, it is already on.
+
+```js
+// vite.config.js — the default; shown to make the knob visible.
+export default {
+  build: { minify: "esbuild" },
+};
+```
+
+[esbuild](https://esbuild.github.io/) is much faster;
+[terser](https://github.com/terser/terser) squeezes slightly harder.
+
+## Tree shaking
+
+Related, and more valuable. Tree shaking drops exports nothing imports — but
+only on ES modules, since CommonJS is too dynamic to analyse statically.
+
+```js
+// May include the whole library.
+import _ from "lodash";
+
+// Only what you use, if the package ships ES modules.
+import debounce from "lodash-es/debounce";
+```
+
+Two things break it: packages shipping only CommonJS, and side effects. A module
+that does something at import time cannot safely be removed — which is what
+`"sideEffects": false` in `package.json` declares.
+
+## Source maps
+
+Ship them, but do not serve them to everyone. Upload them to your error tracker
+and keep them out of the public bundle, or serve them only to authenticated
+users.
+
+## Never commit minified code
+
+Keep the original in version control. Minified vendor files checked into a repo
+are common and unmaintainable.

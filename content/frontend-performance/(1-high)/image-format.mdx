@@ -1,0 +1,49 @@
+---
+title: "1.18 Choose the image format"
+description: Pick by content type, and prefer the modern codecs.
+---
+
+> Choose your image format appropriately
+
+Format choice is the biggest single lever on image weight.
+
+| Format | Use for | Notes |
+| --- | --- | --- |
+| **AVIF** | Photographs | Smallest; ~50% under JPEG. Slower to encode |
+| **WebP** | Photographs, anything | ~30% under JPEG. Universal support |
+| **SVG** | Icons, logos, diagrams | Vector: scales perfectly, often tiny |
+| **PNG** | Lossless needs, screenshots | Large for photos |
+| **JPEG** | Fallback for photographs | Universally supported |
+
+**Default to AVIF with a WebP fallback and JPEG last.** `<picture>` lets the
+browser take the first format it understands:
+
+```html
+<picture>
+  <source srcset="/hero.avif" type="image/avif" />
+  <source srcset="/hero.webp" type="image/webp" />
+  <img src="/hero.jpg" alt="" width="1200" height="600" />
+</picture>
+```
+
+Most image CDNs and framework components negotiate this automatically from the
+`Accept` header, which is less markup and less to maintain.
+
+## GIF is obsolete
+
+For animation, an MP4 or WebM of the same clip is routinely 10× smaller:
+
+```html
+<video autoplay muted loop playsinline src="/clip.mp4"></video>
+```
+
+## PNG versus JPEG
+
+PNG is lossless — right for screenshots, diagrams and anything with sharp edges
+or transparency. It is the wrong choice for photographs, where it can be several
+times larger than a JPEG nobody could distinguish.
+
+Use [Lighthouse](/frontend-performance/lighthouse) to find images that would
+benefit from a modern format.
+
+- [Serve images in modern formats](https://developer.chrome.com/docs/lighthouse/performance/uses-webp-images)

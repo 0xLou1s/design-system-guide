@@ -1,0 +1,33 @@
+---
+title: "1.10 Minify CSS"
+description: Free bytes from a build step you configure once.
+---
+
+> Minified CSS - Remove comments, whitespaces etc
+
+Minifying CSS removes comments, whitespace and redundant syntax, and can merge
+duplicate rules. Typical saving is 10–25% before compression.
+
+Because [Brotli and gzip](/frontend-performance/compression) already compress
+repeated text well, the saving *after* compression is smaller — but it is real,
+and it costs nothing to keep on.
+
+```js
+// postcss.config.js
+export default {
+  plugins: {
+    cssnano: process.env.NODE_ENV === "production" ? {} : false,
+  },
+};
+```
+
+[cssnano](https://cssnano.github.io/cssnano/) and
+[Lightning CSS](https://lightningcss.dev/) are the common choices. Most build
+tools include one already — Vite minifies CSS in production by default, so check
+before adding anything.
+
+## Never by hand
+
+Minified CSS is build output, not source. Keep the readable version in version
+control and let the pipeline produce the compressed one. A minified stylesheet
+committed to a repo is unmaintainable.

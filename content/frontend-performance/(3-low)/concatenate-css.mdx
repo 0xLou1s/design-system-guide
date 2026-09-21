@@ -1,0 +1,44 @@
+---
+title: "3.2 Concatenate CSS"
+description: Essential under HTTP/1.1; now a trade-off that often goes the other way.
+---
+
+> Concatenate CSS into a single file (Not always valid for HTTP/2)
+
+The original already hedged this, and the hedge has only grown.
+
+Under **HTTP/1.1**, each stylesheet was a serialized request competing for about
+six connections. Combining them into one file was a clear win, and this was
+standard advice for a decade.
+
+Under **HTTP/2**, requests multiplex over one connection, so the cost of a second
+stylesheet is much smaller — and one big file has a real disadvantage:
+
+**Caching granularity.** Change one rule in a combined file and the whole thing
+is invalidated. Every returning visitor re-downloads all of it. Split into a
+stable vendor layer and a volatile application layer, and a change to yours
+leaves theirs cached.
+
+## What to do instead
+
+Split along lines that **change at different rates**, not arbitrarily:
+
+- Framework or design-system CSS that changes on version bumps.
+- Application CSS that changes every deploy.
+
+Two or three files is a reasonable target. Twenty is too many — connection
+multiplexing is cheap, not free, and each file still costs a cache lookup and
+header round trip.
+
+## When concatenation still wins
+
+- You still serve HTTP/1.1 to a meaningful share of users. Check your analytics
+  and the Protocol column in the Network panel.
+- Your stylesheets are tiny, where per-file overhead dominates the content.
+- You are already inlining [critical CSS](/frontend-performance/critical-css)
+  and the rest is one deferred file anyway.
+
+Check what you negotiate before optimizing around it. If the Protocol column
+says `h2` or `h3`, this item is mostly historical.
+
+- [Performance best practices in the HTTP/2 era](https://deliciousbrains.com/performance-best-practices-http2/)

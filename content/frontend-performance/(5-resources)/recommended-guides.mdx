@@ -1,0 +1,56 @@
+---
+title: "5.2 Recommended reading"
+description: The critical rendering path, and what is worth the time.
+---
+
+> Recommended Talks / Guides
+
+## Start here: the critical rendering path
+
+If you read one thing, read this. Everything in this handbook is a consequence of
+how the browser turns bytes into pixels:
+
+1. HTML arrives and is parsed into the DOM.
+2. CSS arrives and is parsed into the CSSOM. **Rendering is blocked until this
+   completes** — see
+   [non-blocking CSS](/frontend-performance/non-blocking-css).
+3. A synchronous script **blocks parsing** and must wait for the CSSOM — see
+   [non-blocking JavaScript](/frontend-performance/non-blocking-javascript).
+4. DOM and CSSOM combine into the render tree.
+5. Layout computes geometry, then paint fills in pixels.
+
+Once that sequence is clear, most performance advice stops being a list of rules
+and becomes obvious.
+
+- [Critical rendering path — MDN](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path)
+- [How browsers work](https://web.dev/articles/howbrowserswork)
+
+## Books
+
+- **[High Performance Browser Networking](https://hpbn.co/)** by Ilya Grigorik.
+  Free online, and the definitive explanation of what happens below HTTP — TCP,
+  TLS, HTTP/2, and why round trips dominate everything.
+- **[Web Performance in Action](https://www.manning.com/books/web-performance-in-action)**
+  by Jeremy Wagner.
+
+## Ongoing
+
+- **[web.dev/performance](https://web.dev/explore/fast)** — Google's guidance,
+  kept current. The Core Web Vitals documentation lives here.
+- **[Smashing Magazine's performance checklist](https://www.smashingmagazine.com/2021/01/front-end-performance-2021-free-pdf-checklist/)**
+  — Vitaly Friedman's annual survey, exhaustive and updated yearly.
+- **[Chrome developers blog](https://developer.chrome.com/blog)** — where new
+  platform capabilities land first.
+
+## On the original source
+
+This part of the handbook is derived from the
+[roadmap.sh Frontend Performance best practices](https://roadmap.sh/frontend-performance-best-practices),
+which draws on the
+[Front-End Checklist](https://github.com/thedaviddias/Front-End-Checklist) by
+David Dias.
+
+Both are worth reading in their original form. Both also predate HTTP/2 becoming
+universal, which is why several items here carry a qualification the original
+does not — see [HTTP requests](/frontend-performance/http-requests) and
+[CSS concatenation](/frontend-performance/concatenate-css) in particular.

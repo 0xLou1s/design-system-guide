@@ -1,0 +1,18 @@
+---
+title: "3. Low Priority"
+description: Narrower wins, and the items whose priority has shifted most.
+---
+
+Lower priority in the original checklist — but "low" here means *narrower in
+scope*, not *unimportant*. Two things are worth saying about this chapter.
+
+**The font items are underrated.** [WOFF2](/frontend-performance/woff2),
+[font size](/frontend-performance/web-font-size) and
+[flash of invisible text](/frontend-performance/flash-text) sit in low priority,
+but fonts are render-blocking by nature and a mistake here is visible on every
+page load. On a text-heavy site these belong higher.
+
+**One item has aged out.**
+[CSS concatenation](/frontend-performance/concatenate-css) was essential under
+HTTP/1.1 and is now a trade-off that often goes the other way. It is kept here
+for completeness, with an explanation of when it still applies.

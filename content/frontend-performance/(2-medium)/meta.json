@@ -1,0 +1,22 @@
+{
+  "title": "2. Medium Priority",
+  "root": true,
+  "pages": [
+    "medium-priority",
+    "minify-html",
+    "cdn",
+    "vector-images",
+    "image-dimensions",
+    "base64-images",
+    "lazy-loading",
+    "display-size-images",
+    "inline-javascript",
+    "dependency-updates",
+    "javascript-performance",
+    "service-workers",
+    "cookie-size",
+    "cookie-count"
+  ],
+  "description": "Worth doing once the high-priority items are done",
+  "pagesIndex": "medium-priority"
+}

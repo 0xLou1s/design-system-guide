@@ -1,0 +1,40 @@
+---
+title: "3.6 Web font size"
+description: Keep the whole family under about 300kB.
+---
+
+> Keep the web font size under 300kb
+
+All variants together should stay under roughly 300kB. That is a guideline, not
+a threshold, and the more useful framing is: **every weight you add is another
+file in the critical path.**
+
+## Where the weight goes
+
+Each combination of weight and style is a separate file. Regular, italic, bold
+and bold-italic is four downloads. Add a display face for headings and you have
+six.
+
+The arithmetic gets bad quickly:
+
+**Use two weights.** Regular and one bold, for most sites. A third is a
+considered decision, not a default.
+
+**Subset aggressively.** See [WOFF2](/frontend-performance/woff2). Usually the
+biggest single saving.
+
+**Skip synthetic styles you do not need.** Browsers can synthesize italic and
+bold by slanting and thickening the regular face. The result is worse than a real
+cut — but for a weight used once in a footer, the trade may be fine.
+
+**Reuse for icons.** An icon font is another font file. Inline SVG is usually
+smaller and more flexible — see
+[vector images](/frontend-performance/vector-images).
+
+## Measure what you ship
+
+The Network panel, filtered to Font, shows exactly what loaded. Check it on a
+real page rather than trusting the stylesheet — it is common to find a weight
+pulled in by one stray `font-weight: 300` nobody remembers writing.
+
+- [HTTP Archive — font bytes](https://httparchive.org/reports/page-weight#bytesFont)

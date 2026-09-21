@@ -1,0 +1,46 @@
+---
+title: "2.2 Use a CDN"
+description: Physics — distance costs milliseconds you cannot optimize away.
+---
+
+> Use Content Delivery Network
+
+A request from Sydney to a server in Virginia takes about 200ms round trip at
+best, because light is not negotiable. TLS setup needs several round trips
+before any content moves. For a user on the other side of the world, that is a
+large share of load time spent on geography.
+
+A CDN puts a copy near the user. The first request populates the edge cache;
+everyone nearby after that is served locally.
+
+**Serve all static assets from one.** Most hosting platforms include a CDN by
+default — check before adding another.
+
+## Cache the document too
+
+A CDN that only caches assets leaves the document uncached, and the document is
+the request that blocks everything else. If your HTML is static or near-static,
+cache it at the edge —
+[`stale-while-revalidate`](/frontend-performance/cache-headers) makes this safe
+for content that updates periodically.
+
+This is also the main lever on [TTFB](/frontend-performance/ttfb).
+
+## Fewer origins, not more
+
+Splitting assets across several CDNs to "parallelize" is
+[obsolete](/frontend-performance/http-requests). Each extra origin costs DNS, TCP
+and TLS. Under HTTP/2, one connection carrying everything beats several carrying
+a little.
+
+This is also the argument for self-hosting fonts and scripts: one fewer origin
+in the critical path, and no third-party availability risk. The old "shared
+cache" benefit is gone — browsers partition caches per site.
+
+If a third-party origin is genuinely required:
+
+```html
+<link rel="preconnect" href="https://cdn.example.com" crossorigin />
+```
+
+Use it for two or three origins at most.

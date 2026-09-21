@@ -1,0 +1,47 @@
+---
+title: "3.5 Preconnect for fonts"
+description: Warm the connection before the font is discovered.
+---
+
+> Use preconnect to load your fonts faster
+
+Fonts are discovered late. The browser must download the HTML, parse the CSS,
+match a rule, and only then request the font file. If that file is on another
+origin, it *then* pays for DNS, TCP and TLS before a single byte arrives.
+
+`preconnect` performs that handshake early, in parallel with everything else:
+
+```html
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+```
+
+The `crossorigin` attribute is **mandatory**, even though it looks optional.
+Fonts are fetched in anonymous CORS mode, and a preconnect without it opens a
+connection the font request cannot reuse — so you get the cost with none of the
+benefit.
+
+## Preload the critical ones
+
+`preconnect` warms the connection; `preload` fetches the file:
+
+```html
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
+```
+
+Preload only the one or two faces used above the fold. Preloading every weight
+makes them compete with each other and with more important resources.
+
+## Better: self-host
+
+Both hints are workarounds for the font being on someone else's origin.
+Self-hosting removes the problem rather than mitigating it — no DNS, no extra
+handshake, no third-party availability risk, and the file sits behind your own
+[cache headers](/frontend-performance/cache-headers).
+
+The old argument for a shared font CDN was a shared cache across sites. That
+benefit no longer exists: browsers partition their caches per site, so a visitor
+downloads your Google Font even if every other site they visit uses it too.
+
+Self-host unless you have a specific reason not to. Then neither hint is needed.
+
+- [Make your site faster with preconnect hints](https://www.viget.com/articles/make-your-site-faster-with-preconnect-hints/)

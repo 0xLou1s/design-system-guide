@@ -1,0 +1,53 @@
+---
+title: "3.8 Watch dependency size"
+description: The cheapest bundle is the one you did not install.
+---
+
+> Keep an eye on the size of dependencies
+
+Most oversized bundles are not badly written application code. They are
+dependencies, chosen quickly, that turned out far larger than expected.
+
+## Check before installing
+
+[Bundlephobia](https://bundlephobia.com/) reports a package's minified and
+compressed size plus its dependency tree, before you commit. Thirty seconds
+during code review.
+
+The classic example: Moment.js is around 70kB compressed and bundles every
+locale. `date-fns` or the native `Intl.DateTimeFormat` cover most of what people
+used it for at a fraction of the cost — Moment itself now recommends against it
+for new projects.
+
+Questions worth asking:
+
+- **How much will we use?** A 50kB library for one function is a bad trade, and
+  that function is usually thirty lines.
+- **Does it tree-shake?** A modular ES-module package lets you pay for what you
+  import. A monolithic CommonJS one does not.
+- **What does it pull in?** A small package with five transitive dependencies is
+  not small.
+- **Can the platform do it?** See
+  [dependency updates](/frontend-performance/dependency-updates).
+
+## Audit what you ship
+
+A bundle analyzer renders your build as a treemap — the fastest way to find a
+dependency you forgot about, or a library included twice at different versions.
+
+Duplicates are common and nearly invisible without one. Two versions of the same
+library, because two dependencies each pinned their own, is pure waste.
+
+## Enforce a limit
+
+[Size Limit](https://github.com/ai/size-limit) fails CI when the bundle exceeds a
+threshold, so a costly dependency shows up on the PR that added it rather than
+six months later:
+
+```json title="package.json"
+{
+  "size-limit": [{ "path": "dist/index.js", "limit": "120 kB" }]
+}
+```
+
+- [npm trends](https://npmtrends.com/) — compare alternatives

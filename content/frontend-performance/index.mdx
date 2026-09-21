@@ -1,15 +1,15 @@
 ---
 title: Frontend Performance
-description: What actually makes a page fast, and why each practice works.
+description: A checklist of 48 practices, each with the reasoning behind it.
 ---
 
 Performance work has a failure mode: a long checklist, applied uniformly, that
-makes the code worse and the page no faster. Most of the items are real, but
-only a few of them matter on any given page, and you cannot tell which without
-measuring first.
+makes the code worse and the page no faster. Most items are real, but only a few
+matter on any given page, and you cannot tell which without measuring first.
 
-So this part is ordered the way the work should go. Measure, find the biggest
-cost, fix that, measure again.
+So: measure, find the biggest cost, fix that, measure again. The chapters below
+follow the original checklist's priority ordering, which is a reasonable default
+when you have nothing else to go on.
 
 ## The short version
 
@@ -21,52 +21,47 @@ Almost every slow page is slow for one of four reasons:
 3. **Render-blocking resources**, mostly CSS and synchronous scripts.
 4. **A slow server**, which no amount of frontend work will fix.
 
-Everything below is a specific case of one of those.
-
-## How to read this
-
-Each page states the practice, explains the mechanism behind it, and says when
-it does *not* apply. That last part matters: several of the most-repeated
-performance rules were written for HTTP/1.1 and became actively wrong under
-HTTP/2.
+Everything in these chapters is a specific case of one of those.
 
 <Cards>
   <Card
-    title="Measuring"
-    href="/frontend-performance/measuring"
-    description="Decide what to measure and what counts as fast enough."
+    title="1. High Priority"
+    href="/frontend-performance/high-priority"
+    description="19 items. Fix these first — targets, delivery, and the big assets."
   />
   <Card
-    title="HTML"
-    href="/frontend-performance/html/minification"
-    description="The document the browser parses first."
+    title="2. Medium Priority"
+    href="/frontend-performance/medium-priority"
+    description="13 items. Real wins, smaller or narrower in scope."
   />
   <Card
-    title="CSS"
-    href="/frontend-performance/css/render-blocking"
-    description="Styles block rendering until they arrive."
+    title="3. Low Priority"
+    href="/frontend-performance/low-priority"
+    description="8 items, including the font work and one rule that has aged badly."
   />
   <Card
-    title="Fonts"
-    href="/frontend-performance/fonts/formats"
-    description="Text that is invisible until a font lands."
+    title="4. Performance Tools"
+    href="/frontend-performance/performance-tools"
+    description="6 tools, and what each one actually tells you."
   />
   <Card
-    title="Images"
-    href="/frontend-performance/images/formats"
-    description="Usually the heaviest thing on the page."
-  />
-  <Card
-    title="JavaScript"
-    href="/frontend-performance/javascript/loading"
-    description="The most expensive resource, byte for byte."
-  />
-  <Card
-    title="Delivery"
-    href="/frontend-performance/server/compression"
-    description="How bytes get from your server to the browser."
+    title="5. More Resources"
+    href="/frontend-performance/more-resources"
+    description="Framework guides and the reading worth your time."
   />
 </Cards>
+
+## How to read this
+
+Each page states the practice, explains the mechanism behind it, and says when it
+does *not* apply. That last part matters: several of the most-repeated
+performance rules were written for HTTP/1.1 and became actively wrong under
+HTTP/2.
+
+Where the original and current practice disagree, the page says so —
+[HTTP requests](/frontend-performance/http-requests) and
+[CSS concatenation](/frontend-performance/concatenate-css) are the clearest
+cases.
 
 ## Credits
 
@@ -74,5 +69,5 @@ Based on the
 [roadmap.sh Frontend Performance best practices](https://roadmap.sh/frontend-performance-best-practices),
 itself derived from the
 [Front-End Checklist](https://github.com/thedaviddias/Front-End-Checklist) by
-David Dias. Reorganized by topic, expanded with the reasoning behind each item,
-and updated where the original advice predates HTTP/2 and modern browsers.
+David Dias. The chapter structure and all 48 items follow the original; the
+reasoning, code examples and post-HTTP/2 corrections are added.

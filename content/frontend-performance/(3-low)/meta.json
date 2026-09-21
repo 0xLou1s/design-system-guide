@@ -1,0 +1,17 @@
+{
+  "title": "3. Low Priority",
+  "root": true,
+  "pages": [
+    "low-priority",
+    "preload-urls",
+    "concatenate-css",
+    "unused-css",
+    "woff2",
+    "preconnect-fonts",
+    "web-font-size",
+    "flash-text",
+    "dependency-size"
+  ],
+  "description": "Narrower wins, and one item that has aged badly",
+  "pagesIndex": "low-priority"
+}

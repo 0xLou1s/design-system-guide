@@ -9,7 +9,7 @@ Each part stands on its own. More can be added alongside them.
 | Part | Route | What it covers |
 | --- | --- | --- |
 | Design System Guide | `/design-system-guide` | Building and running a design system, from tokens and components through governance and metrics |
-| Frontend Performance | `/frontend-performance` | What makes a page fast — measuring, then HTML, CSS, fonts, images, JavaScript and delivery |
+| Frontend Performance | `/frontend-performance` | 48 practices for a fast page, by priority, each with the reasoning behind it |
 | Cheat Sheet | `/cheat-sheet` | Interface guidelines — UI, animation, typography, color, accessibility — each with the reasoning behind it |
 
 ## Quick start
@@ -27,7 +27,7 @@ If port 3000 is taken, run `bun run dev --port 3001` instead.
 | Path | Contents |
 | --- | --- |
 | `content/design-system-guide` | The guide, as 104 MDX pages across six route groups |
-| `content/frontend-performance` | The performance guide, as 30 MDX pages across seven sections |
+| `content/frontend-performance` | The performance checklist, as 48 items across five chapters |
 | `content/cheat-sheet` | The cheat sheet, as a single MDX page |
 | `HANDBOOK.md` | The design system guide as one long document, and its original source |
 

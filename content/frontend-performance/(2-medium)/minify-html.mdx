@@ -1,0 +1,38 @@
+---
+title: "2.1 Minify HTML"
+description: Strip what the parser does not need, automatically.
+---
+
+> Minified HTML - Remove comments and whitespaces
+
+Minified HTML has comments, redundant whitespace and optional closing tags
+removed. The saving is real but modest — usually 5–20% before compression, and
+less after, because [Brotli and gzip](/frontend-performance/compression) already
+handle repeated whitespace well.
+
+It sits in medium priority for exactly that reason: worth doing, not worth much.
+
+Do it because it is free — a build step, configured once, that never needs
+thinking about again. Most frameworks already do it in production; check before
+adding a tool.
+
+```js
+// Only if your framework does not already do it.
+import { minify } from "html-minifier-terser";
+
+const output = await minify(html, {
+  collapseWhitespace: true,
+  removeComments: true,
+  minifyCSS: true,
+  minifyJS: true,
+});
+```
+
+One caveat: `collapseWhitespace` can change rendering. Whitespace between inline
+elements is significant, so an aggressive setting can close up the space between
+words. Test the output rather than assuming.
+
+**Never minify by hand, and never commit minified HTML.** The source stays
+readable; the build output is what gets minified.
+
+- [html-minifier-terser](https://github.com/terser/html-minifier-terser)

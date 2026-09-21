@@ -1,0 +1,53 @@
+---
+title: "2.8 Avoid inline JavaScript"
+description: Scripts scattered through the body block the parser at each one.
+---
+
+> Avoid multiple inline JavaScript snippets `<script>`
+
+An inline `<script>` in the body blocks the parser at that point, exactly like an
+external one — the browser must execute it before continuing to build the DOM.
+Several of them scattered through the page means several stops.
+
+They are also uncacheable. An external file is downloaded once and reused; inline
+code is re-sent with every HTML response.
+
+## What to do instead
+
+**Move logic to external files** loaded with `defer`. See
+[non-blocking JavaScript](/frontend-performance/non-blocking-javascript).
+
+```html
+<head>
+  <script src="/app.js" defer></script>
+</head>
+```
+
+One request, cached after the first visit, and no parser blocking.
+
+## The legitimate exception
+
+A small snippet that genuinely must run before paint. The usual case is
+preventing a theme flash:
+
+```html
+<script>
+  // Must run before first paint, or the page flashes the wrong theme.
+  try {
+    const t = localStorage.getItem("theme");
+    if (t) document.documentElement.dataset.theme = t;
+  } catch {}
+</script>
+```
+
+This has to be inline and blocking — deferring it would defeat the purpose.
+Keep such snippets tiny, and keep them rare.
+
+Note the `try/catch`: `localStorage` throws in some privacy modes, and an
+uncaught error in a blocking head script takes the page down.
+
+## Content Security Policy
+
+Inline scripts also conflict with a strict CSP. If you want `script-src 'self'`
+without `unsafe-inline`, every inline script needs a nonce or hash. Fewer inline
+scripts means a simpler, stricter policy.

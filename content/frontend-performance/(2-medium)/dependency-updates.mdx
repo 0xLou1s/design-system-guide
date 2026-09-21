@@ -1,0 +1,42 @@
+---
+title: "2.9 Keep dependencies up to date"
+description: Updates bring optimizations, and gaps compound.
+---
+
+> Keep your dependencies up to date
+
+New versions usually bring performance improvements and security fixes. More
+importantly, a large version gap makes every future upgrade harder — three years
+of deferred updates is a migration project, where three months is an afternoon.
+
+## Automate the noise
+
+[Dependabot](https://docs.github.com/en/code-security/dependabot) or
+[Renovate](https://docs.renovatebot.com/) open PRs as updates land. Both can
+group and schedule so the volume is manageable.
+
+Do not merge blindly. For anything that ships to the browser, read the changelog
+and watch the bundle size — an update that adds a polyfill or a dependency can
+quietly cost you more than it saves.
+
+## Prefer fewer dependencies
+
+The related item, and the more valuable one: every dependency is code you ship,
+maintain and update. The platform has absorbed a lot of what libraries used to
+provide — `fetch`, `Intl`, `structuredClone`, `URLSearchParams`,
+`Object.groupBy`, `AbortController`.
+
+Before adding one, check whether the platform already does it. Before keeping
+one, check whether it is still earning its place. See
+[dependency size](/frontend-performance/dependency-size).
+
+## Audit what you have
+
+```sh
+npm outdated     # what is behind
+npm audit        # known vulnerabilities
+npx depcheck     # declared but never imported
+```
+
+That last one is worth running occasionally. Dependencies outlive the code that
+needed them.

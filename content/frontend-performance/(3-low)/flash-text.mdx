@@ -1,0 +1,62 @@
+---
+title: "3.7 Prevent flash of invisible text"
+description: Invisible text, jumping text, and how to pick your poison.
+---
+
+> Prevent Flash or Invisible Text
+
+Until a web font arrives, the browser must decide what to show. Two bad
+outcomes:
+
+- **FOIT** (flash of invisible text): nothing renders. The content is there,
+  unreadable.
+- **FOUT** (flash of unstyled text): the fallback renders, then swaps. Readable
+  immediately, but the layout shifts.
+
+## font-display
+
+This controls the trade-off directly:
+
+```css
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter.woff2") format("woff2");
+  font-display: swap;
+}
+```
+
+| Value | Behaviour |
+| --- | --- |
+| `swap` | Fallback immediately, swap when loaded. Readable, but shifts |
+| `optional` | Fallback; use the web font only if it arrives almost instantly |
+| `fallback` | Brief invisible period, then fallback; swaps only if quick |
+| `block` | Invisible for up to 3s. Almost always wrong |
+
+**`swap` is the safe default.** Text is readable immediately, which matters most.
+
+**`optional` is the fast one.** No layout shift at all, at the cost of some users
+never seeing your font on the first visit. It is cached for the next one. Good
+for body text on content sites.
+
+The default with no `font-display` is effectively `block` — so this property is
+one line that prevents the worst outcome.
+
+## Reduce the shift
+
+The swap is jarring when the fallback has different metrics. Match them and it
+becomes nearly invisible:
+
+```css
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107%;
+  ascent-override: 90%;
+}
+```
+
+[Fontaine](https://github.com/unjs/fontaine) generates these automatically, and
+Next.js does it via `next/font`. Combined with `swap`, this gets you readable
+text immediately and almost no visible shift — the best of both.
+
+- [font-display for the masses](https://css-tricks.com/font-display-masses/)

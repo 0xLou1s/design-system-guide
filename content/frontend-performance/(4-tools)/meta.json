@@ -1,0 +1,15 @@
+{
+  "title": "4. Performance Tools",
+  "root": true,
+  "pages": [
+    "performance-tools",
+    "pagespeed-insights",
+    "lighthouse",
+    "webpagetest",
+    "chrome-devtools",
+    "bundlephobia",
+    "squoosh"
+  ],
+  "description": "What to run, and what each one tells you",
+  "pagesIndex": "performance-tools"
+}

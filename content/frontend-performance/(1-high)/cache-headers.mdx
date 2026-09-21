@@ -1,0 +1,50 @@
+---
+title: "1.6 HTTP cache headers"
+description: The fastest request is the one that never happens.
+---
+
+> Set HTTP cache headers properly
+
+Nothing beats not making the request. Cache headers tell the browser it already
+has what it needs.
+
+## The two-tier strategy
+
+**Fingerprinted assets** — `app.4f3a9b.js` — never change content under the same
+name, so cache them forever:
+
+```http
+Cache-Control: public, max-age=31536000, immutable
+```
+
+`immutable` means the browser will not even revalidate on reload. A new build
+produces a new filename, so staleness is impossible.
+
+**HTML** must not be cached that way, or users never see a new deployment:
+
+```http
+Cache-Control: no-cache
+```
+
+`no-cache` is misleadingly named: it means *revalidate before using*, not *do not
+store*. The browser asks; the server answers `304 Not Modified` if nothing
+changed. Cheap and always correct. (`no-store` is the one that prevents storage
+entirely — use it only for sensitive responses.)
+
+## stale-while-revalidate
+
+Serves the cached copy instantly and refreshes behind the user:
+
+```http
+Cache-Control: public, max-age=60, stale-while-revalidate=86400
+```
+
+Ideal for API responses and semi-static pages.
+
+## Get fingerprinting right
+
+The scheme depends on the hash changing when content changes. Bundlers handle
+this; hand-managed files in a `public` folder are where it breaks. `logo.png`
+cached for a year is a logo you cannot update.
+
+- [HTTP caching — MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching)
