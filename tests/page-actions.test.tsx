@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { PageActions } from "@/components/page-actions";
 
 const markdownUrl = "/api/markdown/";
-const githubUrl = "https://github.com/0xLou1s/design-system-guide/blob/main/content/design-system-guide/index.mdx";
+const githubUrl = "https://github.com/0xLou1s/handbook/blob/main/content/design-system-guide/index.mdx";
 
 function renderActions() {
   const user = userEvent.setup();
