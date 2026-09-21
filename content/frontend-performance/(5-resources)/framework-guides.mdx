@@ -1,0 +1,54 @@
+---
+title: "5.1 Framework guides"
+description: Optimization specific to what you are building with.
+---
+
+> Framework Specific Guides
+
+Every framework has its own performance characteristics and its own escape
+hatches. The general advice in this handbook still applies — a large image is a
+large image — but the mechanisms differ.
+
+## React
+
+- [React — performance](https://react.dev/learn/render-and-commit) on how
+  rendering actually works
+- [`useMemo` and `useCallback`](https://react.dev/reference/react/useMemo) — and
+  the caveat that both have a cost and are frequently applied where they make
+  things slower
+- The React Compiler removes much of the manual memoization burden; worth
+  checking whether your version supports it before hand-optimizing
+
+## Vue
+
+- [Vue — performance guide](https://vuejs.org/guide/best-practices/performance)
+- `v-once` and `v-memo` for expensive static subtrees
+- Vue's reactivity means the common React problem — re-rendering a whole tree —
+  is mostly absent, so the bottlenecks differ
+
+## Angular
+
+- [Angular — runtime performance](https://angular.dev/best-practices/runtime-performance)
+- `OnPush` change detection, and signals, which make change detection granular
+- [Angular performance checklist](https://github.com/mgechev/angular-performance-checklist)
+
+## Svelte
+
+- [Svelte — performance](https://svelte.dev/docs/svelte/performance)
+- The compiler removes the framework runtime cost, so your bottleneck is usually
+  assets rather than framework overhead
+
+## Meta-frameworks
+
+Where most of the leverage is, because they control rendering strategy:
+
+- **[Next.js](https://nextjs.org/docs/app/guides/production-checklist)** — its
+  production checklist, plus `next/image` and `next/font`, which solve several
+  items in this handbook automatically
+- **[Nuxt](https://nuxt.com/docs/getting-started/deployment)**
+- **[Astro](https://docs.astro.build/en/guides/performance/)** — islands
+  architecture, which ships no JavaScript by default
+
+The single biggest decision in any of them is the rendering strategy. Static
+generation beats server rendering beats client rendering, on
+[TTFB](/frontend-performance/ttfb) and on everything downstream of it.

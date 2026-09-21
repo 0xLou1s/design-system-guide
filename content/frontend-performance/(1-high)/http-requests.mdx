@@ -1,0 +1,46 @@
+---
+title: "1.5 Minimize HTTP requests"
+description: The rule that most needs qualifying after HTTP/2.
+---
+
+> Minimize HTTP Requests
+
+This is the item most in need of updating, so it is worth being precise about
+what still holds.
+
+Under **HTTP/1.1**, a browser opened around six connections per host and sent
+one request at a time on each. Every extra file meant queuing, and the era's
+advice — concatenate everything, inline small assets, sprite your icons, shard
+across domains — followed from that single constraint.
+
+Under **HTTP/2 and HTTP/3**, requests multiplex over one connection. The
+per-request cost is much smaller, and several of those techniques are now
+counterproductive:
+
+- **Concatenating everything** hurts caching. Change one line and the whole
+  bundle is invalidated instead of one chunk.
+- **Domain sharding** actively hurts: each origin costs DNS, TCP and TLS, and
+  splits the connection multiplexing wanted.
+- **Base64 inlining** bloats the parent file and
+  [cannot be cached separately](/frontend-performance/base64-images).
+
+## What still matters
+
+Requests are cheaper, not free.
+
+**Unused requests** are waste at any protocol version. Audit with the Coverage
+panel.
+
+**Cross-origin requests** each cost a full connection setup before a single byte
+of content. Four fonts from three CDNs is three handshakes.
+
+**[404s](/frontend-performance/unreachable-files)** cost the round trip and
+return nothing.
+
+**Requests in the critical path.** One blocking request at the wrong moment
+costs more than twenty parallel ones that do not block rendering.
+
+Check your protocol in the Network panel's Protocol column. If it says
+`http/1.1`, fix that before optimizing around it.
+
+- [HTTP/2 — High Performance Browser Networking](https://hpbn.co/http2/)

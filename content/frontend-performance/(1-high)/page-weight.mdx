@@ -1,0 +1,35 @@
+---
+title: "1.1 Page weight"
+description: Keep the page under 1500kB, ideally under 500kB.
+---
+
+> Keep your page weight < 1500 KB (ideally < 500 kb)
+
+Total transferred bytes for the page and everything it pulls in. The 1500kB
+figure is roughly the web median, which makes it a low bar — 500kB is the
+target worth aiming at.
+
+This is a *symptom* metric. You do not fix page weight directly; you fix it by
+fixing [images](/frontend-performance/compress-images),
+[JavaScript](/frontend-performance/minify-javascript) and
+[fonts](/frontend-performance/web-font-size), which is where the bytes almost
+always are.
+
+## Where to look
+
+Open the Network panel, hard-reload, and sort by size. In practice the answer is
+nearly always one of:
+
+- An unoptimized hero image, often several hundred kB on its own.
+- A JavaScript bundle carrying a dependency nobody needed.
+- Font files, especially when several weights load.
+- An autoplaying video, which can dwarf everything else.
+
+## Why it matters beyond speed
+
+Bytes cost money on metered connections. A 3MB page is a real expense for
+someone on a prepaid mobile plan, and that is a substantial share of users in
+much of the world.
+
+- [HTTP Archive — page weight](https://httparchive.org/reports/page-weight#bytesTotal)
+- [What Does My Site Cost?](https://whatdoesmysitecost.com/)

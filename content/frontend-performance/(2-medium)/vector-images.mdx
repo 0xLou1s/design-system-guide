@@ -1,0 +1,44 @@
+---
+title: "2.3 Prefer vector images"
+description: SVG scales perfectly and is usually smaller.
+---
+
+> Prefer using vector image rather than bitmap images
+
+For anything geometric — icons, logos, illustrations, diagrams, charts — SVG is
+usually both smaller and better.
+
+It scales to any size without blurring, which means one file instead of separate
+1× and 2× assets. It can be styled with CSS, so an icon can inherit
+`currentColor` and change with the theme. It can be animated. And as text, it
+compresses well with [Brotli or gzip](/frontend-performance/compression).
+
+## Optimize the export
+
+Editor exports carry metadata, hidden layers, and excessive coordinate
+precision, often doubling the file. Run everything through
+[SVGO](https://github.com/svg/svgo):
+
+```sh
+npx svgo --folder ./src/icons --recursive
+```
+
+This routinely cuts 50–70% off an untouched Figma or Illustrator export.
+
+## Inline versus file
+
+**Inline** SVG in the markup costs no request and can be styled by the page —
+right for icons that change colour with state.
+
+**Referenced** as `<img src="icon.svg">` is cacheable across pages and keeps the
+HTML small — right for anything used once, or on many pages.
+
+An icon *font* is the option to avoid: it is a render-blocking
+[font file](/frontend-performance/woff2), it can show the wrong glyph before it
+loads, and it is announced badly by screen readers.
+
+## When a bitmap wins
+
+Photographs. An SVG of a photograph is either a traced approximation or an
+embedded bitmap with extra XML around it. For anything photographic, see
+[image format](/frontend-performance/image-format).

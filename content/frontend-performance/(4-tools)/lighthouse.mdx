@@ -1,0 +1,47 @@
+---
+title: "4.2 Lighthouse"
+description: An automated audit, and a score to be careful with.
+---
+
+> Lighthouse
+
+Built into Chrome DevTools, also available as a CLI and a CI action. It loads
+the page under a simulated slow network and CPU, then scores performance,
+accessibility, SEO and best practices.
+
+Use it for a first look at an unfamiliar page, and for catching regressions in
+CI.
+
+## Treat the score with caution
+
+The number is a weighted composite of several metrics from **one run under
+simulated conditions**. Scores bounce by several points between runs on the same
+unchanged page.
+
+**Treat a 5-point change as noise.** Read the underlying metrics and the
+opportunities list instead — those are specific and actionable in a way the
+score never is.
+
+The score is also easy to optimize *for* rather than optimizing the page. A site
+can score 100 and still feel slow to real users, which is why
+[field data](/frontend-performance/pagespeed-insights) matters more.
+
+## In CI
+
+Lighthouse CI runs the audit on every PR and fails the build when a metric or
+budget regresses:
+
+```yaml
+- uses: treosh/lighthouse-ci-action@v12
+  with:
+    urls: https://staging.example.com/
+    budgetPath: ./budget.json
+```
+
+Assert on **specific metrics** rather than the overall score — LCP and total
+blocking time are stable enough to gate on; the composite is not.
+
+Run it several times and take the median. A single run in CI produces flaky
+builds and teaches everyone to ignore the check.
+
+- [Lighthouse documentation](https://developer.chrome.com/docs/lighthouse/overview)

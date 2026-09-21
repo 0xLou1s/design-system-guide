@@ -1,0 +1,49 @@
+---
+title: "3.1 Preload URLs"
+description: Fetch what the user will probably need next.
+---
+
+> Pre-load URLs where possible
+
+Resource hints let you tell the browser about something it will need before it
+discovers this for itself.
+
+| Hint | What it does | Use for |
+| --- | --- | --- |
+| `preconnect` | DNS + TCP + TLS to an origin | A third-party origin on the critical path |
+| `preload` | Fetches a resource at high priority | A font or image needed for first paint |
+| `prefetch` | Fetches at idle priority for a *future* navigation | The next page the user will likely visit |
+| `dns-prefetch` | DNS only | A cheaper `preconnect` for less certain origins |
+
+```html
+<!-- Needed now, discovered late. -->
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Probably needed next. -->
+<link rel="prefetch" href="/dashboard" />
+```
+
+## Use them sparingly
+
+Every preload competes for bandwidth with everything else. Preloading ten things
+prioritizes nothing — and preloading something the page does not use is pure
+waste, which the console will warn you about.
+
+The honest guidance: preload the one or two resources that are genuinely
+critical and genuinely discovered late. Fonts referenced from CSS are the classic
+case, because the browser cannot see them until the stylesheet is parsed.
+
+## Prefetch for the next navigation
+
+`prefetch` is the interesting one for multi-page sites. Fetching the next likely
+page during idle time makes that navigation feel instant.
+
+Most frameworks do this automatically for links in the viewport — Next.js,
+Nuxt and Astro all prefetch on hover or on visibility. Check before adding it
+manually.
+
+Be considerate: prefetching aggressively on a metered connection spends someone
+else's money. Respect `navigator.connection.saveData` if you implement this
+yourself.
+
+- [Resource hints — web.dev](https://web.dev/articles/preload-critical-assets)

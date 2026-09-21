@@ -1,0 +1,38 @@
+---
+title: "4.1 PageSpeed Insights"
+description: Lab and field data side by side, from a URL.
+---
+
+> Page Speed Insights
+
+[PageSpeed Insights](https://pagespeed.web.dev/) runs
+[Lighthouse](/frontend-performance/lighthouse) against a URL and — this is the
+part that makes it distinct — shows **real-user field data** alongside the lab
+result when Chrome has enough traffic for your page.
+
+That field data comes from the Chrome User Experience Report: actual Core Web
+Vitals from actual visitors, at the 75th percentile, over the previous 28 days.
+
+## Read it in this order
+
+1. **Field data first.** This is what your users experience. If it is good, the
+   page is fast regardless of the score.
+2. **Origin summary.** Shown when the specific URL lacks data. Covers your whole
+   site — useful, but not this page.
+3. **Lab result and opportunities.** Reproducible, and specific about what to
+   fix.
+
+## Caveats
+
+**No field data is not a failure.** Low-traffic pages simply have no CHrUX
+sample. Fall back to the lab result.
+
+**The 28-day window lags.** A fix deployed today will not move field data for
+weeks. Use the lab result to verify the fix, and field data to confirm it
+mattered.
+
+**One run, one network profile.** For deeper diagnosis use
+[WebPageTest](/frontend-performance/webpagetest).
+
+Needs a publicly reachable URL — for local or staging work, run Lighthouse from
+DevTools instead.

@@ -1,0 +1,32 @@
+---
+title: "1.2 Page load time"
+description: Under 3 seconds, measured on a real device and network.
+---
+
+> Keep your page load time < 3 seconds
+
+The threshold where users start abandoning. Bounce rate climbs steeply past it,
+and the effect compounds on mobile.
+
+"Load time" is vague, though, and that vagueness matters. The useful modern
+framing is [Core Web Vitals](/frontend-performance/lighthouse):
+
+- **LCP ≤ 2.5s** — when the main content appears. Closest to what "loaded"
+  means to a user.
+- **INP ≤ 200ms** — how fast the page responds once it is there.
+- **CLS ≤ 0.1** — whether it stays still while loading.
+
+`DOMContentLoaded` and the `load` event are poor proxies. A page can fire `load`
+quickly while showing nothing useful, or paint instantly and remain unresponsive
+for seconds.
+
+## Measure it honestly
+
+On your laptop on office wifi, almost everything is under three seconds. That
+number is meaningless.
+
+Throttle to a mid-range phone on a slow connection — 4× CPU slowdown and Slow
+4G in DevTools — and measure again. Better still, look at field data from real
+users, which is the only measurement that cannot flatter you.
+
+- [web.dev — Core Web Vitals](https://web.dev/articles/vitals)

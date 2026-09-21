@@ -1,0 +1,45 @@
+---
+title: "4.4 Chrome DevTools"
+description: Where you do the actual work.
+---
+
+> Chrome DevTools
+
+The other tools tell you something is slow. DevTools is where you find out which
+line is responsible.
+
+## The panels that matter
+
+**Network.** What loaded, in what order, how big, how long it blocked. Add the
+Protocol column to check you are on
+[HTTP/2](/frontend-performance/http-requests), and filter by type to isolate
+fonts or images.
+
+**Turn on throttling before trusting any of it.** Unthrottled, on your machine,
+everything looks fine.
+
+**Performance.** A flame chart of main-thread activity. This is how you find the
+long tasks hurting responsiveness — look for the red-cornered blocks and read
+down into what called what.
+
+**Coverage.** How much of each CSS and JS file actually ran. The source of truth
+for [unused CSS](/frontend-performance/unused-css).
+
+**Lighthouse.** The same audit as
+[PageSpeed Insights](/frontend-performance/pagespeed-insights), run locally —
+which means it works on localhost and behind authentication.
+
+**Application.** Cookies with their sizes, for
+[cookie auditing](/frontend-performance/cookie-size), plus service worker state
+and cache contents.
+
+## Two habits worth building
+
+**Throttle by default.** Set CPU 4× and Slow 4G and leave them on while
+developing. You will catch problems as you create them rather than in an audit
+weeks later.
+
+**Disable cache while the panel is open**, or you will measure a warm cache and
+conclude the first visit is fast.
+
+- [Chrome DevTools documentation](https://developer.chrome.com/docs/devtools/)

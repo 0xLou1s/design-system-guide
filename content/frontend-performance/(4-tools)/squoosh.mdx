@@ -1,0 +1,40 @@
+---
+title: "4.6 Squoosh"
+description: Compare codecs and quality settings by eye.
+---
+
+> Squoosh.app
+
+[Squoosh](https://squoosh.app/) compresses a single image in the browser, with a
+split-screen comparison of the original against the result and the file size
+updating live.
+
+It is the fastest way to answer "how low can quality go before this looks bad?"
+— which is a judgement call that depends on the image, and which no automated
+default gets right every time.
+
+## What it is good for
+
+**Finding the setting.** Load a representative image, drag the quality slider,
+watch the split view. Note the number where artifacts become visible, then back
+off a little. Use that as your pipeline default.
+
+**Comparing codecs.** AVIF, WebP and JPEG side by side on *your* image. The
+general guidance in [image format](/frontend-performance/image-format) holds on
+average, but averages are not your hero image.
+
+**One-off assets.** A single OG image or logo that is not worth wiring into a
+build step.
+
+## What it is not
+
+**Not a pipeline.** It processes one image at a time, by hand. Use
+[sharp](https://sharp.pixelplumbing.com/), a framework image component, or an
+image CDN for anything recurring — see
+[compress images](/frontend-performance/compress-images).
+
+Everything runs locally in the browser, so nothing is uploaded — fine for
+unreleased assets.
+
+There is also `@squoosh/cli` for scripting the same codecs, though sharp is
+faster for bulk work.

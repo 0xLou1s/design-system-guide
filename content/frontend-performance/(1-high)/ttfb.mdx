@@ -1,0 +1,39 @@
+---
+title: "1.3 Time to First Byte"
+description: Under 1.3 seconds, and frontend work will not fix it.
+---
+
+> Keep the Time To First Byte < 1.3 seconds
+
+TTFB is how long the browser waits between requesting the document and receiving
+the first byte of it. Everything else in this handbook happens *after* it.
+
+It is worth calling out plainly: **TTFB is a backend and infrastructure problem.**
+No amount of image optimization or bundle splitting will improve it. If your
+TTFB is two seconds, that is two seconds every visitor pays before any frontend
+work even begins.
+
+## What it is made of
+
+- **DNS lookup** — resolving your hostname.
+- **TCP + TLS handshake** — establishing the connection, several round trips.
+- **Server processing** — generating the response.
+- **Network transit** — physics, and the reason for a
+  [CDN](/frontend-performance/cdn).
+
+## Fixing it
+
+**Cache the document.** A page served from an edge cache skips server processing
+entirely. This is the single biggest lever.
+
+**Profile the server.** A slow database query or an uncached API call in the
+render path is the usual culprit.
+
+**Move it closer.** See [CDN](/frontend-performance/cdn).
+
+**Static-render what you can.** A prebuilt HTML file served from an edge node has
+a TTFB of a few tens of milliseconds.
+
+Under 800ms is the modern "good" threshold; 1.3s is generous.
+
+- [TTFB — web.dev](https://web.dev/articles/ttfb)

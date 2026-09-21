@@ -1,0 +1,27 @@
+{
+  "title": "1. High Priority",
+  "root": true,
+  "pages": [
+    "index",
+    "page-weight",
+    "page-load-time",
+    "ttfb",
+    "compression",
+    "http-requests",
+    "cache-headers",
+    "unreachable-files",
+    "same-protocol",
+    "https",
+    "minify-css",
+    "non-blocking-css",
+    "critical-css",
+    "inline-css",
+    "stylesheet-complexity",
+    "minify-javascript",
+    "non-blocking-javascript",
+    "compress-images",
+    "image-format",
+    "iframes"
+  ],
+  "description": "Fix these first"
+}

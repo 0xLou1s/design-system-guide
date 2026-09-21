@@ -1,0 +1,38 @@
+---
+title: "4.3 WebPageTest"
+description: The deepest look at what actually happened.
+---
+
+> webpagetest.org
+
+[WebPageTest](https://www.webpagetest.org/) tests from real devices in real
+locations and gives you far more detail than any other tool.
+
+Use it when you know the page is slow and need to know **why**.
+
+## What it gives you
+
+**The waterfall.** Every request, when it started, what it blocked on, how long
+each phase took. Request-ordering problems are obvious here in a way a score
+never shows — you can see the font that waited for the stylesheet that waited
+for the redirect.
+
+**The filmstrip.** Screenshots at intervals through the load, so you can see
+exactly what the user saw and when. Pairs well with the waterfall: find the
+frame where content appears, then look at what finished just before it.
+
+**Connection view.** DNS, TCP and TLS time per host — the clearest way to see
+what [extra origins](/frontend-performance/cdn) cost you.
+
+**Real devices and locations.** Test from Mumbai on a real mid-range Android,
+rather than simulating it.
+
+## Worth knowing
+
+**First view versus repeat view.** It tests both by default. The repeat view
+shows whether your [cache headers](/frontend-performance/cache-headers) work —
+a repeat view that re-downloads everything is a caching bug.
+
+**Test more than once.** Network conditions vary. Run three and compare.
+
+The interface is dense and dated, but nothing else shows you as much.

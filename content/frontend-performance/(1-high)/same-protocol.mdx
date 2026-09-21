@@ -1,0 +1,36 @@
+---
+title: "1.8 Serve files from the same protocol"
+description: Mixed content does not load slowly; it does not load at all.
+---
+
+> Serve files from the same protocol
+
+A page served over HTTPS that requests a resource over HTTP produces **mixed
+content**. For scripts and stylesheets, browsers block it outright — so the
+feature does not degrade, it simply fails.
+
+This is less a performance item than a correctness one, but it appears here
+because the failure is easy to miss: the page renders, one widget is silently
+dead, and nothing in the UI says why.
+
+## Fixing it
+
+Always write `https://` in asset URLs. If you inherited a codebase with
+`http://` references, add the CSP directive as a safety net:
+
+```http
+Content-Security-Policy: upgrade-insecure-requests
+```
+
+This rewrites insecure requests to HTTPS before they are made, which covers URLs
+you missed — including ones generated at runtime or stored in a database.
+
+Protocol-relative URLs (`//example.com/x.js`) were the old workaround. They are
+no longer recommended: now that HTTPS is universal, just write the scheme.
+
+## Check for it
+
+The console logs every mixed-content block. Open a page and look — these are
+easy to find and usually quick to fix.
+
+- [Mixed content — MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content)

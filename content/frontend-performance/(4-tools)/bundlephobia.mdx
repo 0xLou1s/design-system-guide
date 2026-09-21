@@ -1,0 +1,38 @@
+---
+title: "4.5 Bundlephobia"
+description: The cost of a package, before you install it.
+---
+
+> Bundlephobia
+
+[Bundlephobia](https://bundlephobia.com/) reports what an npm package will cost
+your bundle: minified size, minified-and-compressed size, its dependency tree,
+and whether it tree-shakes.
+
+The value is in the timing. Checking *before* you install makes the decision
+reversible; finding out afterwards means unpicking code that already depends on
+it.
+
+## Reading it
+
+**Use the compressed number.** That is what crosses the network. The minified
+figure overstates the cost.
+
+**Check "Composition".** A package that is mostly one large dependency may be
+avoidable by using that dependency directly.
+
+**Check the tree-shaking flag.** A package shipping ES modules lets you import
+one function and pay for one function. A CommonJS-only package usually means all
+of it.
+
+**Look at download time.** It shows the cost on slow connections, which is a more
+honest framing than kilobytes.
+
+## In practice
+
+Make it a code-review habit. A PR adding a dependency should say what it costs —
+thirty seconds of checking prevents most bundle bloat, because the conversation
+happens while the choice is still open.
+
+For what you already ship, a bundle analyzer is the equivalent tool — see
+[dependency size](/frontend-performance/dependency-size).

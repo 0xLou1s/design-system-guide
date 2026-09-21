@@ -1,0 +1,36 @@
+---
+title: "2.5 Avoid base64 images"
+description: It looks like it saves a request; it costs more than it saves.
+---
+
+> Avoid using Base64 images
+
+Embedding an image as a data URI in CSS or HTML removes a request. That was the
+appeal under HTTP/1.1, when [requests were expensive](/frontend-performance/http-requests).
+
+The costs:
+
+**Base64 inflates the data by about 33%.** You are shipping a third more bytes
+for the same image.
+
+**It cannot be cached independently.** The image is part of the CSS or HTML, so
+it is re-downloaded with the parent file every time that file changes — and a
+stylesheet changes far more often than a logo.
+
+**It blocks on the parent resource.** A base64 image in CSS delays rendering,
+because the whole stylesheet must arrive before anything paints.
+
+**It bloats the critical path.** Inlining a 20kB image into your HTML adds 27kB
+to the document every visitor downloads before anything else.
+
+## The better version of the idea
+
+For a small icon, **inline SVG** — not base64 — gets the same "no extra request"
+benefit without the encoding overhead, and it stays styleable. See
+[vector images](/frontend-performance/vector-images).
+
+For anything else, reference the file normally and let
+[cache headers](/frontend-performance/cache-headers) do the work. After the
+first visit it costs nothing.
+
+- [Base64 encoding and performance](https://csswizardry.com/2017/02/base64-encoding-and-performance/)

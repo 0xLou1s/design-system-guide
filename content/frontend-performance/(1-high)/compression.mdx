@@ -1,0 +1,45 @@
+---
+title: "1.4 Compression"
+description: Brotli or gzip on every text response.
+---
+
+> GZIP / Brotli compression is enabled
+
+Text compresses extremely well. HTML, CSS, JavaScript, JSON and SVG routinely
+drop by 70–90%. Serving them uncompressed is the easiest large win available,
+and it is a server setting rather than a code change.
+
+**Use Brotli, falling back to gzip.** Brotli is typically 15–20% smaller than
+gzip on JavaScript and is supported by every current browser. Most CDNs and
+hosts enable both by default — verify rather than assume.
+
+```nginx
+brotli on;
+brotli_types text/plain text/css application/javascript application/json image/svg+xml;
+gzip on;
+gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+```
+
+Check what you actually serve:
+
+```sh
+curl -sI -H "Accept-Encoding: br,gzip" https://example.com/app.js | grep -i content-encoding
+```
+
+## Do not compress what is already compressed
+
+Images, video, and WOFF2 fonts are already compressed. Running gzip over them
+burns CPU for nothing and can make the file marginally larger. Restrict
+compression to text MIME types.
+
+## Static versus dynamic
+
+**Static compression** happens once at build time, so you can afford the
+slowest, highest-ratio setting. Use it for anything prebuilt.
+
+**Dynamic compression** happens per request for generated HTML and API
+responses. Keep the level moderate — maximum Brotli on a dynamic response can
+cost more CPU time than it saves in transfer.
+
+- [Check GZIP compression](https://checkgzipcompression.net/)
+- [Can I use — Brotli](https://caniuse.com/brotli)

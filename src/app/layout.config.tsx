@@ -3,6 +3,7 @@ import type { BaseLayoutProps, LinkItemType } from "fumadocs-ui/layouts/shared";
 /* Each entry is one part of the handbook; more can sit alongside these. */
 export const links: LinkItemType[] = [
   { text: "Design System Guide", url: "/design-system-guide", active: "nested-url" },
+  { text: "Frontend Performance", url: "/frontend-performance", active: "nested-url" },
   { text: "Cheat Sheet", url: "/cheat-sheet", active: "url" },
 ];
 

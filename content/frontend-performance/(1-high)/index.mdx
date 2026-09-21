@@ -1,0 +1,70 @@
+---
+title: Frontend Performance
+description: A checklist of 48 practices, each with the reasoning behind it.
+---
+
+Performance work has a failure mode: a long checklist, applied uniformly, that
+makes the code worse and the page no faster. Most items are real, but only a few
+matter on any given page, and you cannot tell which without measuring first.
+
+So: measure, find the biggest cost, fix that, measure again. The chapters follow
+the original checklist's priority ordering, which is a reasonable default when
+you have nothing else to go on.
+
+## The short version
+
+Almost every slow page is slow for one of four reasons:
+
+1. **Too many bytes**, usually images or JavaScript.
+2. **Bytes arriving in the wrong order**, so the browser waits on something it
+   did not need yet.
+3. **Render-blocking resources**, mostly CSS and synchronous scripts.
+4. **A slow server**, which no amount of frontend work will fix.
+
+Everything in these chapters is a specific case of one of those.
+
+## Chapter 1: High Priority
+
+The 19 items in this chapter account for most of the difference between a fast
+page and a slow one, and most sites have several outstanding. They fall into
+three rough clusters:
+
+**Targets** — [page weight](/frontend-performance/page-weight),
+[load time](/frontend-performance/page-load-time) and
+[TTFB](/frontend-performance/ttfb). Not fixes in themselves, but the numbers the
+rest of the work moves. Start by measuring them.
+
+**Delivery** — [compression](/frontend-performance/compression),
+[caching](/frontend-performance/cache-headers),
+[request count](/frontend-performance/http-requests),
+[protocol](/frontend-performance/https). Server-side settings, usually a one-time
+configuration change, usually the cheapest wins available.
+
+**Assets** — CSS, JavaScript and images. Where the bytes actually are.
+
+<Callout>
+The priority tiers come from the original checklist. They are a reasonable
+default ordering, but your page is not the average page — measure before
+assuming the high-priority items are where your problem is.
+</Callout>
+
+## How to read this
+
+Each page states the practice, explains the mechanism behind it, and says when it
+does *not* apply. That last part matters: several of the most-repeated
+performance rules were written for HTTP/1.1 and became actively wrong under
+HTTP/2.
+
+Where the original and current practice disagree, the page says so —
+[HTTP requests](/frontend-performance/http-requests) and
+[CSS concatenation](/frontend-performance/concatenate-css) are the clearest
+cases.
+
+## Credits
+
+Based on the
+[roadmap.sh Frontend Performance best practices](https://roadmap.sh/frontend-performance-best-practices),
+itself derived from the
+[Front-End Checklist](https://github.com/thedaviddias/Front-End-Checklist) by
+David Dias. The chapter structure and all 48 items follow the original; the
+reasoning, code examples and post-HTTP/2 corrections are added.
