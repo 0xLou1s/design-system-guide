@@ -5,7 +5,7 @@ import { renderMermaidSVG } from "beautiful-mermaid";
 import { describe, expect, it } from "vitest";
 
 const root = join(process.cwd(), "content/docs");
-const readme = readFileSync(join(process.cwd(), "README.md"), "utf8");
+const readme = readFileSync(join(process.cwd(), "HANDBOOK.md"), "utf8");
 const files = readdirSync(root, { recursive: true }).map(String);
 const pages = files.filter((file) => file.endsWith(".mdx")).map((file) => {
   const text = readFileSync(join(root, file), "utf8");
@@ -39,12 +39,12 @@ describe("handbook migration", () => {
     expect(pages.find((page) => page.file.endsWith("/final-mental-model.mdx"))?.body).toContain("Suggested build exercise");
   });
 
-  it("preserves every prose, list, table and checklist line from README", () => {
+  it("preserves every prose, list, table and checklist line from the handbook", () => {
     const migrated = pages.flatMap((page) => contentLines(page.body));
     const counts = new Map<string, number>();
     for (const line of migrated) counts.set(line, (counts.get(line) ?? 0) + 1);
     for (const line of contentLines(readme)) {
-      expect(counts.get(line) ?? 0, `Missing README content: ${line}`).toBeGreaterThan(0);
+      expect(counts.get(line) ?? 0, `Missing handbook content: ${line}`).toBeGreaterThan(0);
       counts.set(line, counts.get(line)! - 1);
     }
   });
@@ -82,7 +82,7 @@ describe("handbook migration", () => {
   });
 
   for (const [index, diagram] of codeBlocks(readme).filter((block) => block.language === "mermaid" && !block.code.startsWith("mindmap")).entries()) {
-    it(`renders README diagram ${index + 1} as SVG`, () => {
+    it(`renders handbook diagram ${index + 1} as SVG`, () => {
       const svg = renderMermaidSVG(diagram.code, { bg: "var(--color-fd-background)", fg: "var(--color-fd-foreground)", transparent: true });
       expect(svg).toContain("<svg");
       expect(svg).toContain("</svg>");
