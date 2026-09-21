@@ -9,7 +9,10 @@ export function Mermaid({ chart }: { chart: string }) {
     svg = renderMermaidSVG(chart, {
       bg: "var(--color-fd-background)",
       fg: "var(--color-fd-foreground)",
-      font: "var(--font-geist), sans-serif",
+      muted: "var(--color-fd-muted-foreground)",
+      accent: "var(--color-fd-foreground)",
+      border: "var(--color-fd-border)",
+      font: "Geist",
       transparent: true,
     });
   } catch {
