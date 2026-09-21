@@ -5,6 +5,6 @@ const withMDX = createMDX();
 export default withMDX({
   reactStrictMode: true,
   outputFileTracingIncludes: {
-    "/api/markdown/*": ["./content/docs/**/*.mdx"],
+    "/api/markdown/*": ["./content/design-system-guide/**/*.mdx"],
   },
 });

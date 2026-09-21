@@ -8,7 +8,7 @@ import { z } from "zod";
 import { remarkMdxMermaid } from "fumadocs-core/mdx-plugins";
 
 export const docs = defineDocs({
-  dir: "content/docs",
+  dir: "content/design-system-guide",
   docs: {
     postprocess: {
       includeProcessedMarkdown: true,

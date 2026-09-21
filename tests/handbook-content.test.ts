@@ -4,7 +4,7 @@ import { join, relative } from "node:path";
 import { renderMermaidSVG } from "beautiful-mermaid";
 import { describe, expect, it } from "vitest";
 
-const root = join(process.cwd(), "content/docs");
+const root = join(process.cwd(), "content/design-system-guide");
 const readme = readFileSync(join(process.cwd(), "HANDBOOK.md"), "utf8");
 const files = readdirSync(root, { recursive: true }).map(String);
 const pages = files.filter((file) => file.endsWith(".mdx")).map((file) => {
@@ -14,7 +14,7 @@ const pages = files.filter((file) => file.endsWith(".mdx")).map((file) => {
     text,
     title: JSON.parse(text.match(/^title: (.+)$/m)![1]) as string,
     body: text.replace(/^---\n[\s\S]*?\n---\n/, ""),
-    url: `/docs/${file.replace(/\([^/]+\)\//g, "").replace(/\.mdx$/, "").replace(/(^|\/)index$/, "")}`.replace(/\/$/, ""),
+    url: `/design-system-guide/${file.replace(/\([^/]+\)\//g, "").replace(/\.mdx$/, "").replace(/(^|\/)index$/, "")}`.replace(/\/$/, ""),
   };
 });
 
@@ -75,7 +75,7 @@ describe("handbook migration", () => {
     visit("");
     expect([...reachable].sort()).toEqual(pages.map((page) => page.file).sort());
     for (const page of pages) {
-      for (const match of page.body.matchAll(/(?:\]\(|href=")(\/docs[^)"#]*)(?:#[^)" ]*)?[)"]/g)) {
+      for (const match of page.body.matchAll(/(?:\]\(|href=")(\/design-system-guide[^)"#]*)(?:#[^)" ]*)?[)"]/g)) {
         expect(routes.has(match[1]), `Broken link in ${page.file}: ${match[1]}`).toBe(true);
       }
     }

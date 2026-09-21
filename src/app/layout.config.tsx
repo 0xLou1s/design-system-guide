@@ -1,8 +1,8 @@
 import type { BaseLayoutProps, LinkItemType } from "fumadocs-ui/layouts/shared";
-import { Blocks } from "lucide-react";
 
+/* Each entry is one part of the handbook; more can sit alongside these. */
 export const links: LinkItemType[] = [
-  { text: "Docs", url: "/docs", active: "nested-url" },
+  { text: "Design System Guide", url: "/design-system-guide", active: "nested-url" },
   { text: "Cheat Sheet", url: "/cheat-sheet", active: "url" },
 ];
 
@@ -11,8 +11,7 @@ export const baseOptions: BaseLayoutProps = {
     title: (
       <>
         <span className="inline shrink-0 whitespace-nowrap font-medium font-mono text-base tracking-tighter md:hidden xl:inline">
-          <span className="max-[375px]:hidden">Design System Guide</span>
-          <span className="hidden max-[375px]:inline">DS Guide</span>
+          Handbook
         </span>
       </>
     ),

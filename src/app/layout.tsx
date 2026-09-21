@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Design System Guide", template: "%s | Design System Guide" },
-  description: "A practical guide to building thoughtful, consistent design systems.",
+  title: { default: "Handbook", template: "%s | Handbook" },
+  description: "Notes on building and shipping interfaces, collected as one handbook.",
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
