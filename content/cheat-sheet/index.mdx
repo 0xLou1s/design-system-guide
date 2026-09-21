@@ -1,0 +1,337 @@
+---
+title: Interface Design Cheat Sheet
+description: Guidelines for building interfaces, with the reasoning behind each one.
+---
+
+Guidelines I keep coming back to, each with the reasoning that makes it stick.
+Written as notes to myself, so they are short on ceremony and long on why.
+
+## User interface
+
+**Make nested corner radii concentric.** The outer radius equals the inner
+radius plus the padding between them. Equal radii leave the inner corner
+looking pinched, because the two curves are no longer parallel.
+
+```css
+.card {
+  --padding: 8px;
+  --inner-radius: 8px;
+  padding: var(--padding);
+  border-radius: calc(var(--inner-radius) + var(--padding));
+}
+```
+
+**Prefer optical alignment to geometric alignment.** Trust what looks centred
+over what measures centred. An asymmetrical shape, such as a play triangle,
+carries its visual mass off-centre and usually needs a 1–2px nudge.
+
+**Give a button with an icon less padding on the icon side.** The icon carries
+its own whitespace, so equal padding reads as uneven.
+
+**Use layered shadows for depth rather than a border.** Two soft shadows at
+different distances read as elevation; a single hard line reads as a drawn
+line.
+
+```css
+.surface {
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 8%),
+    0 4px 12px rgb(0 0 0 / 6%);
+}
+```
+
+**Give images a 1px outline offset by -1px**, black at 8% opacity in light mode
+and white at 8% in dark. It stops a pale image bleeding into a pale background,
+and the negative offset keeps the element's box the same size.
+
+**Match icon stroke weight to the text beside it.** A thin icon next to bold
+text looks weak; a heavy icon next to regular text dominates.
+
+## Animation
+
+**Animate elements from their trigger, not from the centre.** Set
+`transform-origin` from the trigger's position, so a menu grows out of the
+control that opened it.
+
+**Skip the opening animation for menus people use often**, and animate only the
+close. A context menu someone opens fifty times a day should appear at once.
+
+**Make exits subtler than entrances.** Move a shorter distance, fade out, and
+add about 4px of blur. An exit that mirrors its entrance makes the interface
+feel slow to get out of the way.
+
+**Name the properties you want to animate. Never use `transition: all`.** It
+catches layout properties you never meant to animate and pays for them on every
+frame.
+
+**Scale buttons down slightly when pressed**, between 0.95 and 0.98 over about
+200ms. It is the cheapest way to make a control feel physical.
+
+```css
+.button {
+  transition: scale 200ms ease-out;
+}
+
+.button:active {
+  scale: 0.97;
+}
+```
+
+**Cross-fade icons when they swap.** Take the new icon from scale 0.25 to 1,
+opacity 0 to 1, and blur 4px to 0, reversing those for the old one. Overlay
+both in the same cell so the swap cannot move the layout.
+
+**Use transitions for interactions and keyframes for sequences.** A transition
+can reverse halfway through, which is what a hover needs. A keyframe sequence
+runs once from start to finish.
+
+**Disable every transition while switching between light and dark mode.** The
+whole theme should land in one frame; animating it shows the interface coming
+apart and reassembling.
+
+**Add `will-change: transform` to an element that randomly shifts 1–2px while
+animating**, which happens most often in Safari on iOS. Use it only where it is
+needed: it costs memory on every element that carries it.
+
+**Animate entering content in small groups**, with a short delay between each
+group rather than one giant block or every item staggered individually. By the
+last item of a long stagger, the reader is waiting rather than watching.
+
+**Prevent elements animating on page load** unless it is deliberate.
+Transitions fire when CSS arrives, fonts swap, persisted state restores or
+hydration completes, none of which are moments worth animating.
+
+**Keep frequent interactions instant or very fast**, such as an item changing
+colour on hover. Save the longer curves for what happens once.
+
+## Typography
+
+**Use `.woff2` on the web, never `.ttf` or `.otf`.** Keep `.woff` only as a
+legacy fallback.
+
+**Use `font-variant-numeric: tabular-nums` for values that change** in timers,
+counters, prices and tables. Proportional digits have different widths, so an
+updating value shifts everything beside it. Monospace faces already do this.
+
+**Keep long-form lines to 60–75 characters.** Past that the eye loses its place
+on the return sweep and re-reads the line it just finished.
+
+**Balance headings, prettify descriptions, and leave long-form text alone.**
+`text-wrap: balance` evens out a heading's lines; `text-wrap: pretty` prevents
+orphaned words in a short description. Balancing costs more the more lines
+there are, so long-form content takes neither.
+
+**Hold long strings inside their container with `overflow-wrap: break-word`,
+and keep short labels on one line with `white-space: nowrap`.** Long words,
+URLs and IDs will otherwise push a container wider than the page.
+
+**Set `-webkit-font-smoothing: antialiased` and `-moz-osx-font-smoothing:
+grayscale` on the root** to sharpen text on macOS. The trade is that it also
+lightens the perceived weight.
+
+**Write text with normal capitalisation and use `text-transform` for
+presentation.** The stored string stays usable everywhere else, including
+search and screen readers.
+
+**Use smart punctuation**: curly quotes, an en dash for ranges, an em dash for
+asides, and a real ellipsis character rather than three periods.
+
+**Keep underlines clear of descenders** with `text-underline-position:
+from-font` and `text-decoration-skip-ink: auto`, so the line does not cut
+through the tails of letters like g and y.
+
+**Let people read text you shortened with an ellipsis**, through a tooltip or
+an expanded view. An ellipsis should hide detail, not lose it.
+
+## Colors
+
+**Give every palette step a purpose**: page background, component hover,
+border, solid fill, body text. A shade nothing uses is a shade someone will
+eventually misuse.
+
+**Have components reference semantic tokens, never primitives.** A component
+asking for `--color-text-secondary` keeps working when the primitive behind it
+changes; one asking for `--blue-500` does not.
+
+**Name tokens by purpose, not appearance.** `--color-accent-solid` stays true;
+`--color-blue-button` becomes a lie the first time the design changes.
+
+**Reserve `accent` for the brand colour**, so `primary` never means both the
+brand and the main body text. The two move independently.
+
+**Measure contrast against the background directly behind the element.** Text
+on a card is measured against the card, not the page behind the card.
+
+**Design a separate palette for dark mode rather than inverting the light
+one.** Inversion gives muddy midtones and borders that disappear.
+
+**Pick one theme-switching mechanism**, either `prefers-color-scheme` or a
+`.dark` class. Mixing them creates states where the two disagree.
+
+**Choose how colours blend in a gradient.** `in oklab` keeps perceived
+brightness even, `in oklch` keeps the middle vivid, and `in srgb` mutes the
+midtones.
+
+```css
+.gradient {
+  background: linear-gradient(in oklab, red, blue);
+}
+```
+
+## Accessibility
+
+**Use native HTML elements**: `button` for actions, `a` for links. You get
+keyboard behaviour, semantics, context menus and browser features that are
+tedious and error-prone to rebuild.
+
+**Style `:focus-visible` rather than `:focus`,** and never remove the outline
+without a clear replacement. `:focus-visible` shows the ring for keyboard users
+without putting one around every mouse click.
+
+**Use only `tabindex="0"` and `tabindex="-1"`.** Zero adds an element to the
+natural order, minus one allows programmatic focus, and positive values reorder
+the page against what people expect.
+
+**Give icon-only buttons a descriptive `aria-label`,** and never put
+`aria-hidden="true"` on anything focusable. A hidden focusable element leaves a
+Tab stop that announces nothing.
+
+**Write alternative text that explains what the image shows and why it
+matters.** Decorative images take `alt=""`. Text like "image" is worse than
+nothing, because it cannot be skipped.
+
+**Give every input a visible `label`,** with `type` and `inputmode` matching
+what people should enter. A placeholder disappears the moment someone starts
+typing, which is exactly when they might need it.
+
+**Never block paste.** People paste passwords, one-time codes, recovery codes
+and values from password managers. Blocking it pushes them towards weaker
+secrets they can type from memory.
+
+**Keep the submit button enabled until the request starts, and validate on
+submit.** Mark invalid fields with `aria-invalid="true"`, connect each message
+with `aria-describedby`, and move focus to the first invalid field. A disabled
+button gives no reason why.
+
+**Make hit areas at least 24×24px**, aiming for 44×44px on touch and 40×40px on
+desktop. The icon can stay small; the pressable area around it should not. Hit
+areas must never overlap, or a press near the boundary activates whichever
+element sits on top.
+
+**Put `pointer-events: none` on decorative layers** such as glows and
+gradients, so they never swallow a click meant for what is underneath.
+
+**Wrap hover styles in `@media (hover: hover)`.** On a touch screen `:hover`
+stays active after a tap and leaves an item looking selected when it is not.
+
+**Put animation inside `@media (prefers-reduced-motion: no-preference)`.**
+Start from no motion and add it, rather than adding motion and trying to strip
+it back.
+
+**Use `role="status"` for routine updates and `role="alert"` for urgent
+errors.** Using `alert` for everything teaches people to ignore it.
+
+**Never use colour alone to show a status change.** Add an icon, a label or an
+underline. An invalid field needs specific error text, not just a red border.
+
+**Make the skip-to-content link the first Tab stop,** so keyboard users can
+pass the navigation instead of walking through it on every page.
+
+## Layout
+
+**Use `scroll-margin-top` on headings people link to,** or a sticky header
+covers the heading someone just jumped to.
+
+```css
+h2[id],
+h3[id] {
+  scroll-margin-top: 96px;
+}
+```
+
+**Leave at least twice as much space between groups as within them,** for
+example 8px between items and 16px or more between groups. The grouping should
+be visible before a word is read.
+
+## Writing
+
+**Start button labels with a verb**, such as "Save draft" or "Delete project",
+rather than "OK" or a bare "Yes".
+
+**Make confirmation buttons say what will happen.** "Delete project" beside
+"Cancel". Once the question scrolls out of view, a yes/no pair means nothing.
+
+**Use the same label for the same step throughout a flow.** Pick "Continue" or
+"Next" and keep it; alternating suggests the steps differ when they do not.
+
+**Describe where a link goes.** People scanning a page by its link text get
+nothing from "here".
+
+**Capitalise buttons, headings and labels the same way everywhere.** Sentence
+case is the safer default.
+
+**Label a toggle with what happens when it is on.** "Send read receipts", not
+"Disable read receipts", which forces the reader through a double negative.
+
+**Explain what belongs in an empty view and give one action to get started.** An
+empty state that only says "No projects" leaves people with nothing to do.
+
+**Address the reader as "you", not "the user".** "You will receive an email",
+not "The user will receive an email".
+
+## Checklist
+
+### Visual
+
+- Nested corner radii are concentric.
+- Icons and text have balanced optical alignment and visual weight.
+- Buttons with icons use adjusted padding.
+- Images have subtle light- and dark-mode outlines.
+- Group spacing is at least twice item spacing.
+- Contrast is measured against the immediate background.
+- Light and dark themes use deliberately designed palettes.
+
+### Motion
+
+- Animations originate from their triggers.
+- The codebase contains no `transition: all`.
+- Frequent interactions are instant or very fast.
+- No unintended animations run on page load.
+- Theme switching does not animate the whole interface.
+- Reduced-motion preferences are respected.
+- `will-change` is used sparingly.
+
+### Typography
+
+- Web fonts use `.woff2`.
+- Prices, timers and numeric tables use tabular numbers.
+- Long-form content is about 60–75ch wide.
+- Headings and descriptions use appropriate wrapping.
+- Truncated text has a way to reveal the full value.
+- Text uses smart punctuation and clean underlines.
+
+### Accessibility
+
+- Buttons, links and inputs use semantic HTML.
+- Keyboard focus is visible and Tab order is natural.
+- Every icon-only button has an accessible name.
+- Images have meaningful alt text or `alt=""`.
+- Inputs have visible labels and correct input types.
+- Paste is never blocked.
+- Validation uses `aria-invalid` and `aria-describedby`.
+- Hit targets are at least 24px, preferably 40–44px.
+- Hover styles run only on hover-capable devices.
+- Status is never communicated by colour alone.
+- The skip link is the first Tab stop.
+
+### Content
+
+- Action labels begin with verbs and describe results.
+- Confirmations avoid ambiguous "No/Yes" pairs.
+- Multi-step flows use consistent action labels.
+- Link text describes its destination.
+- Interface text consistently uses sentence case.
+- Toggle labels describe the enabled state.
+- Empty states include an explanation and one action.
+- Content addresses the reader as "you".
+

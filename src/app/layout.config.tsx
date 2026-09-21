@@ -3,6 +3,7 @@ import { Blocks } from "lucide-react";
 
 export const links: LinkItemType[] = [
   { text: "Docs", url: "/docs", active: "nested-url" },
+  { text: "Cheat Sheet", url: "/cheat-sheet", active: "url" },
 ];
 
 export const baseOptions: BaseLayoutProps = {

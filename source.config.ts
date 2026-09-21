@@ -1,4 +1,9 @@
-import { defineConfig, defineDocs, frontmatterSchema, metaSchema } from "fumadocs-mdx/config";
+import {
+  defineCollections,
+  defineConfig,
+  defineDocs,
+} from "fumadocs-mdx/config";
+import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { z } from "zod";
 import { remarkMdxMermaid } from "fumadocs-core/mdx-plugins";
 
@@ -8,11 +13,11 @@ export const docs = defineDocs({
     postprocess: {
       includeProcessedMarkdown: true,
     },
-    schema: frontmatterSchema.extend({
+    schema: pageSchema.extend({
       author: z
         .object({
           name: z.string(),
-          url: z.string().url().optional(),
+          url: z.url().optional(),
         })
         .optional(),
       date: z.string().optional(),
@@ -21,6 +26,13 @@ export const docs = defineDocs({
   meta: {
     schema: metaSchema,
   },
+});
+
+/* Standalone page outside the docs tree, so it gets its own collection. */
+export const cheatSheet = defineCollections({
+  type: "doc",
+  dir: "content/cheat-sheet",
+  schema: pageSchema,
 });
 
 export default defineConfig({
