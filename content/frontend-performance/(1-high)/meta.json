@@ -2,7 +2,7 @@
   "title": "1. High Priority",
   "root": true,
   "pages": [
-    "high-priority",
+    "index",
     "page-weight",
     "page-load-time",
     "ttfb",
@@ -23,6 +23,5 @@
     "image-format",
     "iframes"
   ],
-  "description": "Fix these first",
-  "pagesIndex": "high-priority"
+  "description": "Fix these first"
 }
