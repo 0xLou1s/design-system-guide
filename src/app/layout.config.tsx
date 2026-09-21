@@ -17,5 +17,5 @@ export const baseOptions: BaseLayoutProps = {
     ),
   },
   links,
-  githubUrl: "https://github.com/0xLou1s/design-system-guide",
+  githubUrl: "https://github.com/0xLou1s/handbook",
 };

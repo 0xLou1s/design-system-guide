@@ -24,7 +24,7 @@ export default async function Page({ params }: PageProps<"/design-system-guide/[
       <div className="flex flex-row flex-wrap items-center gap-2 border-b pt-2 pb-6">
         <PageActions
           markdownUrl={markdownUrl}
-          githubUrl={`https://github.com/0xLou1s/design-system-guide/blob/main/content/design-system-guide/${page.path}`}
+          githubUrl={`https://github.com/0xLou1s/handbook/blob/main/content/design-system-guide/${page.path}`}
         />
       </div>
       <DocsBody className="[&_:not(pre)>code]:wrap-break-word">
