@@ -1,0 +1,11 @@
+{
+  "title": "CSS",
+  "pages": [
+    "render-blocking",
+    "critical-css",
+    "unused-css",
+    "minification",
+    "complexity"
+  ],
+  "description": "Styles block rendering until they arrive"
+}

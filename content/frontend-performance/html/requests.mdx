@@ -1,0 +1,47 @@
+---
+title: Requests
+description: Fewer requests mattered enormously, then HTTP/2 changed the maths.
+---
+
+This is the rule that most needs updating.
+
+Under **HTTP/1.1**, a browser opened around six connections per host and could
+send one request at a time on each. Every extra file meant queuing. So the era's
+advice — concatenate everything, inline small assets, use image sprites, shard
+across domains — all followed from that one constraint.
+
+Under **HTTP/2 and HTTP/3**, requests multiplex over a single connection. The
+per-request cost is much smaller, and several of those old techniques are now
+counterproductive:
+
+- **Concatenating everything into one bundle** hurts caching. Change one line
+  and the whole bundle's cache entry is invalidated, instead of one chunk's.
+- **Domain sharding** actively hurts: each extra host costs a DNS lookup, TCP
+  handshake and TLS negotiation, and splits the connection that multiplexing
+  wanted.
+- **Inlining small assets** as base64 still bloats the parent file and
+  [cannot be cached separately](/frontend-performance/images/formats).
+
+## What still holds
+
+Requests are cheaper, not free. Each still costs a header round trip and a
+cache lookup.
+
+What matters now is not the *count* but:
+
+**Unused requests.** A request for something nobody needs is pure waste at any
+protocol version. Audit with the Coverage panel.
+
+**Requests to other origins.** Each new origin costs DNS + TCP + TLS before a
+single byte of content. Four fonts from three CDNs is three full handshakes.
+Self-host where you reasonably can.
+
+**404s.** A request that fails still costs the full round trip, and returns
+nothing. They accumulate quietly — a renamed icon, a stale analytics script.
+Check the Network panel for red rows occasionally.
+
+**Requests in the critical path.** One blocking request at the wrong moment
+costs more than twenty parallel ones that do not block rendering.
+
+- [HTTP/2 — High Performance Browser Networking](https://hpbn.co/http2/)
+- [Performance best practices in the HTTP/2 era](https://deliciousbrains.com/performance-best-practices-http2/)

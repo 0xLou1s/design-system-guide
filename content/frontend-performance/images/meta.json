@@ -1,0 +1,11 @@
+{
+  "title": "Images",
+  "pages": [
+    "formats",
+    "compression",
+    "responsive",
+    "dimensions",
+    "lazy-loading"
+  ],
+  "description": "Usually the heaviest thing on the page"
+}

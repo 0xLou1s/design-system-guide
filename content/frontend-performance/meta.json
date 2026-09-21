@@ -1,0 +1,13 @@
+{
+  "title": "Frontend Performance",
+  "pages": [
+    "index",
+    "measuring",
+    "html",
+    "css",
+    "fonts",
+    "images",
+    "javascript",
+    "server"
+  ]
+}

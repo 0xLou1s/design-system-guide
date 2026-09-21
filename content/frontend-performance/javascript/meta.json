@@ -1,0 +1,10 @@
+{
+  "title": "JavaScript",
+  "pages": [
+    "loading",
+    "minification",
+    "dependencies",
+    "runtime"
+  ],
+  "description": "The most expensive byte-for-byte resource"
+}

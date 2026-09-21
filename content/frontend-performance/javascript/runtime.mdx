@@ -1,0 +1,74 @@
+---
+title: Runtime cost
+description: Shipping less is only half of it; running less is the other half.
+---
+
+Bundle size gets the attention, but a small bundle doing expensive work is still
+a slow page. Runtime cost is what
+[INP](/frontend-performance/measuring/budgets) measures, and it is felt directly: taps
+that do nothing, scrolling that stutters, text that lags behind the keyboard.
+
+## Long tasks
+
+Anything occupying the main thread for more than 50ms delays input. The browser
+cannot respond to a click while your code is running.
+
+Find them in the Performance panel — long tasks are flagged with a red corner.
+The fix is to break the work up and yield between chunks:
+
+```js
+async function processAll(items) {
+  for (const [i, item] of items.entries()) {
+    process(item);
+    // Let the browser handle input every 50 items.
+    if (i % 50 === 0) await scheduler.yield();
+  }
+}
+```
+
+`scheduler.yield()` is the modern API; `setTimeout(0)` is the fallback. For work
+that is genuinely heavy and not DOM-related, move it to a Web Worker.
+
+## Layout thrashing
+
+Reading a geometric property after writing one forces the browser to recompute
+layout synchronously. In a loop this is quadratic misery — see
+[CSS complexity](/frontend-performance/css/complexity) for the pattern and its fix.
+
+## Animate the cheap properties
+
+`transform` and `opacity` are handled by the compositor, off the main thread.
+Everything else — `width`, `height`, `top`, `margin` — triggers layout or paint
+on every frame.
+
+```css
+/* Recalculates layout each frame. */
+.slide { transition: left 200ms; }
+
+/* Composited; the main thread stays free. */
+.slide { transition: transform 200ms; }
+```
+
+## Event handlers
+
+`scroll`, `resize`, `mousemove` and `input` fire constantly. An expensive
+handler on any of them is a guaranteed jank source.
+
+- Throttle or debounce, depending on whether you need it during or after.
+- Use `passive: true` on scroll and touch listeners so the browser need not wait
+  to see if you will call `preventDefault()`.
+- Prefer `IntersectionObserver` over scroll handlers for visibility checks — it
+  runs off the main thread.
+
+```js
+el.addEventListener("scroll", onScroll, { passive: true });
+```
+
+## Measure rather than guess
+
+Runtime performance is the area where intuition is least reliable. The
+Performance panel shows exactly which function ran for how long. Record the
+interaction that feels slow and read the flame chart before changing anything.
+
+- [Optimize INP](https://web.dev/articles/optimize-inp)
+- [Optimize long tasks](https://web.dev/articles/optimize-long-tasks)

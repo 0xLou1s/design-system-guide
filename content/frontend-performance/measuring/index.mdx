@@ -1,0 +1,52 @@
+---
+title: Measuring
+description: Decide what to measure before you change anything.
+---
+
+Optimizing without measuring is guessing. You will spend an afternoon shaving
+4kB off a stylesheet while a single unoptimized hero image costs 800kB, and the
+page will feel exactly as slow as it did before.
+
+Measure first, and measure the thing your users actually experience.
+
+## Lab and field data
+
+Two kinds of measurement, and they answer different questions.
+
+**Lab data** comes from a synthetic test: one machine, one network profile, one
+run. Lighthouse and WebPageTest produce this. It is reproducible, which makes it
+good for catching regressions and for A/B-ing a change you just made.
+
+**Field data** comes from real users on real devices — the Chrome User
+Experience Report, or your own analytics. It is noisy and slow to update, but it
+is the truth. Lab data says the page *can* be fast; field data says whether it
+*is*.
+
+Trust field data when the two disagree. A page that scores 98 in Lighthouse and
+p75 of four seconds in the field is a slow page.
+
+## Measure on a real device
+
+The single most misleading thing you can do is test on the machine you develop
+on. A recent laptop on office wifi is nothing like a three-year-old mid-range
+Android phone on a congested mobile network, and the gap is widest exactly where
+it hurts most — JavaScript parse and execute time.
+
+Throttle deliberately:
+
+- **CPU**: 4–6× slowdown in DevTools approximates a mid-range phone.
+- **Network**: "Slow 4G" is a reasonable default. Test offline too if you have a
+  service worker.
+
+<Cards>
+  <Card
+    title="Budgets"
+    href="/frontend-performance/measuring/budgets"
+    description="Numbers worth holding a page to."
+  />
+  <Card
+    title="Tools"
+    href="/frontend-performance/measuring/tools"
+    description="What to run, and what each one tells you."
+  />
+</Cards>

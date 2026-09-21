@@ -1,0 +1,78 @@
+---
+title: Frontend Performance
+description: What actually makes a page fast, and why each practice works.
+---
+
+Performance work has a failure mode: a long checklist, applied uniformly, that
+makes the code worse and the page no faster. Most of the items are real, but
+only a few of them matter on any given page, and you cannot tell which without
+measuring first.
+
+So this part is ordered the way the work should go. Measure, find the biggest
+cost, fix that, measure again.
+
+## The short version
+
+Almost every slow page is slow for one of four reasons:
+
+1. **Too many bytes**, usually images or JavaScript.
+2. **Bytes arriving in the wrong order**, so the browser waits on something it
+   did not need yet.
+3. **Render-blocking resources**, mostly CSS and synchronous scripts.
+4. **A slow server**, which no amount of frontend work will fix.
+
+Everything below is a specific case of one of those.
+
+## How to read this
+
+Each page states the practice, explains the mechanism behind it, and says when
+it does *not* apply. That last part matters: several of the most-repeated
+performance rules were written for HTTP/1.1 and became actively wrong under
+HTTP/2.
+
+<Cards>
+  <Card
+    title="Measuring"
+    href="/frontend-performance/measuring"
+    description="Decide what to measure and what counts as fast enough."
+  />
+  <Card
+    title="HTML"
+    href="/frontend-performance/html/minification"
+    description="The document the browser parses first."
+  />
+  <Card
+    title="CSS"
+    href="/frontend-performance/css/render-blocking"
+    description="Styles block rendering until they arrive."
+  />
+  <Card
+    title="Fonts"
+    href="/frontend-performance/fonts/formats"
+    description="Text that is invisible until a font lands."
+  />
+  <Card
+    title="Images"
+    href="/frontend-performance/images/formats"
+    description="Usually the heaviest thing on the page."
+  />
+  <Card
+    title="JavaScript"
+    href="/frontend-performance/javascript/loading"
+    description="The most expensive resource, byte for byte."
+  />
+  <Card
+    title="Delivery"
+    href="/frontend-performance/server/compression"
+    description="How bytes get from your server to the browser."
+  />
+</Cards>
+
+## Credits
+
+Based on the
+[roadmap.sh Frontend Performance best practices](https://roadmap.sh/frontend-performance-best-practices),
+itself derived from the
+[Front-End Checklist](https://github.com/thedaviddias/Front-End-Checklist) by
+David Dias. Reorganized by topic, expanded with the reasoning behind each item,
+and updated where the original advice predates HTTP/2 and modern browsers.

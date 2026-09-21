@@ -1,0 +1,44 @@
+---
+title: Compression
+description: Quality 80 is usually indistinguishable and much smaller.
+---
+
+Most images on the web are compressed far too lightly, or not at all. A
+photograph exported at quality 100 is typically three times the size of the same
+image at quality 80, and the difference is invisible at normal viewing size.
+
+**Start at quality 75–85** for photographs and compare. Go lower for large
+background images where detail does not matter; higher only where you can
+actually see the artifacts.
+
+## Automate it
+
+Compressing by hand does not survive contact with a team. Someone will upload an
+unoptimized 4MB photo, and they should not have to think about it.
+
+Put it in the pipeline:
+
+- **Framework image components** — `next/image`, `nuxt/image`, Astro's `<Image>`
+  — handle format negotiation, resizing and compression automatically. If you
+  have one, use it.
+- **A build step** with [sharp](https://sharp.pixelplumbing.com/) for static
+  assets.
+- **An image CDN** — Cloudinary, imgix, Cloudflare Images — which transforms on
+  request from a URL. Worth it when users upload images.
+
+[Squoosh](https://squoosh.app/) is for finding the right setting by eye on a
+single image, not for the pipeline.
+
+## Before you compress
+
+Two checks that save more than any encoder setting:
+
+**Is it the right size?** A 4000px image displayed at 400px wastes 99% of its
+pixels. Resize before compressing — see
+[responsive images](/frontend-performance/images/responsive).
+
+**Does it need to be an image?** Gradients, shapes, shadows and rounded corners
+are all cheaper in CSS. Text in an image is both heavier and unreadable to
+screen readers and search engines.
+
+- [Image optimization — web.dev](https://web.dev/articles/fast#optimize-your-images)

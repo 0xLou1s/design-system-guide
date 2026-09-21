@@ -35,6 +35,19 @@ export const cheatSheet = defineCollections({
   schema: pageSchema,
 });
 
+export const frontendPerformance = defineDocs({
+  dir: "content/frontend-performance",
+  docs: {
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+    schema: pageSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 export default defineConfig({
   mdxOptions: {
     remarkPlugins: [remarkMdxMermaid],

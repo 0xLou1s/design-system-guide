@@ -1,0 +1,52 @@
+---
+title: Lazy loading
+description: Defer what is offscreen — but never the hero.
+---
+
+An image below the fold does not need to load before the page renders. Deferring
+it frees bandwidth for what is actually visible.
+
+Native lazy loading needs no JavaScript:
+
+```html
+<img src="/photo.jpg" alt="" width="800" height="600" loading="lazy" />
+```
+
+The browser decides when to fetch, based on scroll position and connection
+speed. It is well-supported and requires no library — the lazy-loading scripts
+from a few years ago are no longer necessary.
+
+## Never lazy-load the LCP image
+
+This is the mistake that matters. Your hero image is almost certainly the
+Largest Contentful Paint element. Marking it `loading="lazy"` *delays* it —
+the browser defers the request until layout confirms it is in view, which is
+strictly later than it would have started otherwise.
+
+The result is a worse LCP than doing nothing.
+
+**For above-the-fold images, do the opposite:**
+
+```html
+<img src="/hero.jpg" alt="" width="1600" height="900" fetchpriority="high" />
+```
+
+`fetchpriority="high"` tells the browser this one matters. Combined with a
+`preload`, it moves the hero to the front of the queue.
+
+The rule is simply: **lazy-load everything below the fold, prioritize what is
+above it.** Anything that lazy-loads the first screen is misconfigured.
+
+## Decoding
+
+`decoding="async"` lets the browser decode off the main thread, so a large image
+does not block rendering while it is being decoded:
+
+```html
+<img src="/photo.jpg" alt="" loading="lazy" decoding="async" width="800" height="600" />
+```
+
+Low cost, small benefit, safe to apply broadly to non-critical images.
+
+- [Browser-level lazy loading](https://web.dev/articles/browser-level-image-lazy-loading)
+- [Optimize LCP](https://web.dev/articles/optimize-lcp)

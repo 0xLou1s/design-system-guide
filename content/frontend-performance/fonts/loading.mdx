@@ -1,0 +1,89 @@
+---
+title: Loading
+description: Invisible text, jumping text, and how to pick your poison.
+---
+
+A web font is discovered late — the browser must parse the CSS, match a rule,
+and only then request the file. Until it arrives, the browser has to decide what
+to show.
+
+Two bad outcomes:
+
+- **FOIT** (flash of invisible text): nothing renders. The content is there,
+  unreadable.
+- **FOUT** (flash of unstyled text): the fallback renders, then swaps. Readable
+  immediately, but the layout shifts — which costs you
+  [CLS](/frontend-performance/measuring/budgets).
+
+## font-display
+
+This controls the trade-off directly.
+
+```css
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter.woff2") format("woff2");
+  font-display: swap;
+}
+```
+
+| Value | Behaviour |
+| --- | --- |
+| `swap` | Fallback immediately, swap when loaded. Readable, but shifts |
+| `optional` | Fallback, and only use the web font if it arrives almost instantly |
+| `fallback` | Brief invisible period, then fallback; swaps only if quick |
+| `block` | Invisible for up to 3s. Almost always the wrong choice |
+
+**`swap` is the safe default.** Text is readable immediately, which is what
+matters most.
+
+**`optional` is the fast one.** No layout shift at all, at the cost of some
+users never seeing your font on the first visit. It is cached for the next one.
+Good for body text on content sites.
+
+## Reduce the shift
+
+The swap is jarring when the fallback has different metrics. Match them and it
+becomes nearly invisible:
+
+```css
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107%;
+  ascent-override: 90%;
+}
+```
+
+Tools like [Fontaine](https://github.com/unjs/fontaine) generate these overrides
+automatically. Next.js does it for you via `next/font`.
+
+## Preload the critical ones
+
+Preloading moves the request earlier, before the CSS is parsed:
+
+```html
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
+```
+
+The `crossorigin` attribute is mandatory even for same-origin fonts — fonts are
+fetched in anonymous CORS mode, and without it the browser downloads the file
+twice.
+
+Preload only the one or two fonts used above the fold. Preloading everything
+makes them compete with each other and with more important resources.
+
+## Self-host
+
+If you use a third-party font host, each origin costs DNS, TCP and TLS before
+the font request even begins. Self-hosting removes that entirely, and removes a
+third-party dependency from your critical path.
+
+If you must use a remote host, `preconnect` to warm the connection:
+
+```html
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+```
+
+- [font-display for the masses](https://css-tricks.com/font-display-masses/)
+- [Fontaine — automatic metric overrides](https://github.com/unjs/fontaine)

@@ -1,0 +1,12 @@
+{
+  "title": "Delivery",
+  "pages": [
+    "compression",
+    "caching",
+    "cdn",
+    "protocol",
+    "service-workers",
+    "cookies"
+  ],
+  "description": "How bytes get from your server to the browser"
+}

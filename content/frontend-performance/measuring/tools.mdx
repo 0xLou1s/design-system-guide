@@ -1,0 +1,73 @@
+---
+title: Tools
+description: What to run, and what each one actually tells you.
+---
+
+Four tools cover almost everything. They overlap, but each is best at one job.
+
+## Lighthouse
+
+Built into Chrome DevTools, also available as a CLI and a CI action. It loads
+the page under a simulated slow network and CPU, then scores performance,
+accessibility, SEO and best practices.
+
+Use it for: a first look at an unfamiliar page, and for catching regressions in
+CI.
+
+Its main weakness is that the score is a single number derived from lab data on
+one run. Scores bounce by several points between runs on the same page. Treat a
+5-point change as noise; look at the underlying metrics and the opportunities
+list instead of the number.
+
+- [Lighthouse documentation](https://developer.chrome.com/docs/lighthouse/overview)
+- [PageSpeed Insights](https://pagespeed.web.dev/) — runs Lighthouse, and shows
+  real-user field data alongside it when Chrome has enough traffic for your page
+
+## WebPageTest
+
+The deepest of the four. Tests from real devices in real locations, gives you a
+waterfall of every request, a filmstrip of the page painting, and a connection
+view showing DNS, TCP and TLS time per host.
+
+Use it when Lighthouse says the page is slow and you need to know *why*. The
+waterfall makes request-ordering problems obvious in a way a score never will.
+
+- [WebPageTest](https://www.webpagetest.org/)
+
+## Chrome DevTools
+
+Where you do the actual work.
+
+- **Network** panel: what loaded, in what order, how big, and how long it
+  blocked. Turn on throttling before trusting any of it.
+- **Performance** panel: a flame chart of main-thread activity. This is how you
+  find long tasks hurting INP.
+- **Coverage** panel: how much of each CSS and JS file actually ran. The source
+  of truth for [unused CSS](/frontend-performance/css/unused-css).
+- **Lighthouse** panel: the same audit, run locally.
+
+- [Chrome DevTools documentation](https://developer.chrome.com/docs/devtools/)
+
+## Bundle analysis
+
+For finding out why your JavaScript is the size it is.
+
+[Bundlephobia](https://bundlephobia.com/) tells you the cost of an npm package —
+minified and compressed size, plus its dependencies — *before* you install it.
+Worth checking during code review, not after.
+
+A bundle analyzer shows the same thing for what you already ship, as a treemap
+of your actual build. Most bundlers have one; `rollup-plugin-visualizer` and
+`webpack-bundle-analyzer` are the common choices.
+
+- [Bundlephobia](https://bundlephobia.com/)
+- [Size Limit](https://github.com/ai/size-limit) — enforces a bundle budget in CI
+
+## Image tools
+
+[Squoosh](https://squoosh.app/) compresses a single image in the browser, with a
+side-by-side view of quality against file size. Good for finding the right
+quality setting by eye; not a pipeline.
+
+For the pipeline, use `sharp` or whatever your framework's image component wraps
+— see [compression](/frontend-performance/images/compression).
