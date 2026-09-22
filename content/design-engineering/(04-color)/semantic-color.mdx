@@ -1,0 +1,78 @@
+---
+title: "4.2 Semantic color"
+description: "Color · Section 4.2"
+---
+
+The palette from 4.1 is raw material. Product code should almost never touch it directly.
+
+---
+
+## Two layers
+
+```text
+primitive    blue-500, neutral-100      raw values, no meaning
+semantic     color-action, surface-raised   intent, points at a primitive
+```
+
+Product code uses the semantic layer. Primitives exist so semantics have something to reference.
+
+```css
+:root {
+  --blue-500: oklch(0.55 0.20 250);   /* primitive */
+  --color-action: var(--blue-500);     /* semantic */
+}
+
+.button { background: var(--color-action); }  /* not --blue-500 */
+```
+
+---
+
+## Why the middle layer exists
+
+Two reasons, and both are things you will hit.
+
+**Theming.** `blue-500` cannot have a dark mode — it is a specific colour. `color-action` can: it points at `blue-500` in light and `blue-400` in dark. All theming happens at the semantic layer.
+
+**Rebranding.** When the brand colour changes from blue to green, `color-action` still reads correctly everywhere. Every `blue-500` in product code becomes a lie that says blue and renders green.
+
+This is the same argument as naming a variable `maxRetries` rather than `three`. You already believe it; it just needs applying to colour.
+
+---
+
+## Naming by job
+
+```text
+bad      blue-500, gray-100, light-red
+good     color-action, surface-raised, color-danger-subtle
+```
+
+A workable naming shape:
+
+```text
+[property]-[role]-[variant]
+
+text-primary        text-secondary     text-disabled
+surface-base        surface-raised     surface-overlay
+border-subtle       border-strong      border-focus
+color-action        color-danger       color-success
+```
+
+The test: could you use this token correctly without knowing what colour it is? If yes, the name is doing its job.
+
+---
+
+## Keep the set small
+
+A system with 200 semantic tokens is one nobody can hold in their head, so people guess, guess wrong, and eventually use raw values.
+
+Start with the minimum and add when a real need appears:
+
+```text
+text        primary, secondary, disabled, inverse
+surface     base, raised, overlay, sunken
+border      subtle, strong, focus
+action      default, hover, active, subtle
+status      success, warning, danger, info (each with subtle variant)
+```
+
+Around 20 tokens covers most product UI. If you need a 21st, that is fine — the point is that each addition is a decision, not a reflex.

@@ -1,0 +1,7 @@
+{
+  "title": "15. Component APIs",
+  "root": true,
+  "pages": ["component-apis", "semantic-props", "composition", "escape-hatches"],
+  "description": "A design decision expressed as code",
+  "pagesIndex": "component-apis"
+}

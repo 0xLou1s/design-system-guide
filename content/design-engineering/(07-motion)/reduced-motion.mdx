@@ -1,0 +1,91 @@
+---
+title: "7.4 Reduced motion"
+description: "Motion · Section 7.4"
+---
+
+Some people get motion sick from interface animation. Vestibular disorders are common, and large-scale movement — parallax, zoom, sliding panels — can cause genuine nausea and dizziness.
+
+`prefers-reduced-motion` is the browser telling you someone has asked their operating system to reduce animation. It is a real request from a real person.
+
+---
+
+## The blanket default
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+A reasonable safety net, and better than nothing by a wide margin. Note it uses `0.01ms` rather than `0` so that `animationend`/`transitionend` handlers still fire — zeroing durations outright can break code that waits for them.
+
+---
+
+## The better version
+
+Reduced motion does not mean *no* motion. It means no **large-scale or vestibular-triggering** motion.
+
+A fade is usually fine. Movement across the screen is not. So per component:
+
+```css
+.modal {
+  transition: opacity 200ms, transform 200ms;
+  transform: translateY(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal {
+    transition: opacity 200ms;   /* keep the fade */
+    transform: none;             /* drop the travel */
+  }
+}
+```
+
+The user still gets the feedback that something appeared. They do not get the movement that causes the problem.
+
+---
+
+## In JavaScript
+
+```ts
+const prefersReduced = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+animate(el, { duration: prefersReduced ? 0 : 200 });
+```
+
+For a library like Framer Motion, `useReducedMotion()` gives you the same signal as a hook.
+
+---
+
+## What to always suppress
+
+```text
+parallax scrolling
+auto-playing video and carousels
+large-scale zoom or spin
+anything looping continuously in peripheral vision
+motion triggered by scroll position
+```
+
+These are the strongest triggers. If your reduced-motion handling does nothing else, it should turn these off.
+
+---
+
+## Testing it
+
+```text
+macOS      System Settings → Accessibility → Display → Reduce motion
+Windows    Settings → Accessibility → Visual effects → Animation effects
+DevTools   Rendering panel → Emulate CSS prefers-reduced-motion
+```
+
+The DevTools toggle is the quick one. Turn it on and click through the interface — if things still fly across the screen, it is not being respected.

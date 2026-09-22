@@ -1,0 +1,88 @@
+---
+title: "9.3 Screen readers"
+description: "Accessibility · Section 9.3"
+---
+
+You do not need to be an expert. You need to have listened to your own interface once.
+
+---
+
+## Getting started
+
+```text
+macOS      VoiceOver — Cmd+F5
+Windows    NVDA — free, the most widely used
+iOS        VoiceOver — Settings → Accessibility
+Android    TalkBack
+```
+
+Turn VoiceOver on and tab through a form you built. The first time is disorienting; that is expected. You are listening for one thing: **does what it says make sense?**
+
+Basic VoiceOver keys: `Ctrl` to stop talking, `Ctrl+Option+→` to move through elements, `Ctrl+Option+U` for the rotor (a list of headings, links and form controls).
+
+---
+
+## What you will hear
+
+Common failures, in order of frequency:
+
+```text
+"button"                     an icon button with no accessible name
+"link, link, link"           links all labelled "Read more"
+"edit text"                  an input whose label is not associated
+"image"                      a meaningful image with empty alt
+silence                      an error that appeared visually only
+"clickable"                  a div pretending to be a control
+```
+
+Each maps to a specific fix from 9.1.
+
+---
+
+## Alt text
+
+```html
+<!-- meaningful: describe the content -->
+<img src="chart.png" alt="Revenue grew 40% from Q1 to Q2">
+
+<!-- decorative: explicitly empty, so it is skipped -->
+<img src="swoosh.svg" alt="">
+
+<!-- an icon inside a labelled button: also empty -->
+<button aria-label="Delete"><img src="trash.svg" alt=""></button>
+```
+
+Describe the *information*, not the picture. For a chart, the takeaway is the content — "bar chart" tells the user nothing they can use.
+
+Never omit the attribute entirely. A missing `alt` causes some screen readers to read the filename, which is worse than silence.
+
+---
+
+## Live regions
+
+Content that changes without user action needs announcing:
+
+```html
+<!-- polite: waits for a pause -->
+<div aria-live="polite">3 results found</div>
+
+<!-- assertive: interrupts — use sparingly -->
+<div role="alert">Payment failed</div>
+```
+
+Use `polite` for status and results. Reserve `assertive` for genuine errors — it interrupts whatever the user is listening to.
+
+**The region must exist in the DOM before the content changes.** Inserting a `<div aria-live>` with its message already inside will not announce. Render the empty container first, then fill it.
+
+---
+
+## The common trap
+
+Do not add `aria-label` to something that already has a good accessible name:
+
+```html
+<!-- the label now overrides the visible text -->
+<button aria-label="Submit form">Save changes</button>
+```
+
+A screen reader user hears "Submit form"; a voice-control user says "click Save changes" and nothing happens. Where there is visible text, let it be the name.

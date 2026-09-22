@@ -1,0 +1,65 @@
+---
+title: "3.2 Measure"
+description: "Typography · Section 3.2"
+---
+
+Measure is the number of characters per line. It is the most under-attended setting in web typography and one of the easiest to fix.
+
+---
+
+## 45 to 75 characters
+
+Too long and the eye loses its place returning to the start of the next line. Too short and the constant returns break the rhythm.
+
+```css
+.prose { max-width: 65ch; }
+```
+
+The `ch` unit is the width of the `0` glyph in the current font, so `65ch` tracks the actual typeface rather than guessing in pixels.
+
+This single line fixes most long-form readability problems. A paragraph spanning a 1400px viewport is roughly 200 characters per line — unreadable, and extremely common.
+
+---
+
+## Line height follows measure
+
+The two interact. Longer lines need more line height to help the eye find the next row:
+
+```text
+short measure (45ch)    1.4 - 1.5
+long measure (75ch)     1.5 - 1.7
+```
+
+And line height scales inversely with size:
+
+```text
+body (16px)        1.5
+heading (24px)     1.3
+display (40px)     1.1 - 1.2
+```
+
+Large text has more visual mass per line, so it needs proportionally less space between lines. The default `line-height: normal` (~1.2) is too tight for body and roughly right for display — which is why untouched body text looks cramped and untouched headings look fine.
+
+**Use unitless line heights.** `line-height: 1.5` scales with the element's font size; `line-height: 24px` does not, and breaks the moment the size changes.
+
+---
+
+## Paragraph spacing
+
+The gap between paragraphs should be larger than the line height, or paragraphs do not read as separate:
+
+```css
+p { margin-block-end: 1.5em; }
+```
+
+Using `em` ties the gap to the text size, so it stays proportional across the scale.
+
+---
+
+## Vertical rhythm, briefly
+
+The stricter version: all vertical spacing is a multiple of the base line height, so text across columns aligns on a shared baseline grid.
+
+It is beautiful in print and hard to maintain on the web, where images, embeds and variable content constantly break it. Worth knowing; rarely worth enforcing in product UI.
+
+The useful takeaway without the dogma: keep vertical spacing on a consistent scale (chapter 5), and the rhythm mostly takes care of itself.

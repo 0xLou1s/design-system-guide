@@ -1,0 +1,82 @@
+---
+title: "4.3 Dark mode"
+description: "Color · Section 4.3"
+---
+
+Dark mode is not an inversion. Flipping lightness produces something technically dark and visibly wrong.
+
+---
+
+## What changes
+
+**Pure black is too harsh.** Use a very dark neutral, not `#000`. Pure black against bright text creates halation — the text appears to glow and blur, particularly for people with astigmatism.
+
+```css
+--surface-base: oklch(0.15 0.01 250);  /* not #000 */
+```
+
+**Pure white text is too bright.** Drop to around 90% lightness. Full-contrast white on near-black is fatiguing over long sessions.
+
+**Saturated colours need adjusting.** A colour that works on white is often too dark and too intense on a dark background. Dark themes generally need *lighter, less saturated* versions of the same hues.
+
+```css
+:root              { --color-action: oklch(0.55 0.20 250); }
+[data-theme=dark]  { --color-action: oklch(0.70 0.15 250); }
+/*                                    lighter, less chroma */
+```
+
+---
+
+## Elevation inverts
+
+This is the part most often missed.
+
+In light mode, raised surfaces cast shadows. In dark mode there is little light to block, so shadows barely register — a shadow on a dark surface reads as a smudge or as nothing.
+
+Dark mode expresses elevation through **surface lightness** instead: the higher the element, the lighter its surface.
+
+```css
+:root {
+  --surface-base:    oklch(1.00 0 0);
+  --surface-raised:  oklch(1.00 0 0);   /* same, shadow does the work */
+  --surface-overlay: oklch(1.00 0 0);
+}
+
+[data-theme="dark"] {
+  --surface-base:    oklch(0.15 0.01 250);
+  --surface-raised:  oklch(0.19 0.01 250);   /* lighter = higher */
+  --surface-overlay: oklch(0.23 0.01 250);
+}
+```
+
+Borders also do more work in dark mode. A subtle `rgb(255 255 255 / .08)` border often separates surfaces better than any shadow.
+
+---
+
+## Implementation
+
+Support the system preference *and* an explicit override:
+
+```css
+:root { /* light tokens */ }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { /* dark tokens */ }
+}
+
+:root[data-theme="dark"] { /* dark tokens */ }
+```
+
+The `:not([data-theme="light"])` guard matters: without it, a user who explicitly chose light gets dark anyway when their OS is dark.
+
+---
+
+## Check both
+
+Every component needs looking at in both themes before it ships. Things that break specifically in dark mode:
+
+- shadows that have become invisible
+- images and illustrations with baked-in white backgrounds
+- borders that have disappeared into the surface
+- syntax highlighting and charts tuned for light backgrounds
+- anything using a hardcoded colour instead of a token

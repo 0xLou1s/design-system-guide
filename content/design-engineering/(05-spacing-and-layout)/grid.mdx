@@ -1,0 +1,93 @@
+---
+title: "5.3 Grid"
+description: "Spacing and Layout · Section 5.3"
+---
+
+A grid makes alignment a decision you make once rather than per element.
+
+---
+
+## The basic setup
+
+```css
+.page {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+```
+
+12 columns is conventional because it divides by 2, 3, 4 and 6 — most layouts you want are expressible.
+
+---
+
+## Intrinsic layouts
+
+The more useful modern approach: let the content decide rather than assigning column counts per breakpoint.
+
+```css
+/* wraps automatically, no media queries */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+```
+
+This gives you as many columns as fit, each at least 280px. It responds to the container at every width, not just at three chosen breakpoints.
+
+`auto-fit` collapses empty tracks (one item stretches full width); `auto-fill` keeps them (one item stays 280px). Pick deliberately — this catches people out.
+
+---
+
+## Container queries
+
+The significant recent addition: components that respond to *their container* rather than the viewport.
+
+```css
+.card-container { container-type: inline-size; }
+
+@container (min-width: 400px) {
+  .card { grid-template-columns: auto 1fr; }
+}
+```
+
+This is what you actually want for components. The same card in a sidebar and in a main column should lay out differently — and with container queries it does, without knowing where it has been placed.
+
+Well supported now, and it removes a class of prop-drilling (`<Card variant="compact">`) that existed only to work around its absence.
+
+---
+
+## Sizing without breakpoints
+
+```css
+/* fluid between a floor and ceiling */
+width: clamp(20rem, 50vw, 40rem);
+
+/* wrap when there is not enough room */
+.row { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.row > * { flex: 1 1 20rem; }
+```
+
+That last pattern is worth knowing: items sit side by side while each can be 20rem, and wrap to stacked when they cannot. Responsive behaviour, no media query.
+
+---
+
+## The min-width trap
+
+The single most common flexbox bug:
+
+```css
+/* text overflows its container instead of wrapping */
+.flex-child { flex: 1; }
+
+/* fixed */
+.flex-child { flex: 1; min-width: 0; }
+```
+
+Flex items default to `min-width: auto`, meaning they refuse to shrink below their content's intrinsic size. Long unbroken text then overflows. `min-width: 0` lets it shrink and wrap.
+
+Every engineer hits this. Most do not know why, and work around it with `overflow: hidden`, which hides the symptom.

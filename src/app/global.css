@@ -401,3 +401,13 @@
   font-style: normal;
   font-weight: 400;
 }
+
+/* The chapter switcher lists every chapter of a part, and a part can have many.
+   Fumadocs scrolls it at --available-height, which is most of the viewport; cap it
+   lower so the list stays scannable. Scoped to the popup, since fd-scroll-container
+   is also used by code blocks and type tables. */
+[role="dialog"] .fd-scroll-container,
+[role="dialog"].fd-scroll-container {
+  max-height: min(var(--available-height, 100vh), 26rem);
+  overscroll-behavior: contain;
+}

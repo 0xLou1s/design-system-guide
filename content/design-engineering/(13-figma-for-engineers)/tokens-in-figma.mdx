@@ -1,0 +1,79 @@
+---
+title: "13.3 Tokens in Figma"
+description: "Figma for Engineers · Section 13.3"
+---
+
+The infrastructure question: how do both sides stay in sync?
+
+This is Baytaş's fourth job — **building tools that make designing easier, better, faster** — and it is usually where a design engineer adds the most durable value.
+
+---
+
+## Variables are tokens
+
+Figma variables and CSS custom properties are the same idea:
+
+```text
+Figma                    code
+────────────────────────────────────────────
+variable collection      a token file
+mode (light / dark)      a theme
+color/action/default     --color-action
+alias to another var     var() referencing another var
+```
+
+The structure from chapter 4 applies directly — primitives, then semantics, with modes at the semantic layer.
+
+---
+
+## One source, generated outputs
+
+Hand-maintaining tokens in two places guarantees drift. The fix is generating both from one source:
+
+```text
+tokens.json  →  CSS custom properties
+             →  TypeScript constants
+             →  Figma variables
+             →  iOS / Android
+```
+
+Style Dictionary is the common tool. The DTCG format is the emerging standard and worth adopting for anything new.
+
+Which direction is authoritative — design tool or repo — matters less than that there is exactly one.
+
+---
+
+## Keeping them synced
+
+```text
+Figma REST API        read variables programmatically
+Figma Variables API   write them back
+Tokens Studio         plugin, git-backed sync
+Style Dictionary      one source → every platform
+```
+
+A CI job that fails when the file and the repo disagree is worth more than any process agreement. Drift is caught automatically instead of being discovered in review three weeks later.
+
+---
+
+## Start small
+
+You do not need the full pipeline on day one. In order of value:
+
+```text
+1  name tokens identically on both sides
+2  export colours and spacing from one source
+3  add typography
+4  automate the export in CI
+5  add a drift check that fails the build
+```
+
+Step 1 alone removes a surprising amount of friction. When a designer says "use `surface-raised`" and that string exists in your code, translation stops being a step.
+
+---
+
+## Why this is your job
+
+A designer generally cannot build the pipeline. A backend or platform engineer generally does not know which tokens matter or how they should be named.
+
+You are positioned to do both, and the result is infrastructure that makes everyone else faster. That is a high-leverage place to spend time, and it is visible work — which matters for the argument in chapter 18.

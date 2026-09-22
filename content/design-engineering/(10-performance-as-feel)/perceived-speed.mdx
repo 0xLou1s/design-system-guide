@@ -1,0 +1,89 @@
+---
+title: "10.1 Perceived speed"
+description: "Performance as Feel · Section 10.1"
+---
+
+Often you cannot make it faster. You can almost always make the wait feel shorter.
+
+---
+
+## Respond immediately, always
+
+The most important rule: **acknowledge the input within 100ms**, even if the result takes longer.
+
+```text
+click → 0ms    button shows pressed state
+      → 50ms   spinner appears in button
+      → 800ms  result arrives
+```
+
+The user knows it worked at 0ms. The 800ms is tolerable because it is confirmed waiting rather than uncertainty. An interface that does nothing for 800ms and then succeeds feels broken, even though it is the same duration.
+
+---
+
+## Optimistic updates
+
+Show the expected result immediately, reconcile when the server answers.
+
+```tsx
+function toggleLike() {
+  setLiked(l => !l);                    // instant
+  api.like(id).catch(() => setLiked(l => !l));  // revert on failure
+}
+```
+
+Appropriate when the action almost always succeeds and reverting is cheap: likes, toggles, adding an item, marking done.
+
+Inappropriate when failure is likely or the consequence is serious — payments, destructive actions, anything the user would act on believing it succeeded.
+
+**Always handle the revert**, and tell the user when it happens. A silent revert is worse than a spinner, because they saw it work.
+
+---
+
+## Skeletons over spinners
+
+A skeleton communicates what is coming and holds the layout. A spinner says only "wait."
+
+```text
+< 300ms      nothing — a flash of skeleton is worse than the wait
+300ms - 1s   skeleton matching the real dimensions
+> 1s         skeleton plus progress if you can estimate it
+```
+
+Match the real content's dimensions, or you trade a spinner for a layout jump (10.2).
+
+---
+
+## Progressive rendering
+
+Render what you have rather than waiting for everything.
+
+A list that appears while avatars fill in beats a blank screen until all data is ready. Streaming SSR and React Suspense make this straightforward — the shell arrives immediately and slower regions resolve in place.
+
+The design decision is what belongs in the shell: the layout and anything instantly available, so the page has structure from the first paint.
+
+---
+
+## Stale-while-revalidate
+
+Show cached content immediately, refresh quietly behind it.
+
+```ts
+const { data } = useSWR("/api/projects", fetcher);
+```
+
+Most of the time the cached data was already correct, so the user sees an instant page. When it differs, it updates without a loading state.
+
+The caveat: if the difference matters — a balance, a live status — indicate that it refreshed. Silently changing a number the user is reading is disorienting.
+
+---
+
+## Prefetch on intent
+
+Start loading before the user commits:
+
+```tsx
+<Link href="/projects" prefetch onMouseEnter={() => preload("/api/projects")} />
+```
+
+Hover precedes click by 100–300ms. That is often the whole request. Done well, navigation feels instant because the work happened during the gesture.

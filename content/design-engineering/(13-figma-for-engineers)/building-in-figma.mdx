@@ -1,0 +1,88 @@
+---
+title: "13.2 Building in Figma"
+description: "Figma for Engineers · Section 13.2"
+---
+
+The step from reading to contributing. You do not need to originate visual direction — you need to be able to modify, extend and propose inside the file.
+
+---
+
+## Auto layout is flexbox
+
+Learn this one thing properly and most of Figma opens up:
+
+```text
+Figma control          CSS equivalent
+──────────────────────────────────────────────
+direction              flex-direction
+gap between items      gap
+padding                padding
+alignment              justify-content / align-items
+"hug contents"         width: fit-content
+"fill container"       flex: 1
+"fixed"                a set width
+space between          justify-content: space-between
+```
+
+A frame with auto layout behaves like a flex container. Nesting them is nesting flex containers. Once you see it this way, building a layout in Figma is the same reasoning you already do.
+
+**Shortcut:** `Shift + A` wraps a selection in auto layout. It is the single most-used key in the tool.
+
+---
+
+## Components and variants
+
+```text
+component    Cmd/Ctrl + Option/Alt + K
+instance     drag from the assets panel
+variant      a named prop: size=sm | md | lg
+```
+
+Variants map directly onto the API decisions in chapter 15. A component with `variant`, `size` and `state` in Figma should have those same props in code, with the same names and the same allowed values.
+
+When they diverge, the file and the codebase drift into two systems that agree on names and disagree on everything else.
+
+---
+
+## What contributing looks like
+
+Realistic things you can do without being a visual designer:
+
+```text
+add a missing state to an existing component
+build the empty state nobody drew
+show a layout at a width that was not designed
+propose a variant the product needs
+fix a spacing value that is off the scale
+tidy a file so components are actually reusable
+```
+
+All of these are design work. None require you to invent a visual language.
+
+---
+
+## Prototyping: know the boundary
+
+Figma prototyping is good for flow — what connects to what, roughly how it transitions. It is not good for feel.
+
+```text
+Figma            flow, sequence, rough transitions
+code             timing, easing, gesture, interruption (11.1)
+```
+
+Do not spend an afternoon fighting Figma's smart animate to express something that is twenty minutes in code. Knowing which tool answers which question is most of the value you bring.
+
+---
+
+## File hygiene matters
+
+If you are working in shared files, leave them navigable:
+
+```text
+name layers meaningfully — not "Frame 47"
+use components instead of copies
+keep explorations on a separate page
+delete dead work rather than hiding it
+```
+
+The same instincts you have about a codebase apply. A messy Figma file has the same cost as a messy repo: nobody can find anything, and people duplicate rather than reuse.

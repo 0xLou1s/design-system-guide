@@ -1,0 +1,23 @@
+{
+  "title": "Design Engineering",
+  "pages": [
+    "(01-the-role)",
+    "(02-the-eye)",
+    "(03-typography)",
+    "(04-color)",
+    "(05-spacing-and-layout)",
+    "(06-states)",
+    "(07-motion)",
+    "(08-css-craft)",
+    "(09-accessibility)",
+    "(10-performance-as-feel)",
+    "(11-prototyping-in-code)",
+    "(12-working-with-designers)",
+    "(13-figma-for-engineers)",
+    "(14-design-systems)",
+    "(15-component-apis)",
+    "(16-the-four-jobs)",
+    "(17-building-taste)",
+    "(18-portfolio-and-path)"
+  ]
+}

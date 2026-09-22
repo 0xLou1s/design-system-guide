@@ -1,0 +1,34 @@
+---
+title: "8. CSS Craft"
+description: "The part of the stack a design engineer is expected to own completely."
+---
+
+CSS is the material of the front of the front-end. In most teams it is also the least-owned part of the codebase — reviewed casually, learned incidentally, and blamed frequently.
+
+A design engineer is expected to own it properly. Not "can make things look right eventually", but fluent: knowing which property causes the bug, which layout method fits, and what the browser does with each.
+
+You likely already write CSS. This chapter is about the parts that are commonly missing, and they are the parts that remove whole categories of JavaScript.
+
+---
+
+## In this chapter
+
+<Cards>
+<Card title="8.1 Modern CSS" href="/design-engineering/modern-css" description="What removed the workarounds" />
+<Card title="8.2 Stacking" href="/design-engineering/stacking" description="Why a correct z-index still loses" />
+<Card title="8.3 Responsive" href="/design-engineering/responsive" description="Beyond three breakpoints" />
+</Cards>
+
+---
+
+## The baseline
+
+Before the sections, the things worth being genuinely fluent in:
+
+**Intrinsic sizing.** `min-content`, `max-content`, `fit-content`, and why `min-width: auto` on a flex child causes the overflow you have been fighting (see 5.3).
+
+**The cascade and specificity.** Not to win fights with `!important`, but to structure styles so fights do not occur. Cascade layers now make this explicit.
+
+**The box model in practice.** `box-sizing: border-box` everywhere, and knowing when margin collapses and why `gap` avoids the question.
+
+**What triggers what.** Which properties cause layout, which cause paint, which only composite (7.3). This is the knowledge that makes performance work obvious rather than mysterious.

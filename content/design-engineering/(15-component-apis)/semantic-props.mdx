@@ -1,0 +1,78 @@
+---
+title: "15.1 Semantic props"
+description: "Component APIs · Section 15.1"
+---
+
+Props should describe intent, not appearance — the same principle as token naming (14.1), and it fails the same way.
+
+---
+
+## Intent over appearance
+
+```tsx
+<Button variant="primary" />   // survives a redesign
+<Button color="blue" />        // a lie after rebranding
+```
+
+When the primary action becomes green, `color="blue"` is wrong everywhere it appears. `variant="primary"` still reads correctly.
+
+---
+
+## Avoid boolean explosion
+
+Booleans multiply into states that make no sense:
+
+```tsx
+<Button primary secondary danger />   // what does this render
+```
+
+With three booleans you have eight combinations, six of which are invalid and none of which the type system prevents.
+
+One prop with named values instead:
+
+```tsx
+<Button variant="primary" | "secondary" | "danger" />
+```
+
+Now the variants are mutually exclusive by construction, and TypeScript enforces it.
+
+**When a boolean is fine:** genuinely binary, independent state. `disabled`, `loading`, `required` are all correct as booleans because they compose with everything else rather than excluding each other.
+
+---
+
+## Controlled and uncontrolled
+
+Support both. Uncontrolled for the common case, controlled when the consumer needs the state:
+
+```tsx
+<Select defaultValue="a" />            // component owns it
+<Select value={v} onChange={setV} />   // consumer owns it
+```
+
+Picking only one makes half your consumers fight the component — either lifting state they do not need, or working around state they cannot reach.
+
+The convention: `value` + `onChange` means controlled, `defaultValue` means uncontrolled. Follow it rather than inventing, because people already know it.
+
+---
+
+## Name for the consumer
+
+Props are read far more often than they are written. Optimise for the reading:
+
+```tsx
+// what does true mean here
+<Modal persistent />
+
+// unambiguous at the call site
+<Modal dismissOnOverlayClick={false} />
+```
+
+If understanding a call site requires opening the component, the names are not doing their job.
+
+---
+
+## Keep the surface small
+
+Every prop is a commitment. It is API you must support, document and not break.
+
+Before adding one, ask whether composition would do instead (15.2). A component with twenty props is usually several components that have not been separated yet.

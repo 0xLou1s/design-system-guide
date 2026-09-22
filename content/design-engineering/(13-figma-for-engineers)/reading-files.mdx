@@ -1,0 +1,81 @@
+---
+title: "13.1 Reading files"
+description: "Figma for Engineers · Section 13.1"
+---
+
+The practical skill of extracting what you need without asking for it.
+
+---
+
+## Dev Mode
+
+Figma's Dev Mode is built for this — inspect any element for its spacing, colour, typography and the variables it references.
+
+What it gives you reliably:
+
+```text
+exact spacing and dimensions
+colour values, and the variable name if one is bound
+typography settings
+the component and variant being used
+a diff of what changed since your last look
+```
+
+What it gives you unreliably: **the generated CSS**. Treat it as a hint, not output. It describes one frame at one size, with absolute positioning where you want flow, and it knows nothing about your tokens, your components or your responsive behaviour.
+
+Read it for the values. Write the CSS yourself.
+
+---
+
+## Check the variable, not the value
+
+When you inspect a colour and see `#3B82F6`, look for whether it is bound to a variable.
+
+```text
+raw hex               someone typed a colour — may be a mistake
+bound to a variable   intentional, and you should use the matching token
+```
+
+If a value is bound to `color/action/default`, use your `--color-action` token rather than the hex. If it is a raw value, that is worth asking about — it is often a design-side equivalent of a hardcoded value, and flagging it is a real contribution.
+
+---
+
+## Look for what is missing
+
+The most valuable thing to do with a design file is notice what is not in it (6.1, 6.2):
+
+```text
+which states exist — is there a focus state anywhere
+what happens with long text
+what the empty state looks like
+what the loading state looks like
+what the error state looks like
+what happens between the two artboard widths
+```
+
+Ask these **before** you start building, not during review. Each one you catch early is a decision made properly instead of a default chosen by CSS.
+
+A useful framing: "I'm about to build this — do you have a view on what it does when the name is 60 characters, or should I pick something and show you?"
+
+---
+
+## Navigating a file
+
+```text
+Cmd/Ctrl + click    select a nested element directly
+Enter               step into a group or component
+Shift + Enter       step out
+Cmd/Ctrl + \        hide the UI, see the design alone
+Option/Alt + drag   measure the distance between elements
+Cmd/Ctrl + F        find a component or layer by name
+```
+
+That last one is how you check whether something already exists before building it.
+
+---
+
+## The comment as a workflow
+
+Comments in the file are better than a Slack thread, because they stay attached to the thing being discussed.
+
+Ask where the ambiguity is, not after you have guessed wrong. The question costs a minute; rebuilding does not.

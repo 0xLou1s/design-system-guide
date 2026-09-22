@@ -1,0 +1,111 @@
+---
+title: "15.2 Composition"
+description: "Component APIs · Section 15.2"
+---
+
+When a component grows past roughly eight props, it is usually two components.
+
+---
+
+## The pattern
+
+```tsx
+// configuration — every new need adds a prop
+<Card
+  title="..."
+  subtitle="..."
+  image="..."
+  action="..."
+  badge="..."
+  footer="..."
+/>
+
+// composition — new needs compose
+<Card>
+  <Card.Image src="..." />
+  <Card.Header>
+    <Card.Title>...</Card.Title>
+    <Badge>New</Badge>
+  </Card.Header>
+  <Card.Footer>...</Card.Footer>
+</Card>
+```
+
+Configuration is easier for the first three cases and worse for every case after. The fourth request — "can we put a badge next to the title, but only on this page" — is where it starts breaking, and the usual response is another prop.
+
+---
+
+## When to use which
+
+```text
+configuration    few, stable, well-understood options
+                 Button, Badge, Input
+composition      varied content, unpredictable arrangements
+                 Card, Modal, Table, Menu
+```
+
+A `Button` should not be composable. Its content is a label and maybe an icon, and `<Button.Label>` is ceremony for nothing.
+
+A `Card` almost always should be. The moment someone needs an element you did not anticipate, configuration requires a code change to your component and composition does not.
+
+---
+
+## The slot pattern
+
+A middle ground when full composition is too loose:
+
+```tsx
+<Modal
+  header={<Modal.Title>Delete project</Modal.Title>}
+  footer={<><Button>Cancel</Button><Button variant="danger">Delete</Button></>}
+>
+  This cannot be undone.
+</Modal>
+```
+
+The structure is fixed — the component controls where things go — while the content is free. Good for components where the layout is the point and should not be overridable.
+
+---
+
+## Sharing state between parts
+
+Compound components need internal communication, and context is the usual mechanism:
+
+```tsx
+const TabsContext = createContext(null);
+
+function Tabs({ children, defaultValue }) {
+  const [value, setValue] = useState(defaultValue);
+  return (
+    <TabsContext value={{ value, setValue }}>
+      {children}
+    </TabsContext>
+  );
+}
+
+function Tab({ value: v, children }) {
+  const { value, setValue } = use(TabsContext);
+  return (
+    <button aria-selected={v === value} onClick={() => setValue(v)}>
+      {children}
+    </button>
+  );
+}
+```
+
+The consumer arranges the parts; the parts coordinate themselves.
+
+---
+
+## Do not over-compose
+
+The opposite failure exists. If every component requires six sub-components to render anything, you have made the common case expensive to serve the rare one.
+
+A good default: ship the composable version *and* a convenience wrapper for the common arrangement.
+
+```tsx
+<Card title="Simple" description="For the 80% case" />   // wrapper
+<Card>...</Card>                                          // full composition
+```
+
+Both exist, the wrapper is built from the parts, and nobody is paying for flexibility they do not need.

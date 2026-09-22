@@ -1,0 +1,73 @@
+---
+title: "4.1 Palette"
+description: "Color · Section 4.1"
+---
+
+A palette is a small number of hues, each expanded into a range of lightness steps.
+
+---
+
+## The structure
+
+```text
+neutral    10-12 steps    backgrounds, text, borders — most of the UI
+primary     8-10 steps    brand, primary actions
+success     5-7 steps     positive status
+warning     5-7 steps     caution
+danger      5-7 steps     errors, destructive actions
+```
+
+That is usually the whole palette. Additional accents are a want, not a need, and each one multiplies the decisions you have to keep consistent.
+
+---
+
+## Steps, not shades
+
+Number the steps so the same index means the same job across every hue:
+
+```css
+--blue-50:  /* lightest — subtle backgrounds */
+--blue-100:
+--blue-200: /* borders */
+--blue-500: /* base — the colour people mean by "blue" */
+--blue-700: /* text on light, hover states */
+--blue-900: /* darkest */
+```
+
+The value of a numbered scale is substitutability. `--blue-500` → `--green-500` should be a drop-in swap that keeps the same contrast relationships.
+
+---
+
+## Perceptual lightness
+
+The trap: `hsl()` lightness is not perceptual. `hsl(60 100% 50%)` (yellow) and `hsl(240 100% 50%)` (blue) claim the same lightness and look nothing alike — the yellow is dazzling, the blue is nearly black.
+
+Build scales in a perceptual space instead. OKLCH is now well supported:
+
+```css
+--blue-500:  oklch(0.55 0.20 250);
+--green-500: oklch(0.55 0.20 150);
+/*            ↑ same lightness, genuinely looks it */
+```
+
+This is a real advantage for an engineer: it turns "does this green match that blue in weight" from a judgement call into a number you hold constant.
+
+---
+
+## Neutrals are not grey
+
+Pure grey (`#808080`) looks dead next to any saturated colour. Real interfaces use neutrals with a slight hue cast — usually a hint of the brand hue, or a cool/warm bias.
+
+```css
+--neutral-500: oklch(0.55 0.01 250);  /* barely blue */
+```
+
+A chroma of 0.01–0.02 is enough. It is invisible as colour and makes the whole interface feel deliberate rather than default.
+
+---
+
+## Saturation and size
+
+Large areas need less saturation than small ones. A saturated colour across a full-width banner is overwhelming; the same colour on a 16px badge is barely noticeable.
+
+Practical rule: as an element grows, drop the saturation and move toward the lighter end of the scale.

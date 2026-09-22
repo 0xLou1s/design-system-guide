@@ -1,0 +1,38 @@
+---
+title: "7. Motion"
+description: "The decisions that can only be made in code."
+---
+
+Motion is the clearest example of Baytaş's third point: some design decisions cannot be experienced in any material other than the real one.
+
+A curve in Figma is a picture of a curve. Timing only exists when it runs, on a real device, under your finger. Which means these decisions are **yours** — not because you claimed them, but because nobody else is positioned to make them.
+
+Motion is also the most common blind spot for engineers coming into this role. It is easy to implement and hard to judge, so it tends to get implemented to spec and never evaluated.
+
+---
+
+## In this chapter
+
+<Cards>
+<Card title="7.1 Duration" href="/design-engineering/duration" description="Almost everything is too slow" />
+<Card title="7.2 Easing" href="/design-engineering/easing" description="Where the feel actually lives" />
+<Card title="7.3 What to animate" href="/design-engineering/what-to-animate" description="Two cheap properties, and the rest" />
+<Card title="7.4 Reduced motion" href="/design-engineering/reduced-motion" description="A real accessibility need" />
+</Cards>
+
+---
+
+## The purpose test
+
+Good motion is mostly invisible. It answers "what just happened" and gets out of the way.
+
+Before adding any animation, name its job:
+
+```text
+continuity     this new thing came from that button
+feedback       your action registered
+relationship   this panel belongs to that item
+attention      look here, something changed
+```
+
+If it does none of those, it is decoration — and decoration that delays interaction is a cost with no return. Motion you *notice* is usually motion that is too slow.

@@ -1,6 +1,7 @@
 import { loader } from "fumadocs-core/source";
 import {
   cheatSheet,
+  designEngineering,
   docs,
   frontendInfrastructure,
   frontendPerformance,
@@ -19,6 +20,11 @@ export const performanceSource = loader({
 export const infrastructureSource = loader({
   baseUrl: "/frontend-infrastructure",
   source: frontendInfrastructure.toFumadocsSource(),
+});
+
+export const designEngineeringSource = loader({
+  baseUrl: "/design-engineering",
+  source: designEngineering.toFumadocsSource(),
 });
 
 /* Single-file collection, so the one entry is the page. */

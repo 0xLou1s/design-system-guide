@@ -1,0 +1,74 @@
+---
+title: "17.1 Copy work"
+description: "Building Taste · Section 17.1"
+---
+
+Paco Coursey, design engineer at Linear, previously Vercel:
+
+> Copy and re-implement work you admire until you can proudly create for yourself.
+
+This is the single most effective method available, and almost nobody does it consistently.
+
+---
+
+## The method
+
+1. Pick one interface you think is genuinely good. Small — a single component, a card, a menu, one screen.
+2. Rebuild it in code, as closely as you can, **without looking at its source**.
+3. Put yours next to theirs, at the same size.
+4. List every difference.
+5. For each one, work out what decision produced it.
+
+Step 5 is where the learning is. Steps 1–4 take an hour; step 5 is what changes how you see.
+
+---
+
+## Why it works
+
+Reading about hierarchy teaches you the word. Rebuilding something forces you to make every decision the original designer made — and to discover the ones you did not know were decisions.
+
+You will find things like:
+
+```text
+the padding is 14px, not 16 — it is optically balanced against the border
+the heading is 15px, a size you would never have chosen
+the shadow has two layers, not one
+the hover transition is 80ms, much faster than you would have set
+the icon is nudged 1px right of centre
+the border is not grey, it is the background colour darkened
+```
+
+Every gap between your version and theirs is a decision you did not know was being made. That is the entire point.
+
+---
+
+## Do not look at the source
+
+The temptation is to open DevTools immediately. Resist it until you have made your own attempt.
+
+Looking first turns the exercise into copying values, which teaches you nothing. Attempting first forces you to *make the decisions*, then discover where your judgement differed. The discovery is only available if you committed to an answer.
+
+After your attempt, absolutely open DevTools and compare. That is step 4.
+
+---
+
+## What to copy
+
+```text
+good starting points
+  Linear         density, keyboard, restraint
+  Stripe         typography, marketing craft
+  Vercel         systems, dark mode
+  Things / Craft native-feeling interaction
+  Radix          accessible behaviour, API design
+```
+
+Vary it. Copying five interfaces from the same designer teaches you one person's taste rather than the underlying principles.
+
+---
+
+## Five times
+
+Do this five times and you will have learned more than any article can give you — including this one.
+
+It is slow, it feels unproductive, and it is the thing that actually works. Most people read about design instead, because reading is comfortable and copy work is not.

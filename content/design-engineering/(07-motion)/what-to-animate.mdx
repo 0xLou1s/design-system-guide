@@ -1,0 +1,88 @@
+---
+title: "7.3 What to animate"
+description: "Motion · Section 7.3"
+---
+
+Only two properties are cheap, because only they skip layout and paint.
+
+```text
+transform    translate, scale, rotate
+opacity      fades
+```
+
+These are handled by the compositor on the GPU. Everything else costs more, and on a mid-range phone that cost is visible.
+
+---
+
+## The expensive ones
+
+```text
+width, height, top, left, margin, padding
+    → triggers layout, then paint, then composite
+    → recalculates geometry for the whole subtree, every frame
+
+background-color, box-shadow, border-color
+    → triggers paint, then composite
+    → cheaper than layout, still not free
+```
+
+Animating `height` on a list with fifty items means recalculating fifty items' geometry sixty times a second. It looks fine on your laptop, which is exactly why it ships.
+
+---
+
+## Doing it with transform instead
+
+```css
+/* expensive */
+.panel { transition: height 200ms; }
+
+/* cheap */
+.panel { transition: transform 200ms; transform: scaleY(0); }
+```
+
+`scaleY` distorts children, so it suits simple surfaces rather than content-bearing panels.
+
+For genuine size changes, the modern answer is:
+
+```css
+.panel {
+  interpolate-size: allow-keywords;
+  transition: height 200ms var(--ease-out);
+}
+.panel[open] { height: auto; }
+```
+
+`interpolate-size` lets you transition to `auto`, which was impossible for years. Support is still growing — check before relying on it, and keep a non-animated fallback.
+
+The long-standing workaround is `grid-template-rows: 0fr → 1fr`, which animates cleanly and works everywhere.
+
+---
+
+## FLIP
+
+For layout changes that genuinely cannot be expressed as a transform, FLIP converts one into the other: measure **F**irst, apply the change (**L**ast), **I**nvert with a transform, then **P**lay by removing it.
+
+The browser now does this for you in many cases:
+
+```css
+/* animate an element between layout positions */
+.card { view-transition-name: card; }
+```
+
+View Transitions handle the measuring and inverting. For list reordering and shared-element transitions, this replaces a lot of manual work.
+
+---
+
+## Checking the cost
+
+DevTools → Performance → record the interaction.
+
+```text
+green bars      compositing — cheap
+purple bars     layout — expensive
+yellow/orange   scripting, paint
+```
+
+Purple bars appearing every frame during an animation means you are animating a layout property. Long frames above 16ms mean dropped frames at 60fps.
+
+**Test with 4x CPU throttling.** Your machine is not the target. An animation that is smooth unthrottled and janky at 4x will be janky on a mid-range Android, which is what a large share of your users are holding.

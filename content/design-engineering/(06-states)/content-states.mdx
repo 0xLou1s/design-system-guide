@@ -1,0 +1,112 @@
+---
+title: "6.3 Content states"
+description: "States · Section 6.3"
+---
+
+What real content does to a layout built for ideal content.
+
+---
+
+## Long text
+
+Production names are longer than "Acme Inc". Decide what happens:
+
+```css
+/* truncate to one line */
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* clamp to N lines */
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+```
+
+**If you truncate, make the full text reachable** — a `title` attribute at minimum, a tooltip if it matters. Truncation that hides information with no way to recover it is data loss.
+
+For unbroken strings — URLs, tokens, IDs, file paths — truncation is not enough:
+
+```css
+.url { overflow-wrap: anywhere; }
+```
+
+Without it, a long URL pushes its container wider and breaks the page layout. This is the single most common "why is there a horizontal scrollbar" cause.
+
+---
+
+## Missing content
+
+No avatar, no description, no date, null where a string was expected. Decide per field: fallback, or hide.
+
+```tsx
+{user.avatar
+  ? <img src={user.avatar} alt="" />
+  : <Initials name={user.name} />}
+
+{user.bio && <p>{user.bio}</p>}
+```
+
+A fallback is better where the element's absence would break the layout — an avatar slot that collapses shifts everything beside it.
+
+---
+
+## Wrong content
+
+Text where a number was expected. HTML in a name field. An image URL that 404s. An emoji in a field sized for Latin characters.
+
+```css
+img { /* a broken image should not break the layout */
+  max-width: 100%;
+  height: auto;
+}
+```
+
+You already validate input. The visual equivalent is making sure the layout survives content that got past validation, or that predates it.
+
+---
+
+## Translated content
+
+German runs roughly 30% longer than English. Finnish compounds into very long single words. Japanese is much shorter and wraps differently. Arabic and Hebrew run right to left.
+
+If the product is or might be localised:
+
+```css
+/* logical properties flip automatically for RTL */
+.card {
+  padding-inline-start: var(--space-4);   /* not padding-left */
+  margin-inline-end: var(--space-2);      /* not margin-right */
+  text-align: start;                      /* not left */
+}
+```
+
+Using logical properties costs nothing and means RTL support is mostly free later. Using `left`/`right` means a rewrite.
+
+**Never build a layout that depends on a specific string length.** A button sized to fit "Save" exactly will break on "Speichern".
+
+---
+
+## Testing it
+
+Keep a fixture set of hostile content and render every component against it:
+
+```ts
+export const hostile = {
+  short: "A",
+  long: "Pneumonoultramicroscopicsilicovolcanoconiosis",
+  sentence: "…200 characters of realistic prose…",
+  url: "https://example.com/very/long/path?with=query&params=here",
+  rtl: "مرحبا بالعالم",
+  emoji: "🎉🎊✨",
+  html: "<script>alert(1)</script>",
+  empty: "",
+};
+```
+
+Ten minutes to write, and it finds problems that would otherwise be reported by users.

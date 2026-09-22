@@ -1,0 +1,7 @@
+{
+  "title": "9. Accessibility",
+  "root": true,
+  "pages": ["accessibility", "semantics", "keyboard", "screen-readers", "testing-a11y"],
+  "description": "Mostly a consequence of building things correctly",
+  "pagesIndex": "accessibility"
+}

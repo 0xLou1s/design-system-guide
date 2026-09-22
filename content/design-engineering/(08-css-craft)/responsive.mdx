@@ -1,0 +1,105 @@
+---
+title: "8.3 Responsive"
+description: "CSS Craft · Section 8.3"
+---
+
+A design tool shows three widths. A browser shows all of them — including the awkward zone where a two-column layout has not yet earned its second column.
+
+Those in-between widths are where responsive bugs live, and they are almost never in the mockup.
+
+---
+
+## Content-driven breakpoints
+
+Device-named breakpoints are a fiction. Devices do not cluster at 768px and never did.
+
+```css
+/* arbitrary */
+@media (min-width: 768px) { }
+
+/* honest — break where the content needs it */
+@media (min-width: 52rem) { }
+```
+
+The method: widen the browser slowly from 320px. Where the layout starts to look wrong, put a breakpoint. That is the only justification a breakpoint needs.
+
+Use `rem` so breakpoints respect the user's font size — someone with a larger default gets the simpler layout sooner, which is correct.
+
+---
+
+## Prefer no breakpoint at all
+
+Most responsive behaviour can be expressed without media queries, which means it works at every width rather than at three:
+
+```css
+/* wraps when it cannot fit */
+.row { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.row > * { flex: 1 1 20rem; }
+
+/* as many columns as fit */
+.grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+
+/* fluid between bounds */
+.title { font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem); }
+```
+
+Reach for these first. Media queries are for changes these cannot express — a navigation that becomes a drawer, a table that becomes cards.
+
+---
+
+## Test the whole range
+
+Drag the browser edge slowly from 320px to 2560px and watch. Do not check three widths.
+
+What you will find:
+
+```text
+text that overflows at one specific width
+a two-column layout with one orphaned item
+buttons wrapping mid-label
+images the wrong side of their container
+horizontal scrollbars at 340px
+a sticky header that eats the viewport on a short screen
+```
+
+---
+
+## Beyond width
+
+Width is not the only axis:
+
+```css
+@media (hover: hover)              { /* real pointer */ }
+@media (pointer: coarse)           { /* touch — 44px targets */ }
+@media (prefers-reduced-motion)    { /* 7.4 */ }
+@media (prefers-color-scheme: dark){ /* 4.3 */ }
+@media (min-height: 40rem)         { /* short viewports */ }
+@media (orientation: landscape)    { /* phone on its side */ }
+```
+
+Height is the commonly forgotten one. A modal that fits a laptop can exceed a landscape phone entirely, with its actions off-screen and no way to scroll.
+
+---
+
+## Mobile viewport units
+
+`100vh` on mobile includes the area behind the browser chrome, so a full-height element overflows and the bottom is unreachable.
+
+```css
+.full-height {
+  height: 100vh;    /* fallback */
+  height: 100dvh;   /* dynamic — accounts for chrome */
+}
+```
+
+`dvh` resizes as the chrome shows and hides. `svh` (smallest) and `lvh` (largest) are available when you need a stable value.
+
+And for anything fixed to an edge, respect the safe area:
+
+```css
+.bottom-bar {
+  padding-block-end: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+}
+```
+
+Without it, your bar sits under the home indicator on modern iPhones.

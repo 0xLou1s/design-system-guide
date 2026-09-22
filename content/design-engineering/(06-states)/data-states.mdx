@@ -1,0 +1,70 @@
+---
+title: "6.2 Data states"
+description: "States · Section 6.2"
+---
+
+Every component that renders data needs four designs, not one.
+
+```text
+empty     no data yet — and the action that fixes it
+one       often breaks layouts built for many
+many      overflow, pagination, virtualisation
+error     what failed, and what the user can do
+```
+
+Mockups show "many" almost exclusively, with a tidy five items. The other three arrive in production.
+
+---
+
+## Loading
+
+Three approaches, in rough order of quality:
+
+**Skeleton.** A grey shape matching the real content's dimensions. Holds the layout, communicates what is coming.
+
+**Spinner.** Says only "wait." Fine for small or unpredictable regions.
+
+**Optimistic content.** Show the result you expect immediately, reconcile when the server answers. Best when you can predict the outcome — a like, a toggle, an added row.
+
+The rule from 6.1 applies: under ~300ms show nothing. A skeleton that flashes for 150ms is visual noise that makes the interface feel *less* stable, not more.
+
+**Match the dimensions.** A skeleton that is a different height than the content it replaces causes a layout jump at exactly the moment the user starts reading.
+
+---
+
+## Error
+
+Errors need three things, and most implementations supply one:
+
+```text
+what happened      in the user's terms, not the exception's
+why, if useful     "offline" vs "not found" vs "no permission"
+what to do next    retry, go back, contact someone
+```
+
+"Something went wrong" supplies none of them. It is the error-handling equivalent of `catch {}`.
+
+Place the error where the failure was: a failed row inline in that row, a failed form field next to the field, a failed page as a page. A toast for a form validation error makes the user hunt for what to fix.
+
+---
+
+## Partial failure
+
+The state that gets forgotten entirely: some of the data arrived.
+
+Three of five widgets loaded. The list rendered but avatars failed. This is extremely common with parallel requests and almost never designed.
+
+The workable default: render what you have, mark what failed in place, and allow a retry on just that part. Failing the entire screen because one widget errored throws away work that succeeded.
+
+---
+
+## In practice
+
+```tsx
+if (error) return <ErrorState error={error} onRetry={refetch} />;
+if (isLoading) return <Skeleton />;
+if (!data.length) return <EmptyState />;
+return <List items={data} />;
+```
+
+Four branches, in that order. If you find yourself writing only the last one, the other three are being decided by whatever renders when the data is absent — usually a blank area or a crash.

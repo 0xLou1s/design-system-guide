@@ -51,6 +51,19 @@ export const frontendPerformance = defineDocs({
   },
 });
 
+export const designEngineering = defineDocs({
+  dir: "content/design-engineering",
+  docs: {
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+    schema: pageSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 export const frontendInfrastructure = defineDocs({
   dir: "content/frontend-infrastructure",
   docs: {

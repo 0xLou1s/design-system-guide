@@ -1,0 +1,6 @@
+{
+  "title": "1. The Role",
+  "root": true,
+  "pages": ["index", "what-it-is", "the-two-lenses", "why-now", "your-starting-point"],
+  "description": "What a design engineer is, and why you already have half of it"
+}

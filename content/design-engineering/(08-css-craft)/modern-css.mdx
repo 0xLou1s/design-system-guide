@@ -1,0 +1,113 @@
+---
+title: "8.1 Modern CSS"
+description: "CSS Craft · Section 8.1"
+---
+
+A set of features that landed relatively recently and each removed a category of workaround. Knowing them is unusually high leverage — they replace JavaScript you may still be writing.
+
+---
+
+## Container queries
+
+Components that respond to their container rather than the viewport.
+
+```css
+.card-wrap { container-type: inline-size; }
+
+@container (min-width: 400px) {
+  .card { grid-template-columns: auto 1fr; }
+}
+```
+
+This is what you always wanted from media queries. A card in a sidebar and in a main column lay out differently without knowing where they are.
+
+It also deletes a common prop: `<Card compact>` existed only because the component could not detect its own space.
+
+---
+
+## :has()
+
+The parent selector, and far more than that.
+
+```css
+/* a card that contains an image */
+.card:has(img) { padding-block-start: 0; }
+
+/* a form field in an error state, styled from the field itself */
+.field:has(:invalid) { --border: var(--color-danger); }
+
+/* a label whose checkbox is checked */
+label:has(:checked) { font-weight: 600; }
+```
+
+This replaces a large amount of state-mirroring in JavaScript — the pattern where you add a class to a parent because CSS could not see the child's state.
+
+---
+
+## Cascade layers
+
+Explicit ordering, so specificity stops being a fight.
+
+```css
+@layer reset, base, components, utilities;
+
+@layer components {
+  .button { background: var(--color-action); }
+}
+
+@layer utilities {
+  .bg-transparent { background: transparent; }  /* wins, regardless of specificity */
+}
+```
+
+Anything in a later layer beats anything in an earlier one, whatever the selectors. This is how a utility class can override a component without `!important`.
+
+---
+
+## Logical properties
+
+```css
+/* physical — breaks in RTL */
+margin-left: 1rem;
+padding-right: 2rem;
+text-align: left;
+
+/* logical — flips automatically */
+margin-inline-start: 1rem;
+padding-inline-end: 2rem;
+text-align: start;
+```
+
+Costs nothing to adopt and makes RTL support largely free. Worth making your default now even if localisation is hypothetical.
+
+---
+
+## clamp()
+
+Fluid values without breakpoints.
+
+```css
+font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+padding:   clamp(1rem, 5vw, 3rem);
+width:     clamp(20rem, 50vw, 40rem);
+```
+
+One line replacing three media queries, and it responds at every width rather than jumping at three.
+
+---
+
+## Others worth knowing
+
+```text
+:focus-visible        focus ring for keyboard only (6.1)
+accent-color          native control colour, one line
+aspect-ratio          reserve space, prevent layout shift (10.2)
+inset                 shorthand for top/right/bottom/left
+text-wrap: balance    even heading line lengths
+scroll-snap           carousels without a library
+@starting-style       animate from display:none
+popover / <dialog>    native overlays with focus handling
+anchor positioning    tooltips without a positioning library
+```
+
+The last two are genuinely significant. Between `<dialog>`, the popover API and anchor positioning, a lot of what Floating UI and headless overlay libraries exist for is becoming native.

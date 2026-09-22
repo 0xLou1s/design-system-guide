@@ -1,0 +1,113 @@
+---
+title: "14.2 Theming"
+description: "Design Systems · Section 14.2"
+---
+
+Theming is why the semantic layer exists. Without it, themes are impossible; with it, they are nearly free.
+
+---
+
+## The mechanism
+
+A theme redefines what semantic tokens point at. Nothing else changes:
+
+```css
+:root {
+  --blue-500: oklch(0.55 0.20 250);
+  --blue-400: oklch(0.70 0.15 250);
+
+  --color-action: var(--blue-500);
+  --surface-base: white;
+}
+
+[data-theme="dark"] {
+  --color-action: var(--blue-400);
+  --surface-base: oklch(0.15 0.01 250);
+}
+```
+
+Components never change. They asked for `--color-action` and got the right answer for the current theme.
+
+---
+
+## Scoping
+
+Because custom properties cascade, a theme can apply to a subtree rather than the document:
+
+```html
+<body data-theme="light">
+  <aside data-theme="dark">
+    <!-- everything here is dark -->
+  </aside>
+</body>
+```
+
+Useful for a dark sidebar in a light app, a preview pane showing the other theme, or embedding one brand inside another.
+
+This is a real advantage of CSS custom properties over build-time theming — it works at runtime, per subtree, with no duplication.
+
+---
+
+## Avoiding the flash
+
+Server-rendered pages flash the wrong theme if the choice is applied after hydration. The fix is a blocking script before first paint:
+
+```html
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    } catch (e) {}
+  })();
+</script>
+```
+
+It must be synchronous and in `<head>`. The `try/catch` matters — `localStorage` throws in some privacy modes, and an exception here would leave the page unthemed.
+
+---
+
+## Three states, not two
+
+Theme preference has three values, and conflating the third with light is a common bug:
+
+```text
+"light"    explicit choice
+"dark"     explicit choice
+null       follow the system
+```
+
+```css
+:root { /* light tokens */ }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { /* dark tokens */ }
+}
+
+:root[data-theme="dark"] { /* dark tokens */ }
+```
+
+The `:not([data-theme="light"])` guard is what lets a user who explicitly chose light stay light on a dark OS.
+
+---
+
+## Multi-brand
+
+The same mechanism scales to brands:
+
+```css
+[data-brand="acme"]  { --color-action: var(--purple-500); }
+[data-brand="globex"]{ --color-action: var(--green-500); }
+```
+
+Multi-brand is where intent naming stops being a style preference and becomes structural. With `blue-500` scattered through product code, a second brand is a rewrite. With `color-action`, it is a token file.
+
+---
+
+## Test both
+
+Every component needs checking in every theme before it ships. What breaks specifically in dark mode is listed in 4.3 — shadows that vanish, images with baked-in white, borders lost in the surface.
+
+Snapshot tests are worth running per theme. It is the same component tree with one attribute changed, so the cost is low and it catches the hardcoded value someone slipped in.

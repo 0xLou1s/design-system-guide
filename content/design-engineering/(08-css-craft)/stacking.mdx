@@ -1,0 +1,91 @@
+---
+title: "8.2 Stacking"
+description: "CSS Craft · Section 8.2"
+---
+
+The bug that makes people write `z-index: 9999`: a correct z-index that still loses.
+
+---
+
+## Why it happens
+
+A `z-index` only competes with **siblings inside the same stacking context**. If an ancestor created a context, the child is trapped inside it — no value, however large, escapes.
+
+Things that create a stacking context, most of them looking harmless:
+
+```text
+position: relative/absolute/fixed  with any z-index
+position: fixed or sticky
+opacity less than 1
+transform, filter, perspective, backdrop-filter
+will-change
+isolation: isolate
+contain: paint or content
+```
+
+The classic case: a card with `transform: translateY(-2px)` on hover creates a stacking context. Its tooltip, set to `z-index: 1000`, now renders *inside* that card — underneath the sibling card next to it.
+
+Nothing about the tooltip is wrong. The ancestor is the problem.
+
+---
+
+## The fix: portals
+
+Overlays should not live where they are declared. Render them at the document root, outside every ancestor context:
+
+```tsx
+import { createPortal } from "react-dom";
+
+function Popover({ open, children }) {
+  if (!open) return null;
+  return createPortal(
+    <div className="popover">{children}</div>,
+    document.body
+  );
+}
+```
+
+Make this the default for everything at overlay level and above — dropdowns, popovers, tooltips, modals, toasts. Layering bugs then become impossible rather than merely rare.
+
+Native `<dialog>` and the popover API handle this for you via the top layer, which sits above the entire document regardless of stacking contexts. Prefer them where they fit.
+
+---
+
+## A z-index scale
+
+Ship the order as tokens so it is a system decision rather than whatever the last person needed:
+
+```css
+--z-raised:   10;
+--z-overlay:  1000;
+--z-sticky:   1100;
+--z-modal:    1300;
+--z-toast:    1500;
+```
+
+Leave gaps. They absorb the one-off that will arrive without renumbering everything.
+
+Enforce it:
+
+```js
+// stylelint
+"declaration-property-value-allowed-list": {
+  "z-index": ["/^var\\(--z-/", "0", "auto"]
+}
+```
+
+One `z-index: 9999` is a workaround. Three is a system where the largest number wins and nobody can reason about order.
+
+---
+
+## Deliberate isolation
+
+The same mechanism is useful on purpose:
+
+```css
+.widget { isolation: isolate; }
+```
+
+This seals a subtree so its internal layering cannot leak out — useful for embedded or third-party content.
+
+Apply it knowingly. An accidental `isolation` on a container that holds overlays reintroduces exactly the bug portals solved.
